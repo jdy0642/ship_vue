@@ -6,8 +6,9 @@
     <v-responsive style="width:450px;margin-left:30px;margin-top:10px;">
       <v-card class="mx-auto" style="margin-top:10px"> 
       <v-img
-      style="width:650px;height:350px" 
-      :src="state.selectGame.imgurl">
+      style="width:650px;height:350px"
+      :src="require(`@/assets/img/lol/${state.selectGame.imgurl}.jpg`)" 
+      >
       <div style="width:300px;height:350px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, transparent 160px)">
       <br />
       <v-img style="width:80px;" :src="state.selectGame.img" alt="" />

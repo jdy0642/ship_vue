@@ -13,14 +13,14 @@
       <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" class="mx-auto" shaped style="width:300px;margin-bottom:10px">
       <v-img
       @click="joinRank(room)"
-      style="width:250px;height:350px" 
+      style="width:300px;height:350px" 
+      :src="require(`@/assets/img/lol/${room.imgurl}.jpg`)"
       >
-      <!-- :src="require(`@/assets/img/lol/${room.imgurl}.png`)" -->
       <div style="height:150px;width:100%;">
       </div>
       <div style="width:100%;height:200px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.6) 85%, transparent 190px)">
       <br />
-      <h6>{{room.title}}</h6>
+      <h5>{{room.title}}</h5>
       <h6>방장: {{room.rhost}}</h6>
       <h6>티어: {{room.tier}}</h6>
       <h6>{{btime[i]}}</h6>
