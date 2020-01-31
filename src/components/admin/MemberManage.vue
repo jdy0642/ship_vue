@@ -19,8 +19,8 @@
       :items="lists"
       :search="search"
       :page.sync="page"
-      :items-per-page="5"
-      hide-default-footer
+      :items-per-page="10"
+ 
       class="elevation-1"
       @page-count="pageCount = $event"
     >
@@ -75,7 +75,7 @@ export default {
     fixedHeader: true,
     page: 1,
     pageCount: 0,
-    itemsPerPage: 5,
+    itemsPerPage: 10,
       value:1,
     lists: [],
     black:false,
