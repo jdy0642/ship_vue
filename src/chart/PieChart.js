@@ -7,14 +7,7 @@ export default {
   data(){
     return {
       chartdata:{
-         datasets: [{
-          data: []
-        }],
-        labels: [
-        'Red',
-        'Yellow',
-        'Blue'
-        ]
+
       }
     }
   },

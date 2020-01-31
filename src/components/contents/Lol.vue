@@ -10,14 +10,15 @@
     <div style="padding:50px">
    <v-row>
       <v-hover v-slot:default="{ hover }" v-for="(room, i) of rooms" :key="room.cardseq">
-      <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" class="mx-auto" shaped>
+      <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" class="mx-auto" shaped style="width:300px;margin-bottom:10px">
       <v-img
       @click="joinRank(room)"
       style="width:250px;height:350px" 
-      :src="require(`@/assets/img/lol/${room.imgurl}.jpg`)">
-      <div style="height:150px">
+      >
+      <!-- :src="require(`@/assets/img/lol/${room.imgurl}.png`)" -->
+      <div style="height:150px;width:100%;">
       </div>
-      <div style="height:200px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.6) 85%, transparent 190px)">
+      <div style="width:100%;height:200px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.6) 85%, transparent 190px)">
       <br />
       <h6>{{room.title}}</h6>
       <h6>방장: {{room.rhost}}</h6>
