@@ -6,7 +6,6 @@
     <div style="margin:3%;padding:3%">
     <fut-map :style="`height: 500px; width:100%;`"
       :propSearchWord="`${searchWord} 풋살 경기장`"
-
       @sendStadiumName="setStadium"
       mandatory></fut-map>
     <v-text-field :value="stadiumName" @keyup.enter="submit"></v-text-field>

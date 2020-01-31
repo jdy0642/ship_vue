@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    context: 'localhost:8080',
+    selectGame:{},
     futsal: {
       header: {
         'authorization': 'JWT fefege..',
