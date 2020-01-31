@@ -4,7 +4,7 @@
 
 <script>
 import Home from './components/Home.vue';
-//a
+//a1
 export default {
   name: 'App',
 
