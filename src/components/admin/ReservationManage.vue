@@ -9,7 +9,9 @@
         <v-text-field single-line v-model="search" append-icon="search" label="조건검색"></v-text-field>
     </v-card-title>
       <v-data-table :headers="headers" :items="lists" :search="search" :page.sync="page"
-        :items-per-page="5" hide-default-footer @page-count="pageCount = $event" style="margin-top:15px;text-align-last:center">
+        :items-per-page="10" 
+
+        @page-count="pageCount = $event" style="margin-top:15px;text-align-last:center">
         <template v-slot:item.resdate="{item}">
           {{fnc.timeToDate(item.resdate)}}
         </template>
@@ -44,7 +46,7 @@ export default {
     fnc: store.state.futsal.fnc,
     page: 1,
     pageCount: 0,
-    itemsPerPage: 20,
+    itemsPerPage: 100,
     lists: [],
     black:false,
     search: '',
