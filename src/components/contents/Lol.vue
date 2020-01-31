@@ -11,10 +11,11 @@
    <v-row>
       <v-hover v-slot:default="{ hover }" v-for="(room, i) of rooms" :key="room.cardseq">
       <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" class="mx-auto" shaped>
+      
       <v-img
       @click="joinRank(room)"
-      style="width:250px;height:350px" 
-      :src="require(`@/assets/img/lol/${room.imgurl}.jpg`)">
+      style="width:250px;height:350px">
+     
       <div style="height:150px">
       </div>
       <div style="height:200px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.6) 85%, transparent 190px)">
