@@ -80,9 +80,18 @@ export default {
       selecttier:'',
       selectposition:'',
       positionimgsrc : '',
-      tiers: ['','iron','silver','gold','platinum','diamond','master','grandemaster','challenger'],
+      tiers: [{text : '티어 선택 없음', value : ''},
+      {text : '아이언', value : 'iron'},
+      {text : '브론즈', value : 'bronze'},
+      {text : '실버', value : 'silver'},
+      {text : '골드', value : 'gold'},
+      {text : '플레티넘', value : 'platinum'},
+      {text : '다이아', value : 'diamond'},
+      {text : '마스터', value : 'master'},
+      {text : '그랜드 마스터', value : 'grandemaster'},
+      {text : '챌린저', value : 'challenger'}],
       positions: [
-      {text : '선택 없음', value : ''},
+      {text : '포지션 선택 없음', value : ''},
       {text : '탑', value : 'top', img : 'https://www.mobachampion.com/static/imgs/top_icon.4653e3c00f50.png'},
       {text : '정글', value : 'jungle', img : 'https://www.mobachampion.com/static/imgs/jungle_icon.c706202f19c5.png'},
       {text : '미드', value : 'mid', img : 'https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png'}, 
@@ -93,13 +102,13 @@ export default {
    methods:{
       
       filtertier(){
-      alert('filter! tier '+this.selecttier)
+      alert('filter! tier '+this.selecttier.value)
       this.list = []
       this.page = 1
-      let url = `/lol/filtertierlist/tier=${this.selecttier}/page=${this.page}`
+      let url = `/lol/filtertierlist/tier=${this.selecttier.value}/page=${this.page}`
       let data = {
          page : this.page,
-         tier : this.selecttier
+         tier : this.selecttier.value
       }
       let headers = {
               'authorization': 'JWT fefege..',
@@ -131,7 +140,7 @@ export default {
       let url = `/lol/filterpositionlist/position=${this.selectposition.value}/page=${this.page}`
       let data = {
          page : this.page,
-         position : this.selectposition
+         position : this.selectposition.value
       }
       let headers = {
               'authorization': 'JWT fefege..',
@@ -157,13 +166,18 @@ export default {
            })
       },
       filtersort(){
-         if((this.selecttier === null || this.selecttier === '') && (this.selectposition.value === null || this.selectposition.value === '')){
+         if((this.selecttier == null || this.selecttier === '' || this.selecttier.value === '') &&
+          (this.selectposition == null || this.selectposition === '' || this.selectposition.value === '') 
+          ){
             this.bringlist()
-         }else if((this.selecttier !== null || this.selecttier !== '') && (this.selectposition.value === null || this.selectposition.value === '')){
+         }else if((this.selecttier != null || this.selecttier !== '' || this.selecttier.value !== '') &&
+          (this.selectposition == null || this.selectposition === '' || this.selectposition.value === '')){
             this.filtertier()
-         }else if((this.selecttier === null || this.selecttier === '') && (this.selectposition.value !== null || this.selectposition.value !== '')){
+         }else if((this.selecttier == null || this.selecttier === '' || this.selecttier.value === '') &&
+          (this.selectposition != null || this.selectposition !== '' || this.selectposition.value !== '')){
             this.filterposition()
-         }else if((this.selecttier !== null || this.selecttier !== '') && (this.selectposition.value !== null || this.selectposition.value !== '')){
+         }else if((this.selecttier != null || this.selecttier !== '' || this.selecttier.value !== '') &&
+          (this.selectposition != null || this.selectposition !== '' || this.selectposition.value !== '')){
             this.filtertierposition()
          }else{
             alert('select error!')
@@ -172,14 +186,14 @@ export default {
 
       },
       filtertierposition(){
-      alert('filter! tier: '+this.selecttier +' & '+'position: '+this.selectposition.value)
+      alert('filter! tier: '+this.selecttier.value +' & '+'position: '+this.selectposition.value)
       this.list = []
       this.page = 1
-      let url = `/lol/filtertplist/tier=${this.selecttier}/position=${this.selectposition.value}/page=${this.page}`
+      let url = `/lol/filtertplist/tier=${this.selecttier.value}/position=${this.selectposition.value}/page=${this.page}`
       let data = {
          page : this.page,
-         tier : this.selecttier,
-         position : this.selectposition
+         tier : this.selecttier.value,
+         position : this.selectposition.value
       }
       let headers = {
               'authorization': 'JWT fefege..',

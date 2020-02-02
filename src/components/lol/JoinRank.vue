@@ -13,12 +13,11 @@
       <br />
       <v-img style="width:80px;" :src="state.selectGame.img" alt="" />
       <v-img style="width:20px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img>
-      <v-card-text><v-icon >mdi-crown</v-icon> {{state.selectGame.rhost}}</v-card-text>
+      <v-card-text><v-icon >mdi-crown</v-icon> 소환사의 닉네임: {{state.selectGame.rhost}}</v-card-text>
+          <v-card-text>제목: {{state.selectGame.title}}</v-card-text>
       <v-card-text>티어 : {{state.selectGame.crawltier}}</v-card-text>
           <v-card-text>승률 : {{state.selectGame.crawlrate}}</v-card-text>
           <v-card-text>내용: {{state.selectGame.contents}}</v-card-text>
-          <v-card-text>타이틀: {{state.selectGame.title}}</v-card-text>
-          <v-card-text>카드시퀀스: {{state.selectGame.cardseq}}</v-card-text>
       </div>
       </v-img>
       </v-card>
