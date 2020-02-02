@@ -11,13 +11,14 @@
 	<v-card raised class="ma-auto">
 		<v-data-table
 		:headers="headers" :items="table"
+		:items-per-page="1000"
 		class="elevation-1 ma-2" hide-default-footer>
 			<template v-slot:item.time="{item}">
-				{{fnc.timeToDate(item.time)}}
+				<h3>{{new Date(item.time).getHours()}}:00</h3>
 				<!-- <v-btn @click="click(item)">{{timeToDate(item.time)}}</v-btn> -->
 			</template>
 			<template v-slot:item.num="{item}">
-				{{`${item.num}vs${item.num}`}} 
+				<h6>{{`${item.num}vs${item.num}`}}</h6> 
 			</template>
 			<template v-slot:item.gender="{item}">
 				<v-img height="30" width="30" class="pa-2" 
@@ -51,12 +52,12 @@ export default{
 	data(){
 		return{
 			headers: [
-				{ text: '경기날짜', width: 200, value: 'time' },
-				{ text: '경기장', value: 'stadiumname' },
+				{ text: '경기날짜', width: 100, value: 'time' },
+				{ text: '경기장', width: 250, value: 'stadiumname' },
 				{ text: '인원', value: 'num' },
 				{ text: '성별', value: 'gender'},
 				{ text: '난이도', value: 'difficulty' },
-				{ text: '예약가능 인원', align: 'center',sortable: false,value: 'remain'}
+				{ text: '예약가능 인원', width: 200, align: 'center',sortable: false,value: 'remain'}
 			],
 			fnc: store.state.futsal.fnc,
 		}

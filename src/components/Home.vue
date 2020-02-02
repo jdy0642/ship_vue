@@ -1,7 +1,7 @@
 <template>
 <div id="app">
 <layout>
-   <template #header="h"  >
+   <template #header>
     <v-app id="inspire" style="height:1010px;"    >
   <fixed-header >
   <!-- --------------------------------------- 네비 ------------------------------------------ -->
@@ -51,18 +51,18 @@
               <v-btn text style="font-size:15px;margin-top:12px" class="white--text" @click="revenuemanage()">수익 관리</v-btn>
             </v-row>
 
-            <v-row style="margin-right:85px; margin-top:12px;" v-if="!authCheck">
+            <v-row style="margin-right:113px; margin-top:12px;" v-if="!authCheck">
               <join></join>
             </v-row>
             <v-row v-else>
-              <v-btn text style="font-size:15px;margin-top:12px" class="white--text" @click="mypage()">MY PAGE</v-btn>
+              <v-btn text style="font-size:15px;margin-top:12px" class="white--text" @click="mypage()">마이페이지</v-btn>
             </v-row>
 
             <v-row style="margin-right:85px ; margin-top:12px"  v-if="!authCheck">
                 <login></login>
             </v-row>
             <v-row style="margin-right:5px ; margin-top:12px" v-else >
-                <v-btn text style="font-size:15px" class="white--text" @click="logout()">LOGOUT</v-btn>
+                <v-btn text style="font-size:15px" class="white--text" @click="logout()">로그아웃</v-btn>
             </v-row>
 
             <!-- <v-overflow-btn :items="contents" label="CONTENTS" class="white--text"></v-overflow-btn> -->
@@ -70,7 +70,7 @@
             <div class="text-center">
               <v-menu offset-y>
                 <template v-slot:activator="{ on }">
-                  <v-btn style="margin-top:12px;font-size:15px;margin-right:70px" color="indigo darken-1" v-on="on">  Contents  </v-btn>
+                  <v-btn style="margin-top:12px;font-size:15px;margin-right:70px" color="indigo darken-1" v-on="on">  컨텐츠  </v-btn>
                 </template>
                 <v-list>
                   <v-list-item v-for="(item) of items" :key="item.title" @click="contgo(item.link)">
@@ -103,7 +103,7 @@
   </template>
    <!-- --------------------- 컨텐츠  ------------------------- -->
    
-<template #content ="c"> 
+<template #content> 
   <div id="app" style="width:67%;"  >
     <v-app id="inspire" >
         <v-card>
@@ -112,7 +112,7 @@
     </v-app>
   </div>
 </template>
-<template #footer ="f">
+<template #footer>
 </template>
   </layout>
 </div>
@@ -164,7 +164,7 @@ export default {
       this.$router.push({path:'/reservationmanage'})
     },
     register(){
-      this.$router.push({path:'/register'})
+      this.$router.push({path:'/futsal/register'})
     },
     membermanage(){
       this.$router.push({path:'/membermanage'})

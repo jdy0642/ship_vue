@@ -1,9 +1,9 @@
 <template>
 <div id="app" >
-  <v-btn color="indigo darken-1" dark fixed center @click="dialog = !dialog"  style="font-size:15px" > login </v-btn>
+  <v-btn color="indigo darken-1" dark fixed center @click="dialog = !dialog"  style="font-size:15px" > 로그인 </v-btn>
     <v-dialog v-model="dialog" width="400px" >
       <v-card >
-        <v-card-title class="indigo " font-color="white" > LOGIN </v-card-title>
+        <v-card-title class="indigo " font-color="white" > 로그인 </v-card-title>
         <v-container fluid  >
           <v-layout wrap  >
             <v-flex xs8  >
@@ -67,7 +67,7 @@ export default {
       .then(res=>{
             if(res.data.result === "SUCCESS"){
                 store.state.person = res.data.person
-                if(this.state.person.role != 'student'){
+                if(this.state.person.role != 'customer'){
                     this.state.authCheck = true
                 }else{
                     this.state.authCheck = false
