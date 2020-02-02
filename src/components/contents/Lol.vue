@@ -39,7 +39,9 @@
       <h5>{{room.title}}</h5>
       <h6>방장: {{room.rhost}}</h6>
       <h6>티어: {{room.tier}}</h6>
-      <h6>포지션: {{room.position}}</h6>
+      <h6>포지션: {{room.position}}
+        <!--  <v-img :src="positionimg()" style="width:30px;height:30px"></v-img>  -->
+      </h6>
       <h6>{{btime[i]}}</h6>
       </div>
       </v-img>
@@ -77,11 +79,19 @@ export default {
       list: [],
       selecttier:'',
       selectposition:'',
+      positionimgsrc : '',
       tiers: ['','iron','silver','gold','platinum','diamond','master','grandemaster','challenger'],
-      positions: ['','top', 'jungle', 'mid', 'bot', 'supporter']
+      positions: [
+      {text : '선택 없음', value : ''},
+      {text : '탑', value : 'top', img : 'https://www.mobachampion.com/static/imgs/top_icon.4653e3c00f50.png'},
+      {text : '정글', value : 'jungle', img : 'https://www.mobachampion.com/static/imgs/jungle_icon.c706202f19c5.png'},
+      {text : '미드', value : 'mid', img : 'https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png'}, 
+      {text : '봇(원딜)', value : 'bot', img : 'https://www.mobachampion.com/static/imgs/bottom_icon.ee962758ee88.png'},
+      {text : '서포터', value : 'supporter', img : 'https://www.mobachampion.com/static/imgs/support_icon.e1cdf53bc3a3.png'}]
       }
    },
    methods:{
+      
       filtertier(){
       alert('filter! tier '+this.selecttier)
       this.list = []
@@ -115,10 +125,10 @@ export default {
            })
       },
       filterposition(){
-      alert('filter! position '+this.selectposition)
+      alert('filter! position '+this.selectposition.value)
       this.list = []
       this.page = 1
-      let url = `/lol/filterpositionlist/position=${this.selectposition}/page=${this.page}`
+      let url = `/lol/filterpositionlist/position=${this.selectposition.value}/page=${this.page}`
       let data = {
          page : this.page,
          position : this.selectposition
@@ -147,13 +157,13 @@ export default {
            })
       },
       filtersort(){
-         if((this.selecttier === null || this.selecttier === '') && (this.selectposition === null || this.selectposition === '')){
+         if((this.selecttier === null || this.selecttier === '') && (this.selectposition.value === null || this.selectposition.value === '')){
             this.bringlist()
-         }else if((this.selecttier !== null || this.selecttier !== '') && (this.selectposition === null || this.selectposition === '')){
+         }else if((this.selecttier !== null || this.selecttier !== '') && (this.selectposition.value === null || this.selectposition.value === '')){
             this.filtertier()
-         }else if((this.selecttier === null || this.selecttier === '') && (this.selectposition !== null || this.selectposition !== '')){
+         }else if((this.selecttier === null || this.selecttier === '') && (this.selectposition.value !== null || this.selectposition.value !== '')){
             this.filterposition()
-         }else if((this.selecttier !== null || this.selecttier !== '') && (this.selectposition !== null || this.selectposition !== '')){
+         }else if((this.selecttier !== null || this.selecttier !== '') && (this.selectposition.value !== null || this.selectposition.value !== '')){
             this.filtertierposition()
          }else{
             alert('select error!')
@@ -162,10 +172,10 @@ export default {
 
       },
       filtertierposition(){
-      alert('filter! tier: '+this.selecttier +' & '+'position: '+this.selectposition)
+      alert('filter! tier: '+this.selecttier +' & '+'position: '+this.selectposition.value)
       this.list = []
       this.page = 1
-      let url = `/lol/filtertplist/tier=${this.selecttier}/position=${this.selectposition}/page=${this.page}`
+      let url = `/lol/filtertplist/tier=${this.selecttier}/position=${this.selectposition.value}/page=${this.page}`
       let data = {
          page : this.page,
          tier : this.selecttier,
