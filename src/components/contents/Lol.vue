@@ -1,13 +1,29 @@
 <template>
 <div>
-   <v-btn style="margin-top:40px;margin-right:40px" @click="createRoom()" top class="float-right" color="blue-grey darken-2">카드생성하기</v-btn>
-      <v-tooltip left >
-        <span>새로 고침 </span>
-      </v-tooltip>   
-      <v-btn style="float:left" @click="kal" color="#607D8B">칼바람 GO!</v-btn>
+      <v-col>
+      <v-combobox
+          :items="tiers"
+          solo
+          label="티어 선택"
+         v-model="selecttier"
+         style="margin-top:40px;float:left;width:200px;margin-left:40px;"
+        ></v-combobox>
+         <!-- :click="filtersort()" -->
+      <!-- <v-btn style="margin-top:40px;float:left;height:50px" @click="sorttier()" color="lime">티어</v-btn> -->
+
+      <v-combobox
+          :items="positions"
+          solo
+          label="포지션 선택"
+         v-model="selectposition"
+         style="margin-top:40px;float:left;width:200px;margin-left:10px;"
+        ></v-combobox>
+      <v-btn style="margin-top:40px;float:left;height:50px;margin-left:10px;" @click="filtersort()" color="green">검색</v-btn>
+      <v-btn style="margin-top:40px;float:right;margin-right:40px;height:50px" @click="createRoom()" top class="float-right" color="blue">카드생성하기</v-btn>
+      </v-col>
     <br /><br />
 
-    <div style="padding:50px">
+    <div style="padding:50px;margin-top:30px">
    <v-row>
       <v-hover v-slot:default="{ hover }" v-for="(room, i) of rooms" :key="room.cardseq">
       <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" class="mx-auto" shaped style="width:300px;margin-bottom:10px">
@@ -23,6 +39,7 @@
       <h5>{{room.title}}</h5>
       <h6>방장: {{room.rhost}}</h6>
       <h6>티어: {{room.tier}}</h6>
+      <h6>포지션: {{room.position}}</h6>
       <h6>{{btime[i]}}</h6>
       </div>
       </v-img>
@@ -40,13 +57,12 @@ import {store} from '@/store'
 export default {
    computed: {},
    mounted(){
-      this.scroll()
+      this.bringlist()
    },
    created(){
-      this.page === 1
+
       // this.$moment.locale('ko')
-      this.bringlist()
-      
+      this.scroll()
    },
    data(){
       return{
@@ -59,9 +75,125 @@ export default {
          btime: [],
          page: 1,
       list: [],
+      selecttier:'',
+      selectposition:'',
+      tiers: ['','iron','silver','gold','platinum','diamond','master','grandemaster','challenger'],
+      positions: ['','top', 'jungle', 'mid', 'bot', 'supporter']
       }
    },
    methods:{
+      filtertier(){
+      alert('filter! tier '+this.selecttier)
+      this.list = []
+      this.page = 1
+      let url = `/lol/filtertierlist/tier=${this.selecttier}/page=${this.page}`
+      let data = {
+         page : this.page,
+         tier : this.selecttier
+      }
+      let headers = {
+              'authorization': 'JWT fefege..',
+                'Accept' : 'application/json',
+                'Content-Type': 'application/json'
+                }
+      axios
+           .get(url, data, headers)
+           .then(res =>{
+            this.list = []
+            this.list = res.data
+            if((this.list.length)%9===0){
+            this.rooms = this.list
+            this.page += 1
+            }else{
+               this.rooms = this.list
+               window.onscroll = null
+            }
+              this.timechange()
+           })
+           .catch(e=>{
+              alert('tier AXIOS FAIL'+e)
+           })
+      },
+      filterposition(){
+      alert('filter! position '+this.selectposition)
+      this.list = []
+      this.page = 1
+      let url = `/lol/filterpositionlist/position=${this.selectposition}/page=${this.page}`
+      let data = {
+         page : this.page,
+         position : this.selectposition
+      }
+      let headers = {
+              'authorization': 'JWT fefege..',
+                'Accept' : 'application/json',
+                'Content-Type': 'application/json'
+                }
+      axios
+           .get(url, data, headers)
+           .then(res =>{
+            this.list = []
+            this.list = res.data
+            if((this.list.length)%9===0){
+            this.rooms = this.list
+            this.page += 1
+            }else{
+               this.rooms = this.list
+               window.onscroll = null
+            }
+              this.timechange()
+           })
+           .catch(e=>{
+              alert('tier AXIOS FAIL'+e)
+           })
+      },
+      filtersort(){
+         if((this.selecttier === null || this.selecttier === '') && (this.selectposition === null || this.selectposition === '')){
+            this.bringlist()
+         }else if((this.selecttier !== null || this.selecttier !== '') && (this.selectposition === null || this.selectposition === '')){
+            this.filtertier()
+         }else if((this.selecttier === null || this.selecttier === '') && (this.selectposition !== null || this.selectposition !== '')){
+            this.filterposition()
+         }else if((this.selecttier !== null || this.selecttier !== '') && (this.selectposition !== null || this.selectposition !== '')){
+            this.filtertierposition()
+         }else{
+            alert('select error!')
+         }
+      
+
+      },
+      filtertierposition(){
+      alert('filter! tier: '+this.selecttier +' & '+'position: '+this.selectposition)
+      this.list = []
+      this.page = 1
+      let url = `/lol/filtertplist/tier=${this.selecttier}/position=${this.selectposition}/page=${this.page}`
+      let data = {
+         page : this.page,
+         tier : this.selecttier,
+         position : this.selectposition
+      }
+      let headers = {
+              'authorization': 'JWT fefege..',
+                'Accept' : 'application/json',
+                'Content-Type': 'application/json'
+                }
+      axios
+           .get(url, data, headers)
+           .then(res =>{
+            this.list = []
+            this.list = res.data
+            if((this.list.length)%9===0){
+            this.rooms = this.list
+            this.page += 1
+            }else{
+               this.rooms = this.list
+               window.onscroll = null
+            }
+              this.timechange()
+           })
+           .catch(e=>{
+              alert('tier AXIOS FAIL'+e)
+           })
+      },
       scroll(){
          window.onscroll = () => {
             let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight

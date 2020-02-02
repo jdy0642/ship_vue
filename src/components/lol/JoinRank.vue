@@ -3,8 +3,8 @@
 <iframe src="https://tpc.googlesyndication.com/simgad/13058373737539427901?sqp=4sqPyQQ7QjkqNxABHQAAtEIgASgBMAk4A0DwkwlYAWBfcAKAAQGIAQGdAQAAgD-oAQGwAYCt4gS4AV_FAS2ynT4&rs=AOga4qkOn-z1pVHCuSOzCRSLZr5o1dOtvw" style="margin-top:30px" width="1000px" height="300px" frameborder="0"></iframe>
     <v-row>
     <v-col>
-    <v-responsive style="width:450px;margin-left:30px;margin-top:10px;">
-      <v-card class="mx-auto" style="margin-top:10px"> 
+    <v-responsive style="width:450px;margin-left:30px;margin-left:80px;">
+      <v-card class="mx-auto" style="margin-left:50px"> 
       <v-img
       style="width:650px;height:350px"
       :src="require(`@/assets/img/lol/${state.selectGame.imgurl}.jpg`)" 
