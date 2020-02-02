@@ -118,6 +118,7 @@
  <v-date-picker 
   margin:auto
   v-model="picker"
+  :allowed-dates="allowedDates"
   value
   left
   width="300"
@@ -280,8 +281,9 @@ export default{
       leng:'',
       price:'',
       remain:'',
+      fnc: store.state.futsal.fnc,
       }
-  },
+    },
 // -----------------------------------메소드-------------------------------------------
    methods:{
     bringWeather(){
@@ -408,7 +410,11 @@ export default{
       // }
       
     },
-    
+    allowedDates(val){
+      let nowDate = this.fnc.utc(Date.now())
+      let valDate = this.fnc.utc(Date.parse(val))
+      return nowDate <= valDate && valDate <= (nowDate + 3600*1000*24*5)
+    }
   },
 }
 </script>
