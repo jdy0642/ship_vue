@@ -10,7 +10,6 @@
     </v-card-title>
       <v-data-table :headers="headers" :items="lists" :search="search" :page.sync="page"
         :items-per-page="10" 
-
         @page-count="pageCount = $event" style="margin-top:15px;text-align-last:center">
         <template v-slot:item.resdate="{item}">
           {{fnc.timeToDate(item.resdate)}}
@@ -85,9 +84,10 @@ export default {
       alert('search')
     },
     openDialog(item){
+      let index = this.lists.indexOf(item)
       this.matchResult = item.km ?
-        {resseq: item.resseq, km: item.km, win:item.win, score:item.score}
-        : {resseq: item.resseq, km:'',win:'',score:''}
+        {resseq: item.resseq, km: item.km, win:item.win, score:item.score, index: index}
+        : {resseq: item.resseq, km:'',win:'',score:'', index: index}
       this.selectUser = item.personseq.name
       this.dialog = true
     },
@@ -95,15 +95,11 @@ export default {
       axios.put(`/res/${this.matchResult.resseq}`,this.matchResult)
       .then(res=>{
         if(res){
-         axios
-          .get(`/res/1`)
-          .then(res =>{
-            this.lists = res.data.sort((a,b) =>
-              a.resdate > b.resdate ? 1 : (a.resdate < b.resdate ? -1 : 0))
-          })
-          .catch(e=>{
-            alert('AXIOS FAIL'+e)
-          })
+          let result = this.matchResult
+          let temp = this.lists[result.index]
+          temp.km = result.km
+          temp.win = result.win
+          temp.score = result.score
         }
         alert(res ? '입력성공' : '입력에러')
         this.dialog = false

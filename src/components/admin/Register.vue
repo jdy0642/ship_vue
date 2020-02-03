@@ -334,6 +334,7 @@ export default{
         +'\n구장 특이사항: '+this.textbox
         )
       let url = `/futsal/register`
+      this.selectitems.push('size')
       let data =  {
         stadiumname : this.stadiumName,
         time : this.timebar[this.temptime][this.time].dt*1000,
