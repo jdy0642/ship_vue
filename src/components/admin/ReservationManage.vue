@@ -94,6 +94,17 @@ export default {
     setMatchResult(){
       axios.put(`/res/${this.matchResult.resseq}`,this.matchResult)
       .then(res=>{
+        if(res){
+         axios
+          .get(`/res/1`)
+          .then(res =>{
+            this.lists = res.data.sort((a,b) =>
+              a.resdate > b.resdate ? 1 : (a.resdate < b.resdate ? -1 : 0))
+          })
+          .catch(e=>{
+            alert('AXIOS FAIL'+e)
+          })
+        }
         alert(res ? '입력성공' : '입력에러')
         this.dialog = false
       }).catch(e=> alert('액시오스 실패'+e))
