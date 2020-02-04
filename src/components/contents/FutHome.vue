@@ -47,7 +47,6 @@ export default {
     axios.get(`/futsal/`)
       .then(res => {
         table = res.data
-        
     }).catch(e => {
       alert(`axios fail ${e} 랜덤데이터 대체`)
       const ranAddr = () => '어디어디 어디 주소 어디어디 어디 길'

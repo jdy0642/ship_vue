@@ -8,6 +8,7 @@ export const store = new Vuex.Store({
   state: {
     selectGame:{},
     futsal: {
+      currentLocation: {},
       header: {
         'authorization': 'JWT fefege..',
         'Accept' : 'application/json',
