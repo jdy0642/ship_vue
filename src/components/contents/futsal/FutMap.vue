@@ -74,16 +74,16 @@ export default {
 		},
     // 지도가 로드 완료되면 load 이벤트 발생
     onLoad(map) {
-		let daummaps = window.daum.maps
-		map.addControl(new daummaps.ZoomControl()
-			, daummaps.ControlPosition.TOPRIGHT);
-		this.mapObject = map
-		if(!this.propLocation){
-			this.searchChanged(this.propSearchWord)
-		} else{
-			this.locationChanged(this.propLocation)
-		}
-		/* alert(`검색어:${this.propSearchWord} 현재위치:${this.propLocation.lat},${this.propLocation.lng}`) */
+			let daummaps = window.daum.maps
+			map.addControl(new daummaps.ZoomControl()
+				, daummaps.ControlPosition.TOPRIGHT);
+			this.mapObject = map
+			if(!this.propLocation){
+				this.searchChanged(this.propSearchWord)
+			} else{
+				this.locationChanged(this.propLocation)
+			}
+			/* alert(`검색어:${this.propSearchWord} 현재위치:${this.propLocation.lat},${this.propLocation.lng}`) */
     },
     marker(){
 			let daummaps = window.daum.maps

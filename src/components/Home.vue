@@ -164,7 +164,7 @@ export default {
       this.$router.push({path:'/reservationmanage'})
     },
     register(){
-      this.$router.push({path:'/register'})
+      this.$router.push({path:'/futsal/register'})
     },
     membermanage(){
       this.$router.push({path:'/membermanage'})

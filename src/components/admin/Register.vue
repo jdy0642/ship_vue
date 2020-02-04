@@ -118,6 +118,7 @@
  <v-date-picker 
   margin:auto
   v-model="picker"
+  :allowed-dates="allowedDates"
   value
   left
   width="300"
@@ -271,17 +272,18 @@ export default{
         '강원 경기장 '
       ],
       value: 0,
-        num: 0,
-        ticksLabels: [
-          '4 vs 4',
-          '5 vs 5',
-          '6 vs 6',
-        ],
-        leng:'',
-        price:'',
-        remain:''
+      num: 0,
+      ticksLabels: [
+        '4 vs 4',
+        '5 vs 5',
+        '6 vs 6',
+      ],
+      leng:'',
+      price:'',
+      remain:'',
+      fnc: store.state.futsal.fnc,
       }
-  },
+    },
 // -----------------------------------메소드-------------------------------------------
    methods:{
     bringWeather(){
@@ -292,7 +294,7 @@ export default{
         this.adata = res.data
         this.city = this.adata.city.name
         this.adds()
-      })
+      }).catch(e=> alert(e))
     },
     setStadium(stadiumName){
       this.timebar = []
@@ -322,48 +324,43 @@ export default{
       }
       this.imgUrl = `http://openweathermap.org/img/wn/${this.img}@2x.png`
     },
-      register(){
-        this.dialog = false
-         alert('등록한 경기:  '+this.stadiumName
-         +'\n등록한 시간: '+this.timebar[this.temptime][this.time].dt*1000
-         +'\n등록한 관리자: '+this.state.person.name
-         +'\n경기 비용: '+this.price
-         +'\n경기 인원: '+parseInt(this.num)+4
-         +'\n구장 특이사항: '+this.textbox
-         )
-        let url = `${this.context}/register`
-        let data =  {
+    register(){
+      this.dialog = false
+        alert('등록한 경기:  '+this.stadiumName
+        +'\n등록한 시간: '+this.timebar[this.temptime][this.time].dt*1000
+        +'\n등록한 관리자: '+this.state.person.name
+        +'\n경기 비용: '+this.price
+        +'\n경기 인원: '+parseInt(this.num)+4
+        +'\n구장 특이사항: '+this.textbox
+        )
+      let url = `/futsal/register`
+      this.selectitems.push('size')
+      let data =  {
         stadiumname : this.stadiumName,
         time : this.timebar[this.temptime][this.time].dt*1000,
         stadiumtel : this.searchResult.phone,
         stadiumaddr : this.searchResult.address_name,
-        adminname : this.store.person.name,
-        num : this.num,
+        adminname : store.state.person.name,
+        num : this.num + 4,
+        shoes : 'shoes1',
+        stadiumimg : "1,2,3", // 추후 추가?
+        remain : (this.num + 4) * 2 + 4,
         gender : this.gender,
         difficulty : this.difficulty,
-        stadiumfacility : this.selectitems.join(","),
-        }
-        let headers= {
-              'authorization': 'JWT fefege..',
-              'Accept' : 'application/json',
-              'Content-Type': 'application/json'
-        }
+        stadiumfacility : 
+          ['size','shower','park','shoes','wear'].map(i=>
+            this.selectitems.includes(i) ? `${i}1` : `${i}0`
+          ).join()
+      }
+      let headers= {
+        'authorization': 'JWT fefege..',
+        'Accept' : 'application/json',
+        'Content-Type': 'application/json'
+      }
       axios
       .post(url, data, headers)
-      .then(()=>{
-        //     if(res.data.result === "SUCCESS"){
-        //         store.state.person = res.data.person
-        //         if(this.state.person.role != 'student'){
-        //             this.state.authCheck = true
-        //         }else{
-        //             this.state.authCheck = false
-        //         }
-        //         this.dialog=false
-        //     }else{
-        //         alert(`로그인 실패`)
-        //         this.$router.go({path: '/login'})
-        //     }
-        //  this.result = res.data
+      .then(res=>{
+        alert(res.data ? '등록 성공' : '등록 실패')
       })
       .catch(e=>{
          alert('register axios fail'+e)
@@ -401,15 +398,24 @@ export default{
       this.show(this.temptime,this.time)
       this.timebar[this.temptime,this.time]; 
       this.labels = []
-      for(let i=0;i<40;i++){
+      this.timebar[this.temptime].map(i=>{
+          this.labels.push(this.$moment(i.dt*1000).format('H'))
+      })
+      
+
+      /* for(let i=0;i<40;i++){
         this.labels.push(this.$moment(this.timebar[this.temptime][i].dt*1000).format('H'))
-      }
+      } */
       // for(let i=parseInt(this.bdata[4]);i<40 ;i++){
       //   this.labels.push(this.$moment(this.timebar[4][i].dt*1000).format('H'))
       // }
       
     },
-    
+    allowedDates(val){
+      let nowDate = this.fnc.utc(Date.now())
+      let valDate = this.fnc.utc(Date.parse(val))
+      return nowDate <= valDate && valDate <= (nowDate + 3600*1000*24*5)
+    }
   },
 }
 </script>

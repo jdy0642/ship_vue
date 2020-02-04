@@ -52,8 +52,7 @@
 
                 <v-flex xs8 md8> 
                   <v-autocomplete v-model="interest" label="관심사" :items="['풋살', '야구(준비중입니다)', '테니스(준비중입니다)', '롤', 
-                  '피파(준비중입니다)', '배틀그라운드(준비중입니다)', '오버워치(준비중입니다)']" required
-                  :click="showinput()"></v-autocomplete>
+                  '피파(준비중입니다)', '배틀그라운드(준비중입니다)', '오버워치(준비중입니다)']" required :click="showinput()"></v-autocomplete>
                   <!-- <v-text-field
                   label="소환사 닉네임을 입력해주세요"
                   single-line
