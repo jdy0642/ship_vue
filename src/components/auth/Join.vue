@@ -52,7 +52,8 @@
 
                 <v-flex xs8 md8> 
                   <v-autocomplete v-model="interest" label="관심사" :items="['풋살', '야구(준비중입니다)', '테니스(준비중입니다)', '롤', 
-                  '피파(준비중입니다)', '배틀그라운드(준비중입니다)', '오버워치(준비중입니다)']" required></v-autocomplete>
+                  '피파(준비중입니다)', '배틀그라운드(준비중입니다)', '오버워치(준비중입니다)']" required
+                  :click="showinput()"></v-autocomplete>
                   <!-- <v-text-field
                   label="소환사 닉네임을 입력해주세요"
                   single-line
@@ -121,10 +122,21 @@ export default {
         job:'',
         male:'',
         age:'',
-        interest:''
+        interest:'',
+        summonername : ''
         }
       },
       methods:{
+      showinput(){
+
+        if(this.interest === '롤'){
+        const temp = prompt('소환사 닉네임 입력','')
+        confirm('소환사의 닉네임이 '+temp+'이(가) 맞습니까?')
+        this.summonername = temp
+        }else{
+          this.summonername = null
+        }
+      },
       join(){
         alert('조인 진입')
         alert(this.interest)
@@ -138,7 +150,8 @@ export default {
           job:this.job,
           male:this.male=="남" ? true :false,
           age:this.age,
-          interest:this.interest
+          interest:this.interest,
+          summonername:this.summonername
         }
         let headers= {
               'authorization': 'JWT fefege..',
@@ -152,11 +165,12 @@ export default {
             if(res.data.result === "SUCCESS"){
                 this.dialog= false
                 this.$router.push({path:'/'})
-
+                
             }else{
                 alert(`조인 실패`)
                 this.$router.go({path: '/login'})
             }
+        this.interest = ''
          this.result = res.data
       })
       .catch(()=>{

@@ -59,12 +59,12 @@ import {store} from '@/store'
 export default {
    computed: {},
    mounted(){
-      this.bringlist()
+      this.scroll()
    },
    created(){
-
+      this.bringlist()
       // this.$moment.locale('ko')
-      this.scroll()
+      
    },
    data(){
       return{
@@ -220,7 +220,7 @@ export default {
       },
       scroll(){
          window.onscroll = () => {
-            let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
+            let bottomOfWindow = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
             if (bottomOfWindow) {
             this.scrolledToBottom = true // replace it with your code
             this.bringlist()
@@ -248,7 +248,7 @@ export default {
             if((this.list.length)%9===0){
             this.rooms = this.list
             this.page += 1
-            
+            this.scroll()
             }else{
                this.rooms = this.list
                alert('마지막 페이지입니다.')
