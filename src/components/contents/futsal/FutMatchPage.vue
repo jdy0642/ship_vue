@@ -9,11 +9,11 @@
         {{selectMatch.stadiumname}}</router-link>
     </h1></v-card-title>
     <v-card-subtitle>{{selectMatch.stadiumaddr}}<br/>{{fnc.timeToDateWeek(selectMatch.time)}}</v-card-subtitle>
-    <v-card-action>
+    <v-card>
       <v-chip outlined @click="fnc.linkCopy($route.fullPath)">주소복사하기</v-chip>
       <v-chip outlined @click="viewTogle()" :color="mapView ? '#2222cc':'#cc8888'">지도보기</v-chip>
       <v-chip outlined>가는길보기</v-chip>
-    </v-card-action>
+    </v-card>
     <v-card-text>{{selectMatch.stadiumname}} {{fnc.timeToDate(selectMatch.time)}} 의 경기는
         <code>{{success}}%</code> 확률로 정상 진행되고 있습니다.
     </v-card-text>
@@ -23,7 +23,7 @@
     <v-card-subtitle>{{difficultyMsg[selectMatch.difficulty-1]}}</v-card-subtitle>
     <v-row class="justify-center pa-1">
       <v-col
-        v-for="(n) of matchRule"
+        v-for="n of matchRule"
         :key="n" cols="2">
         <v-card>
           <v-img :src="require(`@/assets/img/matchRule/${n}.svg`)"/>
@@ -40,7 +40,8 @@
         v-for="n of stadiumFacility"
         :key="n" cols="2">
         <v-card>
-          <v-img :src="require(`@/assets/img/stadium/${n}.svg`)"/>
+          <v-img :src="require(`@/assets/img/stadium/${n.slice(0,-1)}.svg`)"
+            :style="`opacity: ${n.slice(-1)!= 0 ? 1 : 0.3};`"/>
         </v-card>
       </v-col>
     </v-row>
@@ -107,7 +108,9 @@
       <li>경기 중 부상에 대한 책임은 해당 개인에게 귀속됩니다.</li>
     </ul>
   </v-card>
-    <v-btn @click="payment()" id="floatdiv" pa-3 fab x-large block rounded>신 청 하 기</v-btn>
+  <div id="floatdiv">
+    <v-btn @click="payment()" color="#cc33ff" pa-2 x-large block>신 청 하 기</v-btn>
+  </div>
 </div>
 </template>
 
@@ -118,7 +121,7 @@ import FutMap from './FutMap'
 import FutHead from './FutHead'
 export default {
   created : async function (){
-    if(store.state.futsal.selectMatch.futsalmatchseq==undefined){
+    if(!store.state.futsal.selectMatch.hasOwnProperty('futsalmatchseq')){
       await axios.get(`/futsal/match/${this.$route.params.matchId}`)
       .then(res =>{
         store.state.futsal.selectMatch = res.data
@@ -142,22 +145,21 @@ export default {
     }
   },
   computed: {
-    stadiumImg(){
-    return this.selectMatch.stadiumimg ? this.selectMatch.stadiumimg.split(',')
-      .map(i => require(`@/assets/img/stadium/${i}.jpg`)) 
-      : Array.from({length:3},(_,i) => require(`@/assets/img/stadium/${i+1}.jpg`))
-    },
     matchRule(){
-      let selectMatch = this.selectMatch
-      return [selectMatch.num,
-          selectMatch.gender,
-          selectMatch.difficulty,
-          selectMatch.shoes,
-          'minmax']
+      let match = this.selectMatch
+      return match.num ?
+        [match.num,match.gender,match.difficulty,match.shoes,'minmax']
+        : ['1','2','3','4','minmax']
     },
     stadiumFacility(){
-      return this.selectMatch.stadiumfacility ? this.selectMatch.stadiumfacility.split(',')
-       : ['park0','park0','park0','park0','park0']
+      return this.selectMatch.stadiumfacility ?
+        this.selectMatch.stadiumfacility.split(',')
+        : ['park0','shoes1','shoes0','shower1','wear1']
+    },
+    stadiumImg(){
+    return this.selectMatch.stadiumImg ?
+      this.selectMatch.stadiumimg.split(',').map(i => require(`@/assets/img/stadium/${i}.jpg`)) 
+      : Array.from({length:3},(_,i) => require(`@/assets/img/stadium/${i+1}.jpg`))
     },
     stadiumText(){
       let selectMatch = this.selectMatch
@@ -190,11 +192,21 @@ export default {
       }
     },
     payment(){
-      if(store.state.futsal.user.name == undefined){
-        alert('로그인 하세요')
+      if(store.state.person.hasOwnProperty('userid')){
+        axios.post(`/res/${this.$route.params.matchId}`
+          ,store.state.person)
+        .then(res=>{
+          if(res.data){
+            axios.put(`/futsal/match/${this.$route.params.matchId}`)
+            .then(()=>{
+              alert('결제성공')
+              this.$router.push({name: 'futsalhome'})
+            })
+          }
+        })
+        .catch(()=>alert('실패'))
       }else{
-        alert('결제완료')
-        this.$router.push({name: 'futsalhome'})
+        alert('로그인 하세요')
       }
     }
   }
@@ -205,5 +217,13 @@ export default {
   width: 80%;
   padding: 4px;
   text-align: left;
+}
+#floatdiv {
+  position:fixed;
+  display:inline-block;
+  width: 100%;
+  right:0px; /* 창에서 오른쪽 길이 */
+  top:95%; /* 창에서 위에서 부터의 높이 */
+  z-index: 100;
 }
 </style>
