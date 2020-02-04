@@ -44,7 +44,7 @@ import { store } from '@/store'
 export default {
   created(){
     axios
-    .get(`/res/1`)
+    .get(`${this.context}/res/1`)
     .then(res =>{
       this.lists = res.data.sort((a,b) =>
         a.resdate > b.resdate ? 1 : (a.resdate < b.resdate ? -1 : 0))
@@ -70,6 +70,7 @@ export default {
         ],
         dialog: false,
         selectUser: '',
+        context: store.state.context,
         matchResult: {}
       }
     },
@@ -92,7 +93,7 @@ export default {
       this.dialog = true
     },
     setMatchResult(){
-      axios.put(`/res/${this.matchResult.resseq}`,this.matchResult)
+      axios.put(`${this.context}/res/${this.matchResult.resseq}`,this.matchResult)
       .then(res=>{
         if(res){
           let result = this.matchResult

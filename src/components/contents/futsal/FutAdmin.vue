@@ -59,6 +59,7 @@ export default {
   },
   data(){
     return {
+      context:store.state.context,
       mapData:{
         appKey: '789b2dc91d9235fae744572478c25f39', // 테스트용 appkey
         center: {lat:33.450701, lng:126.570667}, // 지도의 중심 좌표
@@ -104,7 +105,7 @@ export default {
     },
     test2(){
       var req = new XMLHttpRequest();
-      req.open('GET',`/futsal/test`, true);
+      req.open('GET',`${this.context}/futsal/test`, true);
       req.onreadystatechange = function () {
         if (req.readyState == 4) {
           alert(req)
@@ -118,7 +119,7 @@ export default {
       return new Promise(function(resolve, reject) {
         // Do the usual XHR stuff
         var req = new XMLHttpRequest();
-        req.open('GET', '/futsal/test');
+        req.open('GET', `${this.context}/futsal/test`);
         /* req.setRequestHeader("Access-Control-Allow-Origin", "*")
         req.setRequestHeader("Authorization", "Bearer XXXXX") */
         req.onload = function() {
@@ -145,7 +146,7 @@ export default {
       });
     },
     test(){
-			axios.get(`/futsal/test`)
+			axios.get(`${this.context}/futsal/test`)
 			.then(res=>{
 				this.lol = res.data
 			})
@@ -184,7 +185,7 @@ export default {
 					stadiumimg: '1,2,3', remain: remain(), adminname: '펭수'
 					}))
 				this.table = table
-				axios.post(`${store.state.futsal.context}/futsal/insertdummy`,table,store.state.futsal.header)
+				axios.post(`${this.context}/futsal/insertdummy`,table,store.state.futsal.header)
 				.catch(e => {
 					alert(e)
 				})

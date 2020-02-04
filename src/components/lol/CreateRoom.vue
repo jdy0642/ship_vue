@@ -115,6 +115,7 @@ import {store} from '@/store'
 export default{
   data(){
     return{
+      context:store.state.context,
       position:'',
       row:'rank',
       tier: '',
@@ -134,7 +135,7 @@ export default{
       this.$router.push({path:'/lol'})
     },
     crawling(){
-    let url = `/lol/summoner/userName=${this.state.person.summonername}`
+    let url = `${this.context}/lol/summoner/userName=${this.state.person.summonername}`
     axios
     .get(url)
     .then(res=>{
@@ -150,7 +151,7 @@ export default{
     },
     createroom(){
       // this.crawling()
-      let url = `/lol/createroom`
+      let url = `${this.context}/lol/createroom`
            let headers = {
               'authorization': 'JWT fefege..',
                 'Accept' : 'application/json',

@@ -29,8 +29,10 @@ import {store} from '../../store'
 export default {
    data(){
       return {
+        context:store.state.context,
         checkbox: false,
         dialog: false,
+        selectGame:store.state.selectGame,
         result : '',
         state : store.state,
         title : this.state.selectGame.title,
@@ -39,7 +41,7 @@ export default {
     },
    methods:{
       update(){
-        let url = `/lol/update`
+        let url = `${this.context}/lol/update`
         let data =  {
          title : this.title,
          contents : this.contents

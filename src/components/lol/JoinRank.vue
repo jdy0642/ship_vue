@@ -73,7 +73,7 @@ export default {
   data(){
     return {
       state:store.state,
-      context:'http://localhost:8080',
+      context:store.state.context,
       temp:'',
     }
   },
@@ -87,7 +87,7 @@ export default {
     deleteRoom(){
      let result = confirm("지우시겠습니까?");
       if(result){
-        let url = `/lol/delete/${this.state.selectGame.cardseq}`
+        let url = `${this.context}/lol/delete/${this.state.selectGame.cardseq}`
            let headers = {
               'authorization': 'JWT fefege..',
               'Accept' : 'application/json',

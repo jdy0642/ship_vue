@@ -122,7 +122,7 @@ import FutHead from './FutHead'
 export default {
   created : async function (){
     if(!store.state.futsal.selectMatch.hasOwnProperty('futsalmatchseq')){
-      await axios.get(`/futsal/match/${this.$route.params.matchId}`)
+      await axios.get(`${this.context}/futsal/match/${this.$route.params.matchId}`)
       .then(res =>{
         store.state.futsal.selectMatch = res.data
         this.selectMatch = res.data
@@ -132,6 +132,7 @@ export default {
   components:{FutHead,FutMap},
   data(){
     return {
+      context:store.state.context,
       height: 30,
       success: 100,
       selectMatch: store.state.futsal.selectMatch,
@@ -193,11 +194,11 @@ export default {
     },
     payment(){
       if(store.state.person.hasOwnProperty('userid')){
-        axios.post(`/res/${this.$route.params.matchId}`
+        axios.post(`${this.context}/res/${this.$route.params.matchId}`
           ,store.state.person)
         .then(res=>{
           if(res.data){
-            axios.put(`/futsal/match/${this.$route.params.matchId}`)
+            axios.put(`${this.context}/futsal/match/${this.$route.params.matchId}`)
             .then(()=>{
               alert('결제성공')
               this.$router.push({name: 'futsalhome'})
