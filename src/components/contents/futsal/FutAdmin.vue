@@ -167,13 +167,13 @@ export default {
 		},
     //https://developers.kakao.com/docs/restapi/local#%ED%82%A4%EC%9B%8C%EB%93%9C-%EA%B2%80%EC%83%89
     test4(){
-      axios({url: 'http://dapi.kakao.com/v2/local/search/keyword.json',
+      axios({url: 'http://dapi.kakao.com/v2/local/search/address.json',
 				headers:{
 					Authorization: 'KakaoAK 28d9076d78b899a3f85bb1c12320b0c3'
 				},
 				method: 'GET',
 				params: {
-					query: '풋살장',
+					query: '경기도 시흥시 신천동',
 					page: this.page
 				}
 			}).then(res=>{

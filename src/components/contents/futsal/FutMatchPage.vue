@@ -126,44 +126,11 @@ export default {
       .then(res =>{
         store.state.futsal.selectMatch = res.data
         this.selectMatch = res.data
+        this.navigation()
       })
+    }else{
+      this.navigation()
     }
-    let location={}
-    let goalLocation = {lng: 126.975598, lat:37.554034}
-    let send = (location) => {
-      axios({url: 'http://dapi.kakao.com/v2/local/search/keyword.json',
-        headers:{
-          Authorization: 'KakaoAK 28d9076d78b899a3f85bb1c12320b0c3'
-        },
-        method: 'GET',
-        params: {
-          query: this.selectMatch.stadiumname
-        }
-      }).then(res=>{
-        goalLocation = {lng: res.data.documents[0].x, lat: res.data.documents[0].y}
-        axios.get(`http://api2.sktelecom.com/tmap/routes`,{
-        params: {
-          format: 'json',
-          version: '2',
-          appKey: '5c88a4e4-0f6d-4002-9989-f9e35e5257fe',
-          endX: goalLocation.lng,
-          endY: goalLocation.lat,
-          startX: location.lng,
-          startY: location.lat,
-          reqCoordType: 'WGS84GEO',
-          resCoordType: 'WGS84GEO'
-        }
-      }).then(res=>{
-        this.moveInfo = res.data.features[0]
-      }).catch(e=>alert(`액시오스 실패 ${e}`))
-      })
-      
-    }
-    navigator.geolocation.getCurrentPosition(async function(pos) {
-      location.lat = pos.coords.latitude
-      location.lng = pos.coords.longitude
-      await send(location)
-    })
   },
   components:{FutHead,FutMap},
   data(){
@@ -179,13 +146,16 @@ export default {
       ],
       mapView: true,
       moveInfo: '',
-      temp: ''
+      temp: '',
+      temp2: ''
     }
   },
   computed: {
     moveResult(){
       return this.moveInfo ? 
-        `${parseInt(this.moveInfo.properties.totalTime/60)}분 총 거리 : ${(this.moveInfo.properties.totalDistance/1000).toFixed(2)}Km 택시 예상요금 : ${this.moveInfo.properties.taxiFare} 원`
+        `${parseInt(this.moveInfo.properties.totalTime/60)}분 총 거리 : ${
+          (this.moveInfo.properties.totalDistance/1000).toFixed(2)
+          }Km 택시 예상요금 : ${this.moveInfo.properties.taxiFare} 원`
         : "현재위치가 검색되지 않습니다."
     },
     matchRule(){
@@ -215,7 +185,7 @@ export default {
         '화장실은1층 화장실 이용',
         '자판기 및 흡연 구역 있음'
       ]
-    }
+    },
   },
   methods: {
     viewTogle(){
@@ -234,6 +204,51 @@ export default {
         case 'minmax' : return `${this.selectMatch.num*2 - 2} ~ ${this.selectMatch.num*2 + 4}명`
         default : return item
       }
+    },
+    addressSearch(search,callBack){
+      let goalLocation = {lng: 126.975598, lat:37.554034}
+      axios({url: 'http://dapi.kakao.com/v2/local/search/address.json',//'http://dapi.kakao.com/v2/local/search/keyword.json',
+        headers:{
+          Authorization: 'KakaoAK 28d9076d78b899a3f85bb1c12320b0c3'
+        },
+        method: 'GET',
+        params: {
+          query: search
+        }
+      }).then(res=>{
+        this.temp = res.data
+        goalLocation = {lng: res.data.documents[0].x, lat: res.data.documents[0].y}
+        callBack(goalLocation)
+      }).catch(e=>alert(`adressSearch ${e}`))
+    },
+    currentLocation(callBack){
+      let location = {}
+      navigator.geolocation.getCurrentPosition(async function(pos) {
+      location.lat = pos.coords.latitude
+      location.lng = pos.coords.longitude
+      callBack(location)
+      })
+    },
+    navigation(){
+      this.addressSearch(this.selectMatch.stadiumaddr,(goalLocation)=>{
+        this.currentLocation((location)=>{
+          axios.get(`http://api2.sktelecom.com/tmap/routes`,{
+            params: {
+              format: 'json',
+              version: '2',
+              appKey: '5c88a4e4-0f6d-4002-9989-f9e35e5257fe',
+              endX: goalLocation.lng,
+              endY: goalLocation.lat,
+              startX: location.lng,
+              startY: location.lat,
+              reqCoordType: 'WGS84GEO',
+              resCoordType: 'WGS84GEO'
+            }
+          }).then(res=>{
+            this.moveInfo = res.data.features[0]
+          }).catch(e=>alert(`액시오스 실패 ${e}`))
+        })
+      })
     },
     payment(){
       if(store.state.person.hasOwnProperty('userid')){
