@@ -21,7 +21,7 @@
       </v-card>
     </v-responsive>
       <v-row style="margin-left:110px">
-        <update-room></update-room>
+        <!-- <update-room></update-room> -->
         <v-btn center style="margin-left:30px" @click="deleteRoom()"><v-icon>mdi-close</v-icon></v-btn>
       </v-row>
     </v-col>
@@ -67,9 +67,9 @@
 <script>
 import axios from "axios"
 import {store} from "@/store"
-import UpdateRoom from "@/components/lol/UpdateRoom.vue"
+/* import UpdateRoom from "@/components/lol/UpdateRoom.vue" */
 export default {
-  components:{UpdateRoom},
+  /* components:{UpdateRoom}, */
   data(){
     return {
       state:store.state,
