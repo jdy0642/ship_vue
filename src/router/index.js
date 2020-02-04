@@ -24,6 +24,7 @@ import FutsalStadium from '@/components/contents/futsal/FutStadium.vue'
 import FutsalAdmin from '@/components/contents/futsal/FutAdmin.vue'
 import CreateRoom from '@/components/lol/CreateRoom.vue'
 import JoinRank from '@/components/lol/JoinRank.vue'
+import UpdateRoom from '@/components/lol/UpdateRoom.vue'
 
 Vue.use(Router)
 export default new Router({
@@ -52,6 +53,7 @@ export default new Router({
           {path: '/membermanage', name: 'membermanage', component: MemberManage},
           {path: '/revenuemanage', name: 'revenuemanage', component: RevenueManage},
           {path: '/reservationmanage', name: 'reservationmanage', component: ReservationManage},
+          {path: '/updateroom', name: 'updateroom', component: UpdateRoom},
           {path: '/', name: 'carousel', component: Carousel}
      ]    
 })
