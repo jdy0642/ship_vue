@@ -1,39 +1,42 @@
 <template>
 <div>
-<iframe src="https://tpc.googlesyndication.com/simgad/13058373737539427901?sqp=4sqPyQQ7QjkqNxABHQAAtEIgASgBMAk4A0DwkwlYAWBfcAKAAQGIAQGdAQAAgD-oAQGwAYCt4gS4AV_FAS2ynT4&rs=AOga4qkOn-z1pVHCuSOzCRSLZr5o1dOtvw" style="margin-top:30px" width="970px" height="300px" frameborder="0"></iframe>
+<!-- <iframe src="https://tpc.googlesyndication.com/simgad/13058373737539427901?sqp=4sqPyQQ7QjkqNxABHQAAtEIgASgBMAk4A0DwkwlYAWBfcAKAAQGIAQGdAQAAgD-oAQGwAYCt4gS4AV_FAS2ynT4&rs=AOga4qkOn-z1pVHCuSOzCRSLZr5o1dOtvw" style="margin-top:30px" width="1000px" height="300px" frameborder="0"></iframe> -->
     <v-row>
     <v-col>
-    <v-responsive style="width:450px;margin-left:20px;">
-      <v-card class="mx-auto"> 
-      <v-img
-      style="width:650px;height:350px"
-      :src="require(`@/assets/img/lol/${state.selectGame.imgurl}.jpg`)" 
-      >
-      <div style="width:300px;height:350px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, transparent 160px)">
-      <br />
-      <v-img style="width:80px;" :src="state.selectGame.img" alt="" />
-      <v-img style="width:20px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img>
-      <v-card-text><v-icon >mdi-crown</v-icon> 소환사의 닉네임: {{state.selectGame.rhost}}</v-card-text>
-          <v-card-text>제목: {{state.selectGame.title}}</v-card-text>
-      <v-card-text>티어 : {{state.selectGame.crawltier}}</v-card-text>
-          <v-card-text>승률 : {{state.selectGame.crawlrate}}</v-card-text>
-          <v-card-text>내용: {{state.selectGame.contents}}</v-card-text>
-      </div>
-      </v-img>
+    <v-responsive style="width:350px;margin-left:40px;margin-top:30px;height:650px">
+      <v-card class="mx-auto" style="margin-top:10px;height:700px"> 
+        <v-img style="width:650px;height:800px" :src="require(`@/assets/img/lol/${state.selectGame.imgurl}.jpg`)">
+          <div style="width:300px;height:560px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, transparent 160px)">
+          <br />
+            <v-img style="width:80px;" :src="state.selectGame.img" alt="" />
+            <v-img style="width:90px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img>
+            <v-card-text><v-icon >mdi-crown</v-icon> {{state.selectGame.rhost}}</v-card-text>
+            <v-card-text>티어 : {{state.selectGame.crawltier}}</v-card-text>
+                <v-card-text>승률 : {{state.selectGame.crawlrate}}</v-card-text>
+                <v-card-text>방 번호: {{state.selectGame.cardseq}}</v-card-text>
+                <v-card-text>방 제목: {{state.selectGame.title}}</v-card-text>
+                <v-card-text>내용: {{state.selectGame.contents}}</v-card-text>
+          </div>
+        </v-img>
       </v-card>
     </v-responsive>
-      <v-btn center style="margin-top:30px" @click="deleteRoom()"><v-icon>mdi-close</v-icon></v-btn>
-  <v-responsive style="width:300px;margin-left:30px;margin-top:10px">
-    <v-card style="color:white;margin-right:5px;margin-top:5px;width:300px;height:400px">
-      <v-btn fab dark color="indigo" style="margin-top:150px" >
-        <v-icon dark>mdi-plus</v-icon>
-      </v-btn>
-    </v-card>
-  </v-responsive>
-  </v-col>
-  <v-responsive>
-    <iframe src="http://localhost:3000" style="margin-top:10px" width="450px" height="800px" frameborder="0"></iframe>
+      <v-row style="margin-left:110px">
+        <update-room></update-room>
+        <v-btn center style="margin-left:30px" @click="deleteRoom()"><v-icon>mdi-close</v-icon></v-btn>
+      </v-row>
+    </v-col>
+    
+    <v-responsive style="width:250px;margin-left:10px;margin-top:47px;height:565px">
+      <v-card style="color:white;margin-right:5px;margin-top:5px;width:300px;height:600px">
+        <v-btn fab dark color="indigo" style="margin-top:250px" @click="invite()">
+          <v-icon dark>mdi-plus</v-icon>
+        </v-btn>
+      </v-card>
     </v-responsive>
+
+  <v-responsive>
+    <iframe src="http://localhost:3000" style="margin-top:50px;margin-bottom:50px;margin-right:30px" width="450px" height="830px" frameborder="0"></iframe>
+  </v-responsive>
     
         <!-- <v-flex style="margin-right:5px; margin-top:5px">
           <v-card color="grey lighten-3">
@@ -64,17 +67,20 @@
 <script>
 import axios from "axios"
 import {store} from "@/store"
+import UpdateRoom from "@/components/lol/UpdateRoom.vue"
 export default {
+  components:{UpdateRoom},
   data(){
     return {
       state:store.state,
-      // logs: [],
-      // msg: null,
       context:'http://localhost:8080',
       temp:'',
     }
   },
   methods: {
+    invite(){
+      alert('친구 초대 준비중')
+    },
     modifyRoom(){
       this.$router.push({path:`/login`})
       },
@@ -84,8 +90,8 @@ export default {
         let url = `/lol/delete/${this.state.selectGame.cardseq}`
            let headers = {
               'authorization': 'JWT fefege..',
-                'Accept' : 'application/json',
-                'Content-Type': 'application/json'
+              'Accept' : 'application/json',
+              'Content-Type': 'application/json'
                 }
            let data = {
              cardseq: this.state.selectGame.cardseq
