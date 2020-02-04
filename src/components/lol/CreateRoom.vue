@@ -20,6 +20,14 @@
         <!-- <v-radio label="칼바람나락" value="kal"></v-radio> -->
       </v-radio-group>
       <v-divider></v-divider>
+      <v-radio-group v-model="position" row>
+        <v-radio label="탑" value="top" ></v-radio>
+        <v-radio label="정글" value="jungle"></v-radio>
+        <v-radio label="미드" value="mid"></v-radio>
+        <v-radio label="원딜" value="bot"></v-radio>
+        <v-radio label="서포터" value="supporter"></v-radio>
+      </v-radio-group>
+      <v-divider></v-divider>
               <v-radio-group v-model="tier" column>
               <v-radio
                   label="아이언"
@@ -107,6 +115,7 @@ import {store} from '@/store'
 export default{
   data(){
     return{
+      position:'',
       row:'rank',
       tier: '',
       title: '',
@@ -156,7 +165,8 @@ export default{
               crawltier : this.crawltier,
               crawlrate : this.crawlrate,
               img : this.img,
-              wtime : this.wtime
+              wtime : this.wtime,
+              position : this.position
            }
            axios
            .post(url, data, headers)
