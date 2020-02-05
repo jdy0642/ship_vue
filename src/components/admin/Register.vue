@@ -288,7 +288,7 @@ export default{
         this.adata = res.data
         this.city = this.adata.city.name
         this.adds()
-      }).catch(e=> alert(e))
+      }).catch(()=> alert('날짜를 조정해주세요'))
     },
     setStadium(stadiumName){
       this.timebar = []
@@ -386,7 +386,7 @@ export default{
       this.show(this.temptime,this.time)
       this.timebar[this.temptime,this.time]; 
       this.labels = []
-      this.timebar[this.temptime].map(i=>{
+      this.timebar[this.temptime].map(i=>{    
           this.labels.push(this.$moment(i.dt*1000).format('H'))
       })
       

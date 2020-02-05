@@ -8,7 +8,7 @@
         <v-img style="width:650px;height:800px" :src="require(`@/assets/img/lol/${state.selectGame.imgurl}.jpg`)">
           <div style="width:300px;height:560px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, transparent 160px)">
           <br />
-            <v-img style="width:80px;" :src="state.selectGame.img" alt="" />
+            <!-- <v-img style="width:80px;" :src="state.selectGame.img" alt="" /> -->
             <v-img style="width:90px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img>
             <v-card-text><v-icon >mdi-crown</v-icon> {{state.selectGame.rhost}}</v-card-text>
             <v-card-text>티어 : {{state.selectGame.crawltier}}</v-card-text>
