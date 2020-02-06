@@ -25,26 +25,22 @@
 </template>
 <script>
 import axios from 'axios'
-import {store} from '../../store'
+import { store } from '@/store'
 export default {
    data(){
       return {
-        context:store.state.context,
-        checkbox: false,
         dialog: false,
-        selectGame:store.state.selectGame,
-        result : '',
-        state : store.state,
-        title : this.state.selectGame.title,
-        contents : this.state.selectGame.contents,
+        title : store.state.selectGame.title,
+        contents : store.state.selectGame.contents,
       }
     },
    methods:{
       update(){
-        let url = `${this.context}/lol/update`
+        let url = `${store.state.context}/lol/update/${store.state.selectGame.cardseq}`
         let data =  {
-         title : this.title,
-         contents : this.contents
+        cardseq : store.state.selectGame.cardseq,
+        title : this.title,
+        contents : this.contents
         }
         let headers= {
                'authorization': 'JWT fefege..',
@@ -52,10 +48,10 @@ export default {
                'Content-Type': 'application/json'
         }
       axios
-      .post(url, data,headers)
+      .put(url, data,headers)
       .then(res=>{
         alert(res)
-            this.$router.go({path: '/lol'})
+        this.$router.push({path: '/lol'})
       })
       .catch(()=>{
          alert('axios fail')

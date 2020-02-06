@@ -9,7 +9,7 @@
           <div style="width:300px;height:560px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, transparent 160px)">
           <br />
             <!-- <v-img style="width:80px;" :src="state.selectGame.img" alt="" /> -->
-            <v-img style="width:90px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img>
+            <!-- <v-img style="width:90px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img> -->
             <v-card-text><v-icon >mdi-crown</v-icon> {{state.selectGame.rhost}}</v-card-text>
             <v-card-text>티어 : {{state.selectGame.crawltier}}</v-card-text>
                 <v-card-text>승률 : {{state.selectGame.crawlrate}}</v-card-text>
@@ -21,7 +21,7 @@
       </v-card>
     </v-responsive>
       <v-row style="margin-left:110px">
-        <!-- <update-room></update-room> -->
+        <update-room></update-room>
         <v-btn center style="margin-left:30px" @click="deleteRoom()"><v-icon>mdi-close</v-icon></v-btn>
       </v-row>
     </v-col>
@@ -66,12 +66,13 @@
 </template>
 <script>
 import axios from "axios"
-import {store} from "@/store"
-/* import UpdateRoom from "@/components/lol/UpdateRoom.vue" */
+import { store } from "@/store"
+import UpdateRoom from "@/components/lol/UpdateRoom.vue"
 export default {
-  /* components:{UpdateRoom}, */
+  components:{UpdateRoom},
   data(){
     return {
+      dialog:false,
       state:store.state,
       context:store.state.context,
       temp:'',
@@ -81,9 +82,6 @@ export default {
     invite(){
       alert('친구 초대 준비중')
     },
-    modifyRoom(){
-      this.$router.push({path:`/login`})
-      },
     deleteRoom(){
      let result = confirm("지우시겠습니까?");
       if(result){
