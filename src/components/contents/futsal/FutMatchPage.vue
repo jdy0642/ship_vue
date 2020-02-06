@@ -147,8 +147,7 @@ export default {
       ],
       mapView: true,
       moveInfo: '',
-      temp: '',
-      temp2: ''
+      temp: ''
     }
   },
   computed: {
@@ -173,13 +172,13 @@ export default {
     stadiumImg(){
     return this.selectMatch.stadiumImg ?
       this.selectMatch.stadiumimg.split(',').map(i => require(`@/assets/img/stadium/${i}.jpg`)) 
-      : Array.from({length:3},(_,i) => require(`@/assets/img/stadium/${i+1}.jpg`))
+      : Array.from({length:3},(_,i) => require(`@/assets/img/stadium/1${i+1}.jpg`))
     },
     stadiumText(){
       let selectMatch = this.selectMatch
       return [
         `${selectMatch.num}vs${selectMatch.num}
-                    구장의 최소 인원은 ${parseInt(selectMatch.num)*2 -2}명입니다.`,
+        구장의 최소 인원은 ${parseInt(selectMatch.num)*2 -2}명입니다.`,
         `모든 ${selectMatch.num}구장은 정원 모집 시 삼파전으로 진행합니다.`,
         '주차 : 평일 2시간 무료 / 주말 무료',
         '(평일 이용시 주차 차량 번호 기입 필수, 2시간 이상 주차시 추가 비용 발생)',
@@ -208,7 +207,7 @@ export default {
     },
     addressSearch(search,callBack){
       let goalLocation = {lng: 126.975598, lat:37.554034}
-      axios({url: 'http://dapi.kakao.com/v2/local/search/address.json',//'http://dapi.kakao.com/v2/local/search/keyword.json',
+      axios({url: 'http://dapi.kakao.com/v2/local/search/keyword.json',//'http://dapi.kakao.com/v2/local/search/address.json',
         headers:{
           Authorization: 'KakaoAK 28d9076d78b899a3f85bb1c12320b0c3'
         },
@@ -217,21 +216,20 @@ export default {
           query: search
         }
       }).then(res=>{
-        this.temp = res.data
         goalLocation = {lng: res.data.documents[0].x, lat: res.data.documents[0].y}
         callBack(goalLocation)
       }).catch(e=>alert(`adressSearch ${e}`))
     },
     currentLocation(callBack){
       let location = {}
-      navigator.geolocation.getCurrentPosition(async function(pos) {
+      navigator.geolocation.getCurrentPosition(function(pos) {
       location.lat = pos.coords.latitude
       location.lng = pos.coords.longitude
       callBack(location)
       })
     },
     navigation(){
-      this.addressSearch(this.selectMatch.stadiumaddr,(goalLocation)=>{
+      this.addressSearch(this.selectMatch.stadiumname,(goalLocation)=>{
         this.currentLocation((location)=>{
           axios.get(`http://api2.sktelecom.com/tmap/routes`,{
             params: {

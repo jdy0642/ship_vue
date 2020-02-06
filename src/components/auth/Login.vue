@@ -1,6 +1,6 @@
 <template>
 <div id="app" >
-  <v-btn color="indigo darken-1" dark fixed center @click="dialog = !dialog"  style="font-size:15px" > 로그인 </v-btn>
+  <v-btn color="blue darken-2" dark fixed center @click="dialog = !dialog"  style="font-size:15px" > 로그인 </v-btn>
     <v-dialog v-model="dialog" width="400px" >
       <v-card >
         <v-card-title class="indigo " font-color="white" > 로그인 </v-card-title>

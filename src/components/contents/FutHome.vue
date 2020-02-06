@@ -65,7 +65,7 @@ export default {
         stadiumaddr: ranAddr(), stadiumtel: ranTel(),
         num : rannum(), gender: rangender(),difficulty: ranrating(),
         shoes: 'shoes0', stadiumfacility: ranfacility(),
-        stadiumimg: '1,2,3', remain: remain(), adminname: '펭수'
+        stadiumimg: '11,12,13', remain: remain(), adminname: '펭수'
       }))
     }).finally(()=>{
       table.map(x =>{

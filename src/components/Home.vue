@@ -6,11 +6,12 @@
   <fixed-header >
   <!-- --------------------------------------- 네비 ------------------------------------------ -->
       <div >
-        <v-toolbar  class="sticky" color="indigo darken-1">
+        <v-toolbar class="sticky" color="blue darken-2">
         <!-- <v-toolbar color="#3F51B5" :src="'https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg'"> -->
           <v-toolbar-title class="white--text" style="margin-left:16%;" @click="home()" > 
-            <v-icon large color="white">mdi-vuetify</v-icon>
-              SHIP 
+            <v-img class="d-inline-flex" style="width:50px;margin-top:10px" src="@/assets/together2.png"></v-img>
+            <!-- <v-icon large color="white">accessibility_new</v-icon> -->
+            <h3 class="d-inline-flex" style="margin-left:5px;margin-bottom:10px">doGether</h3>
           </v-toolbar-title>
 <!-- hi  -->
         <v-spacer></v-spacer>
@@ -70,7 +71,7 @@
             <div class="text-center">
               <v-menu offset-y>
                 <template v-slot:activator="{ on }">
-                  <v-btn style="margin-top:12px;font-size:15px;margin-right:70px" color="indigo darken-1" v-on="on">  컨텐츠  </v-btn>
+                  <v-btn style="margin-top:12px;font-size:15px;margin-right:70px" color="blue darken-2" v-on="on">  컨텐츠  </v-btn>
                 </template>
                 <v-list>
                   <v-list-item v-for="(item) of items" :key="item.title" @click="contgo(item.link)">
