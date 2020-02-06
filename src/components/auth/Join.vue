@@ -102,6 +102,7 @@ export default {
         idRules: [
           v => !!v || '아이디를 입력해주세요',
           v => v.length <= 10 || '아이디는 10자를 넘을 수 없습니다',
+          () => false
         ],
         emailRules: [
           v => !!v || '이메일을 입력해주세요',
