@@ -11,7 +11,7 @@
           <v-toolbar-title class="white--text" style="margin-left:16%;" @click="home()" > 
             <v-img class="d-inline-flex" style="width:50px;margin-top:10px" src="@/assets/together2.png"></v-img>
             <!-- <v-icon large color="white">accessibility_new</v-icon> -->
-            <h4 class="d-inline-flex" style="margin-left:5px;margin-bottom:10px">doGether</h4>
+            <h3 class="d-inline-flex" style="margin-left:5px;margin-bottom:10px">doGether</h3>
           </v-toolbar-title>
 <!-- hi  -->
         <v-spacer></v-spacer>
