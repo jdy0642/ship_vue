@@ -14,7 +14,7 @@
       <v-combobox
           :items="positions"
           solo
-          label="포지션 선택"
+          label="포지션 선택"    
          v-model="selectposition"
          style="margin-top:40px;float:left;width:200px;margin-left:10px;"
         ></v-combobox>
@@ -34,7 +34,7 @@
       >
       <div style="height:150px;width:100%;">
       </div>
-      <div style="width:100%;height:200px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.6) 85%, transparent 190px)">
+      <div :color="{'on-hover':hover}" style="width:100%;height:200px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.6) 85%, transparent 190px)">
       <br />
       <h5>{{room.title}}</h5>
       <h6>방장: {{room.rhost}}</h6>
@@ -282,10 +282,12 @@ export default {
 .v-card {
   transition: opacity .4s ease-in-out;
   margin-top:10px;
+  color:yellow;
 }
 
 .v-card:not(.on-hover) {
   opacity: 0.7;
+  color:white;
  }
 
 </style>

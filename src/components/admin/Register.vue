@@ -265,12 +265,6 @@ export default {
       state:store.state,
       select: [],
       textbox:'',
-      snames:[
-        '서울 경기장',
-        '부산 경기장',
-        '인천 경기장',
-        '강원 경기장 '
-      ],
       value: 0,
       num: 0,
       ticksLabels: [
@@ -294,7 +288,7 @@ export default {
         this.adata = res.data
         this.city = this.adata.city.name
         this.adds()
-      }).catch(e=> alert(e))
+      }).catch(()=> alert('날짜를 조정해주세요'))
     },
     setStadium(stadiumName){
       this.timebar = []
@@ -326,13 +320,6 @@ export default {
     },
     register(){
       this.dialog = false
-        alert('등록한 경기:  '+this.stadiumName
-        +'\n등록한 시간: '+this.timebar[this.temptime][this.time].dt*1000
-        +'\n등록한 관리자: '+this.state.person.name
-        +'\n경기 비용: '+this.price
-        +'\n경기 인원: '+parseInt(this.num)+4
-        +'\n구장 특이사항: '+this.textbox
-        )
       let url = `${this.context}/futsal/register`
       this.selectitems.push('size')
       let data =  {
@@ -361,6 +348,7 @@ export default {
       .post(url, data, headers)
       .then(res=>{
         alert(res.data ? '등록 성공' : '등록 실패')
+        this.$router.push({path:'/futsal'})
       })
       .catch(e=>{
          alert('register axios fail'+e)
@@ -398,7 +386,7 @@ export default {
       this.show(this.temptime,this.time)
       this.timebar[this.temptime,this.time]; 
       this.labels = []
-      this.timebar[this.temptime].map(i=>{
+      this.timebar[this.temptime].map(i=>{    
           this.labels.push(this.$moment(i.dt*1000).format('H'))
       })
       
