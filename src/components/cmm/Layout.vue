@@ -98,7 +98,7 @@ footer {
      /* clear: both; */
 }
 /* 가로폭 980보다 작을 때 사용할 @media query */
-@media screen and (max-width: 980px) {     
+@media screen and (max-width: 80px) {     
      #pagewrap {
            width: 94%;
      }
@@ -108,14 +108,9 @@ footer {
            width: auto;
            float: none;
      }
-     #sidebar {
-           clear: both;
+     #header, footer {
            padding: 1% 4%;
-           width: 300px;
-           float: none;
-     }
-     header, footer {
-           padding: 1% 4%;
+            width: auto;
      }
 }
 </style>
