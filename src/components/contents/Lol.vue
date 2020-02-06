@@ -68,6 +68,7 @@ export default {
    },
    data(){
       return{
+         context:store.state.context,
          length:'',
          row: 'rank',
          rooms:[],
@@ -105,7 +106,7 @@ export default {
       alert('filter! tier '+this.selecttier.value)
       this.list = []
       this.page = 1
-      let url = `/lol/filtertierlist/tier=${this.selecttier.value}/page=${this.page}`
+      let url = `${this.context}/lol/filtertierlist/tier=${this.selecttier.value}/page=${this.page}`
       let data = {
          page : this.page,
          tier : this.selecttier.value
@@ -137,7 +138,7 @@ export default {
       alert('filter! position '+this.selectposition.value)
       this.list = []
       this.page = 1
-      let url = `/lol/filterpositionlist/position=${this.selectposition.value}/page=${this.page}`
+      let url = `${this.context}/lol/filterpositionlist/position=${this.selectposition.value}/page=${this.page}`
       let data = {
          page : this.page,
          position : this.selectposition.value
@@ -189,7 +190,7 @@ export default {
       alert('filter! tier: '+this.selecttier.value +' & '+'position: '+this.selectposition.value)
       this.list = []
       this.page = 1
-      let url = `/lol/filtertplist/tier=${this.selecttier.value}/position=${this.selectposition.value}/page=${this.page}`
+      let url = `${this.context}/lol/filtertplist/tier=${this.selecttier.value}/position=${this.selectposition.value}/page=${this.page}`
       let data = {
          page : this.page,
          tier : this.selecttier.value,
@@ -232,7 +233,7 @@ export default {
          this.$router.push({name : 'joinrank', params:{ game: param.cardseq}})
       },
       bringlist(){
-      let url = `/lol/listpage=${this.page}`
+      let url = `${this.context}/lol/listpage=${this.page}`
       let data = {
          page: this.page
       }

@@ -42,6 +42,7 @@ export default {
         userid : '',
         passwd : '',
         person : '',
+        context: store.state.context,
         state : store.state,
         icons: [
                 'mdi-facebook-box',
@@ -52,7 +53,7 @@ export default {
     },
    methods:{
       login(){
-        let url = `/login`
+        let url = `${this.context}/login`
         let data =  {
          userid : this.userid,
          passwd : this.passwd
