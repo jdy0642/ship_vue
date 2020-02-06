@@ -101,19 +101,34 @@ export default {
         checkbox:false,
         idRules: [
           v => !!v || '아이디를 입력해주세요',
+          /* v =>  {
+          let result = true
+          let url = `${this.context}/idcheck`
+          let data = {userid : v}
+          let headers= {
+              'authorization': 'JWT fefege..',
+              'Accept' : 'application/json',
+              'Content-Type': 'application/json'
+        } 
+        axios
+        .post(url, data, headers)
+        .then(res=>{
+            if(res.data.result === "SUCCESS"){
+              result = false
+            }
+          })
+        .catch(()=>{
+          alert('axios fail')
+        })
+         return result || '다른 아이디를 입력해 주세요'
+        }, */
           v => v.length <= 10 || '아이디는 10자를 넘을 수 없습니다',
         ],
+
         emailRules: [
           v => !!v || '이메일을 입력해주세요',
           v => /.+@.+/.test(v) || '유효하지 않은 이메일 형태입니다',
         ],
-        // date: null,
-      //   trip: {
-      //     name: '',
-      //     location: null,
-      //     start: null,
-      //     end: null,
-      // },
         select: null,
         userid:'',
         passwd:'',
@@ -138,6 +153,25 @@ export default {
           this.summonername = null
         }
       },
+        userid: function(param){
+          let url = `${this.context}/idcheck`
+          let data = {userid : param}
+          let headers= {
+              'authorization': 'JWT fefege..',
+              'Accept' : 'application/json',
+              'Content-Type': 'application/json'
+        } 
+        axios
+        .post(url, data, headers)
+        .then(res=>{
+            if(res.data.result === "SUCCESS"){
+                alert('이미 있는 아이디입니다')
+            }
+      })
+      .catch(()=>{
+         alert('axios fail')
+        })
+        }
       },
       methods:{
       join(){
