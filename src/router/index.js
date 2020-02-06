@@ -18,12 +18,13 @@ import FutsalAdmin from '@/components/contents/futsal/FutAdmin.vue'
 import CreateRoom from '@/components/lol/CreateRoom.vue'
 import JoinRank from '@/components/lol/JoinRank.vue'
 import UpdateRoom from '@/components/lol/UpdateRoom.vue'
-
+import Testpage from '@/components/admin/Testpage.vue'
 Vue.use(Router)
 export default new Router({
      mode: 'history',
      routes: [
           {path:'/join', name:'join', component: Join},
+          {path:'/testpage', name:'testpage', component: Testpage},
           {path:'/mypage', name:'mypage', component:  MyPage},
           {path:'/futsalmypage', name:'futsalmypage',  component: FutsalMypage},
           {path:'/login', name:'login', component: Login},

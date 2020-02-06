@@ -122,7 +122,7 @@ import FutHead from './FutHead'
 export default {
   created(){
     if(!store.state.futsal.selectMatch.hasOwnProperty('futsalmatchseq')){
-      await axios.get(`${this.context}/futsal/match/${this.$route.params.matchId}`)
+      axios.get(`${this.context}/futsal/match/${this.$route.params.matchId}`)
       .then(res =>{
         store.state.futsal.selectMatch = res.data
         this.selectMatch = res.data
