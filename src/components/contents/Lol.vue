@@ -18,7 +18,7 @@
          v-model="selectposition"
          style="margin-top:40px;float:left;width:200px;margin-left:10px;"
         ></v-combobox>
-      <v-btn style="margin-top:40px;float:left;height:50px;margin-left:10px;" @click="filtersort()" color="green">검색</v-btn>
+      <v-btn style="margin-top:40px;float:left;height:50px;margin-left:10px;" @click="find()" color="green">검색</v-btn>
       <v-btn style="margin-top:40px;float:right;margin-right:40px;height:50px" @click="createRoom()" top class="float-right" color="blue">카드생성하기</v-btn>
       </v-col>
     <br /><br />
@@ -59,9 +59,10 @@ import {store} from '@/store'
 export default {
    computed: {},
    mounted(){
-      this.scroll()
+   
    },
    created(){
+
       this.bringlist()
       // this.$moment.locale('ko')
       
@@ -69,6 +70,7 @@ export default {
    data(){
       return{
          context:store.state.context,
+         scrolledToBottom:false,
          length:'',
          row: 'rank',
          rooms:[],
@@ -101,11 +103,13 @@ export default {
       }
    },
    methods:{
-      
+      find(){
+         this.page = 1
+         this.filtersort()
+      },  
       filtertier(){
-      alert('filter! tier '+this.selecttier.value)
+
       this.list = []
-      this.page = 1
       let url = `${this.context}/lol/filtertierlist/tier=${this.selecttier.value}/page=${this.page}`
       let data = {
          page : this.page,
@@ -123,7 +127,7 @@ export default {
             this.list = res.data
             if((this.list.length)%9===0){
             this.rooms = this.list
-            this.page += 1
+            this.scroll()
             }else{
                this.rooms = this.list
                window.onscroll = null
@@ -135,9 +139,9 @@ export default {
            })
       },
       filterposition(){
-      alert('filter! position '+this.selectposition.value)
+
       this.list = []
-      this.page = 1
+
       let url = `${this.context}/lol/filterpositionlist/position=${this.selectposition.value}/page=${this.page}`
       let data = {
          page : this.page,
@@ -155,7 +159,9 @@ export default {
             this.list = res.data
             if((this.list.length)%9===0){
             this.rooms = this.list
-            this.page += 1
+            
+            this.scroll()
+
             }else{
                this.rooms = this.list
                window.onscroll = null
@@ -167,6 +173,7 @@ export default {
            })
       },
       filtersort(){
+
          if((this.selecttier == null || this.selecttier === '' || this.selecttier.value === '') &&
           (this.selectposition == null || this.selectposition === '' || this.selectposition.value === '') 
           ){
@@ -180,16 +187,14 @@ export default {
          }else if((this.selecttier != null || this.selecttier !== '' || this.selecttier.value !== '') &&
           (this.selectposition != null || this.selectposition !== '' || this.selectposition.value !== '')){
             this.filtertierposition()
-         }else{
-            alert('select error!')
          }
       
 
       },
       filtertierposition(){
-      alert('filter! tier: '+this.selecttier.value +' & '+'position: '+this.selectposition.value)
+
       this.list = []
-      this.page = 1
+
       let url = `${this.context}/lol/filtertplist/tier=${this.selecttier.value}/position=${this.selectposition.value}/page=${this.page}`
       let data = {
          page : this.page,
@@ -208,7 +213,8 @@ export default {
             this.list = res.data
             if((this.list.length)%9===0){
             this.rooms = this.list
-            this.page += 1
+            this.scroll()
+
             }else{
                this.rooms = this.list
                window.onscroll = null
@@ -221,10 +227,13 @@ export default {
       },
       scroll(){
          window.onscroll = () => {
+            
             let bottomOfWindow = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
             if (bottomOfWindow) {
             this.scrolledToBottom = true // replace it with your code
-            this.bringlist()
+            this.page += 1
+            this.filtersort()
+            
             }
          }
       },
@@ -233,6 +242,7 @@ export default {
          this.$router.push({name : 'joinrank', params:{ game: param.cardseq}})
       },
       bringlist(){
+      
       let url = `${this.context}/lol/listpage=${this.page}`
       let data = {
          page: this.page
@@ -247,13 +257,15 @@ export default {
            .then(res =>{
             this.list = res.data
             if((this.list.length)%9===0){
+
             this.rooms = this.list
-            this.page += 1
             this.scroll()
+
             }else{
+
                this.rooms = this.list
-               alert('마지막 페이지입니다.')
                window.onscroll = null
+
             }
               this.rooms = res.data
               this.timechange()
@@ -269,6 +281,7 @@ export default {
          this.$router.push({path:'/createRoom'})
       },
       timechange(){
+         this.btime = []
          for(let i=0;i<this.rooms.length;i++){
             this.btime.push(this.$moment(this.rooms[i].wtime).fromNow())
          }
