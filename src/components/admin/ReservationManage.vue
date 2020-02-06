@@ -1,8 +1,8 @@
 <template>
   <div style="margin:10px;">
-  <div class="text-center" style="">
+  <div class="text-center" >
   </div>
-   <v-card >
+   <v-card style="height:916px" >
     <v-card-title style="padding-left:250px;color:black;background-color:#B0BEC5">
       <div><h2 style="font-weight:bold;">예약 현황</h2></div>
         <v-spacer></v-spacer>
@@ -10,7 +10,7 @@
     </v-card-title>
       <v-data-table :headers="headers" :items="lists" :search="search" :page.sync="page"
         :items-per-page="10" 
-        @page-count="pageCount = $event" style="margin-top:15px;text-align-last:center">
+        @page-count="pageCount = $event" style="margin-top:60px;text-align-last:center">
         <template v-slot:item.resdate="{item}">
           {{fnc.timeToDate(item.resdate)}}
         </template>
@@ -20,7 +20,7 @@
       </v-data-table>
       <div class="text-center pt-2">
         <v-pagination prev-icon="mdi-arrow-left" next-icon="mdi-arrow-right" circle
-          color="grey" v-model="page" :length="pageCount" style="margin-bottom:15px;"></v-pagination>
+          color="grey" v-model="page" :length="pageCount" ></v-pagination>
       </div>
     </v-card>
     <v-dialog v-model="dialog" width="400px">

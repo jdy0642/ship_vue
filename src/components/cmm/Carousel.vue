@@ -1,5 +1,5 @@
 <template>
-<div style="height:870px;">
+<div style="height:938px;">
   <div class="panels">
     <div class="panels__container">
       <div class="panel">

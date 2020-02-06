@@ -14,6 +14,7 @@
   <v-btn @click="test2()">롤2</v-btn>
   <v-btn @click="test3()">롤3</v-btn>
   <v-btn @click="test4()">롤4</v-btn>
+  <v-btn @click="crawl()">크롤링</v-btn>
    <div>
     <!-- <span>{{ $socket.connected ? 'Connected' : 'Disconnected' }}</span> -->
   </div>
@@ -188,35 +189,13 @@ export default {
 				},
 				method: 'GET',
 				params: {
-					query: '풋살장',
-					page: this.page
+					query: '서울 풋살장',
+					page: '2'
 				}
 			}).then(res=>{
-				this.getStadiumData = res.data.documents
-				alert(`${this.page}페이지  ${res.data.documents.length}개`)
-				const stadiumAddr = i => this.getStadiumData[i].address_name
-				const stadiumTel = i => this.getStadiumData[i].phone
-				const stadiumName = i => this.getStadiumData[i].place_name
-				const rannum = () => ['4','5','6'][parseInt(Math.random()*3)]
-				const rangender = () => ['female','male'][parseInt(Math.random()*2)]
-				const ranrating = () => parseInt(Math.random()*3+1)
-				const rantime = x => x + Math.random()*1000*3600*24*13
-				const ranfacility = () => 'size0,shower0,park0,shoes0,wear0'
-				const remain = () => parseInt(Math.random()*12)
-				let table = Array.from({length : 15},(_,i) => ({
-					time: rantime(Date.now()), stadiumname: stadiumName(i),
-					stadiumaddr: stadiumAddr(i), stadiumtel: stadiumTel(i),
-					num : rannum(), gender: rangender(),difficulty: ranrating(),
-					shoes: 'shoes0', stadiumfacility: ranfacility(),
-					stadiumimg: '1,2,3', remain: remain(), adminname: '펭수'
-					}))
-				this.table = table
-				axios.post(`${this.context}/futsal/insertdummy`,table,store.state.futsal.header)
-				.catch(e => {
-					alert(e)
-				})
-			}).catch(e=>{
-				this.getStadiumData = e
+        this.lol = res.data
+      }).catch(e => {
+				alert(e)
 			})
 		}
   }
