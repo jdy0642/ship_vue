@@ -66,6 +66,7 @@
   import BarChart from '@/chart/BarChart.js'
   import LineChart from '@/chart/LineChart.js'
   import PieChart from '@/chart/PieChart.js'
+  import { store } from '@/store'
   import axios from 'axios'
   export default {
     components: {
@@ -106,7 +107,7 @@
       },
       async todaylist(){
         axios
-        .get(`/res/2`)
+        .get(`${store.state.context}/res/todaylist`)
         .then(res =>{
           this.today = res.data
           /* alert(this.today.filter(t => (t.futsalmatchseq.stadiumaddr.substr(0,2) === '서울')).length) */
