@@ -1,23 +1,5 @@
 <template>
 <div style="padding:0.5%;">
-  <div style="margin:10px">
-  <!-- <v-btn @click="fillData()" color="red" style="margin:5px">월요일 예약 더미 100 생성</v-btn>
-  <v-btn @click="fillData()" color="orange" style="margin:5px">화요일 예약 더미 100 생성</v-btn>
-  <v-btn @click="fillData()" color="yellow" style="margin:5px">수요일 예약 더미 100 생성</v-btn>
-  <v-btn @click="fillData()" color="green" style="margin:5px">목요일 예약 더미 100 생성</v-btn>
-  <v-btn @click="fillData()" color="blue" style="margin:5px">금요일 예약 더미 100 생성</v-btn>
-  <v-btn @click="fillData()" color="grey" style="margin:5px">토요일 예약 더미 100 생성</v-btn>
-  <v-btn @click="fillData()" color="pupple" style="margin:5px">일요일 예약 더미 100 생성</v-btn> -->
-
-  <!-- <v-combobox
-          :items="days"
-          solo
-          label="요일 선택"    
-         v-model="selectday"
-         style="margin-top:40px;float:left;width:200px;margin-left:10px;"
-        ></v-combobox>
-      <v-btn style="margin-top:40px;float:left;height:50px;margin-left:10px;" @click="fillData()" color="green">검색</v-btn> -->
-  </div>
   <v-card>
   <v-card-subtitle>지역별 예약 현황 페이지</v-card-subtitle>
   
@@ -29,10 +11,14 @@
           width="95%"
           max-height="500px"
         >
-        
-        <bar-chart :chart-data="todays"></bar-chart>
+        <bar-chart :chart-data="barlist"></bar-chart>
         </v-card>
       </v-hover>
+      <div style="margin-top:10px">
+  <v-btn @click="onedaylist('y')" color="blue" style="margin:5px">어제 예약 보기</v-btn>
+  <v-btn @click="onedaylist('c')" color="red" style="margin:5px">오늘 예약 현황 보기</v-btn>
+  <v-btn @click="weeklist()" color="orange" style="margin:5px">최근 일주일 예약 현황 보기</v-btn>
+  </div>
         <br /><br />
         <v-row style="width:100%">
           
@@ -75,12 +61,15 @@
       PieChart
     },
     created(){
-      this.todaylist()
+      this.onedaylist('c')
     },
     data () {
       return {
+        current:this.$moment(new Date()).format('YYYY-MM-DD'),
+        yesterday:this.$moment(new Date()).subtract(1,'d').format('YYYY-MM-DD'),
+        day:'',
         todayslabels:[],
-        today:{},
+        today:[],
         selectday:'',
         datacollection: null,
         gender:null,
@@ -93,7 +82,18 @@
       
     },
     methods: {
-
+      weeklist(){
+        this.today = []
+        axios
+        .get(`${store.state.context}/res/weeklist`)
+        .then(res =>{
+          this.today = res.data
+          this.fillData()
+          })
+          .catch(e=>{
+          alert('weeklist AXIOS FAIL'+e)
+        })
+      },
       rcounting(x){
         return this.today.filter(t => (t.futsalmatchseq.stadiumaddr.substr(0,2) == x)).length
       },
@@ -105,57 +105,34 @@
         /* alert(this.today.filter(t => (String(t.personseq.age).substr(0,1) == a)).length) */
         return this.today.filter(t => (String(t.personseq.age).substr(0,1) == a)).length
       },
-      async todaylist(){
+      onedaylist(t){
+        if(t === 'y'){
+          this.day = this.yesterday
+        }else{
+          this.day = this.current
+        }
+        this.today = []
+        let url = `${store.state.context}/res/onedaylist/${this.day}`
+        let data = {
+          day : this.day
+        }
+        let headers= {
+        'authorization': 'JWT fefege..',
+        'Accept' : 'application/json',
+        'Content-Type': 'application/json'
+      }
         axios
-        .get(`${store.state.context}/res/todaylist`)
+        .get(url,data,headers)
         .then(res =>{
           this.today = res.data
-          /* alert(this.today.filter(t => (t.futsalmatchseq.stadiumaddr.substr(0,2) === '서울')).length) */
-          /* this.legion.push(this.today.filter(t=>t.futsalmatchseq.stadiumaddr.substr(0,2))) */
-          /* this.today.filter(t =>  Array.from(new Set(t.futsalmatchseq.stadiumaddr.substr(0,2)))) */
-          
           this.fillData()
-          this.today.map(()=>{
-            
-            /* if(i.futsalmatchseq.stadiumaddr.substr(0,2) == '서울'){
-              this.todayslabels.push(i)
-            }else if(i.futsalmatchseq.stadiumaddr.substr(0,2) == '경기'){
-              this.todayslabels.push(i)
-            }else if(i.futsalmatchseq.stadiumaddr.substr(0,2) == '인천'){
-              this.todayslabels.push(i)
-            }else if(i.futsalmatchseq.stadiumaddr.substr(0,2) == '강원'){
-              this.todayslabels.push(i)
-            }else if(i.futsalmatchseq.stadiumaddr.substr(0,2) == '부산'){
-              this.todayslabels.push(i)
-            }else if(i.futsalmatchseq.stadiumaddr.substr(0,2) == '광주'){
-              this.todayslabels.push(i)
-            }else if(i.futsalmatchseq.stadiumaddr.substr(0,2) == '세종'){
-              this.todayslabels.push(i)
-            }else if(i.futsalmatchseq.stadiumaddr.substr(0,2) == '경상'){
-              this.todayslabels.push(i)
-            }else if(i.futsalmatchseq.stadiumaddr.substr(0,2) == '충청'){
-              this.todayslabels.push(i)
-            }else if(i.futsalmatchseq.stadiumaddr.substr(0,2) == '울산'){
-              this.todayslabels.push(i)
-            }else if(i.futsalmatchseq.stadiumaddr.substr(0,2) == '대전'){
-              this.todayslabels.push(i)
-            }else if(i.futsalmatchseq.stadiumaddr.substr(0,2) == '대구'){
-              this.todayslabels.push(i)
-            }else if(i.futsalmatchseq.stadiumaddr.substr(0,2) == '전라'){
-              this.todayslabels.push(i)
-            }else{
-              alert(i.futsalmatchseq.stadiumaddr.substr(0,2))
-            } */
-            
-            })
-        })
-        /* Array.from(new Set(this.todayslabels)) */
-        .catch(e=>{
-          alert('AXIOS FAIL'+e)
+          })
+          .catch(e=>{
+          alert('one AXIOS FAIL'+e)
         })
       },
       fillData () {
-        this.todays = {
+        this.barlist = {
           labels: [this.$moment(new Date()).format('YYYY-MM-DD')+' 예약 인원'],
           datasets: [
             {label: '서울 지역',
@@ -212,9 +189,6 @@
             }
           ]
         }
-      },
-      getRandomInt () {
-        return Math.floor(Math.random() * (50 - 5 + 1))
       }
     }
   }
