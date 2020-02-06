@@ -8,7 +8,7 @@
         <v-img style="width:650px;height:800px" :src="require(`@/assets/img/lol/${state.selectGame.imgurl}.jpg`)">
           <div style="width:300px;height:560px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, transparent 160px)">
           <br />
-            <v-img style="width:80px;" :src="state.selectGame.img" alt="" />
+            <!-- <v-img style="width:80px;" :src="state.selectGame.img" alt="" /> -->
             <v-img style="width:90px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img>
             <v-card-text><v-icon >mdi-crown</v-icon> {{state.selectGame.rhost}}</v-card-text>
             <v-card-text>티어 : {{state.selectGame.crawltier}}</v-card-text>
@@ -21,7 +21,7 @@
       </v-card>
     </v-responsive>
       <v-row style="margin-left:110px">
-        <update-room></update-room>
+        <!-- <update-room></update-room> -->
         <v-btn center style="margin-left:30px" @click="deleteRoom()"><v-icon>mdi-close</v-icon></v-btn>
       </v-row>
     </v-col>
@@ -67,13 +67,13 @@
 <script>
 import axios from "axios"
 import {store} from "@/store"
-import UpdateRoom from "@/components/lol/UpdateRoom.vue"
+/* import UpdateRoom from "@/components/lol/UpdateRoom.vue" */
 export default {
-  components:{UpdateRoom},
+  /* components:{UpdateRoom}, */
   data(){
     return {
       state:store.state,
-      context:'http://localhost:8080',
+      context:store.state.context,
       temp:'',
     }
   },
@@ -87,7 +87,7 @@ export default {
     deleteRoom(){
      let result = confirm("지우시겠습니까?");
       if(result){
-        let url = `/lol/delete/${this.state.selectGame.cardseq}`
+        let url = `${this.context}/lol/delete/${this.state.selectGame.cardseq}`
            let headers = {
               'authorization': 'JWT fefege..',
               'Accept' : 'application/json',

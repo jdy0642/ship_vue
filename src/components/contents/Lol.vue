@@ -14,7 +14,7 @@
       <v-combobox
           :items="positions"
           solo
-          label="포지션 선택"
+          label="포지션 선택"    
          v-model="selectposition"
          style="margin-top:40px;float:left;width:200px;margin-left:10px;"
         ></v-combobox>
@@ -34,7 +34,7 @@
       >
       <div style="height:150px;width:100%;">
       </div>
-      <div style="width:100%;height:200px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.6) 85%, transparent 190px)">
+      <div :color="{'on-hover':hover}" style="width:100%;height:200px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.6) 85%, transparent 190px)">
       <br />
       <h5>{{room.title}}</h5>
       <h6>방장: {{room.rhost}}</h6>
@@ -68,6 +68,7 @@ export default {
    },
    data(){
       return{
+         context:store.state.context,
          length:'',
          row: 'rank',
          rooms:[],
@@ -105,7 +106,7 @@ export default {
       alert('filter! tier '+this.selecttier.value)
       this.list = []
       this.page = 1
-      let url = `/lol/filtertierlist/tier=${this.selecttier.value}/page=${this.page}`
+      let url = `${this.context}/lol/filtertierlist/tier=${this.selecttier.value}/page=${this.page}`
       let data = {
          page : this.page,
          tier : this.selecttier.value
@@ -137,7 +138,7 @@ export default {
       alert('filter! position '+this.selectposition.value)
       this.list = []
       this.page = 1
-      let url = `/lol/filterpositionlist/position=${this.selectposition.value}/page=${this.page}`
+      let url = `${this.context}/lol/filterpositionlist/position=${this.selectposition.value}/page=${this.page}`
       let data = {
          page : this.page,
          position : this.selectposition.value
@@ -189,7 +190,7 @@ export default {
       alert('filter! tier: '+this.selecttier.value +' & '+'position: '+this.selectposition.value)
       this.list = []
       this.page = 1
-      let url = `/lol/filtertplist/tier=${this.selecttier.value}/position=${this.selectposition.value}/page=${this.page}`
+      let url = `${this.context}/lol/filtertplist/tier=${this.selecttier.value}/position=${this.selectposition.value}/page=${this.page}`
       let data = {
          page : this.page,
          tier : this.selecttier.value,
@@ -232,7 +233,7 @@ export default {
          this.$router.push({name : 'joinrank', params:{ game: param.cardseq}})
       },
       bringlist(){
-      let url = `/lol/listpage=${this.page}`
+      let url = `${this.context}/lol/listpage=${this.page}`
       let data = {
          page: this.page
       }
@@ -281,10 +282,12 @@ export default {
 .v-card {
   transition: opacity .4s ease-in-out;
   margin-top:10px;
+  color:yellow;
 }
 
 .v-card:not(.on-hover) {
   opacity: 0.7;
+  color:white;
  }
 
 </style>

@@ -52,7 +52,7 @@ export default {
 			this.locationChanged(param)
 		}
 	},
-  methods: {
+	methods: {
 		searchChanged(param){
 			//alert(`${param}변경`)
 			this.searchWord = param
