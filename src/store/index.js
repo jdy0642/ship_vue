@@ -7,7 +7,7 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     /* context:'http://15.164.228.72', */
-    context:'http://localhost:8080',
+    context:'',
     selectGame:{},
     futsal: {
       currentLocation: {},
@@ -51,6 +51,6 @@ export const store = new Vuex.Store({
       }
     },
     person:{},
-    authCheck : false,   
+    authCheck : false,
   }
 })

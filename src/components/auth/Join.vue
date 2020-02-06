@@ -119,6 +119,7 @@ export default {
          return result || '다른 아이디를 입력해 주세요'
         }, */
           v => v.length <= 10 || '아이디는 10자를 넘을 수 없습니다',
+          () => false
         ],
 
         emailRules: [
