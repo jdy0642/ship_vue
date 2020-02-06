@@ -223,11 +223,10 @@
 </div>
 </template>
 <script>
-import {store} from '@/store'
+import { store } from '@/store'
 import axios from 'axios'
 import FutMap from '@/components/contents/futsal/FutMap.vue'
-export default{
-  
+export default {
   components:{
     FutMap
   },
@@ -238,6 +237,7 @@ export default{
   },
    data(){
       return{
+      context: store.state.context,
       gender : '',
       difficulty : '',
       selectitems : [],
@@ -320,7 +320,7 @@ export default{
     },
     register(){
       this.dialog = false
-      let url = `/futsal/register`
+      let url = `${this.context}/futsal/register`
       this.selectitems.push('size')
       let data =  {
         stadiumname : this.stadiumName,

@@ -12,8 +12,8 @@
     <v-card>
       <v-chip outlined @click="fnc.linkCopy($route.fullPath)">주소복사하기</v-chip>
       <v-chip outlined @click="viewTogle()" :color="mapView ? '#2222cc':'#cc8888'">지도보기</v-chip>
-      <v-chip outlined>가는길보기</v-chip>
     </v-card>
+    <v-card-text outlined>{{moveResult}}</v-card-text>
     <v-card-text>{{selectMatch.stadiumname}} {{fnc.timeToDate(selectMatch.time)}} 의 경기는
         <code>{{success}}%</code> 확률로 정상 진행되고 있습니다.
     </v-card-text>
@@ -120,18 +120,22 @@ import {store} from '@/store'
 import FutMap from './FutMap'
 import FutHead from './FutHead'
 export default {
-  created : async function (){
+  created(){
     if(!store.state.futsal.selectMatch.hasOwnProperty('futsalmatchseq')){
-      await axios.get(`/futsal/match/${this.$route.params.matchId}`)
+      await axios.get(`${this.context}/futsal/match/${this.$route.params.matchId}`)
       .then(res =>{
         store.state.futsal.selectMatch = res.data
         this.selectMatch = res.data
+        this.navigation()
       })
+    }else{
+      this.navigation()
     }
   },
   components:{FutHead,FutMap},
   data(){
     return {
+      context:store.state.context,
       height: 30,
       success: 100,
       selectMatch: store.state.futsal.selectMatch,
@@ -142,9 +146,19 @@ export default {
         '상급 매치는 공좀 차는분만 오세요.'
       ],
       mapView: true,
+      moveInfo: '',
+      temp: '',
+      temp2: ''
     }
   },
   computed: {
+    moveResult(){
+      return this.moveInfo ? 
+        `${parseInt(this.moveInfo.properties.totalTime/60)}분 총 거리 : ${
+          (this.moveInfo.properties.totalDistance/1000).toFixed(2)
+          }Km 택시 예상요금 : ${this.moveInfo.properties.taxiFare} 원`
+        : "현재위치가 검색되지 않습니다."
+    },
     matchRule(){
       let match = this.selectMatch
       return match.num ?
@@ -171,7 +185,8 @@ export default {
         '(평일 이용시 주차 차량 번호 기입 필수, 2시간 이상 주차시 추가 비용 발생)',
         '화장실은1층 화장실 이용',
         '자판기 및 흡연 구역 있음'
-      ]}
+      ]
+    },
   },
   methods: {
     viewTogle(){
@@ -191,13 +206,58 @@ export default {
         default : return item
       }
     },
+    addressSearch(search,callBack){
+      let goalLocation = {lng: 126.975598, lat:37.554034}
+      axios({url: 'http://dapi.kakao.com/v2/local/search/address.json',//'http://dapi.kakao.com/v2/local/search/keyword.json',
+        headers:{
+          Authorization: 'KakaoAK 28d9076d78b899a3f85bb1c12320b0c3'
+        },
+        method: 'GET',
+        params: {
+          query: search
+        }
+      }).then(res=>{
+        this.temp = res.data
+        goalLocation = {lng: res.data.documents[0].x, lat: res.data.documents[0].y}
+        callBack(goalLocation)
+      }).catch(e=>alert(`adressSearch ${e}`))
+    },
+    currentLocation(callBack){
+      let location = {}
+      navigator.geolocation.getCurrentPosition(async function(pos) {
+      location.lat = pos.coords.latitude
+      location.lng = pos.coords.longitude
+      callBack(location)
+      })
+    },
+    navigation(){
+      this.addressSearch(this.selectMatch.stadiumaddr,(goalLocation)=>{
+        this.currentLocation((location)=>{
+          axios.get(`http://api2.sktelecom.com/tmap/routes`,{
+            params: {
+              format: 'json',
+              version: '2',
+              appKey: '5c88a4e4-0f6d-4002-9989-f9e35e5257fe',
+              endX: goalLocation.lng,
+              endY: goalLocation.lat,
+              startX: location.lng,
+              startY: location.lat,
+              reqCoordType: 'WGS84GEO',
+              resCoordType: 'WGS84GEO'
+            }
+          }).then(res=>{
+            this.moveInfo = res.data.features[0]
+          }).catch(e=>alert(`액시오스 실패 ${e}`))
+        })
+      })
+    },
     payment(){
       if(store.state.person.hasOwnProperty('userid')){
-        axios.post(`/res/${this.$route.params.matchId}`
+        axios.post(`${this.context}/res/${this.$route.params.matchId}`
           ,store.state.person)
         .then(res=>{
           if(res.data){
-            axios.put(`/futsal/match/${this.$route.params.matchId}`)
+            axios.put(`${this.context}/futsal/match/${this.$route.params.matchId}`)
             .then(()=>{
               alert('결제성공')
               this.$router.push({name: 'futsalhome'})

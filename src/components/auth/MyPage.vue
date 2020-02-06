@@ -368,7 +368,7 @@ export default {
   name: 'Payment',
   data() {
     return {
-      context : 'http://localhost:8080/',
+      context : store.state.context,
       state: store.state,
       dialog1 : false,
       dialog2 : false,

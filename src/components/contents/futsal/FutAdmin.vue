@@ -10,9 +10,10 @@
     @click="marker()"
     style="width:100%;height:400px;">
   </vue-daum-map>
-  <v-btn @click="test()">롤</v-btn>
+  <v-btn @click="test()">롤1</v-btn>
   <v-btn @click="test2()">롤2</v-btn>
   <v-btn @click="test3()">롤3</v-btn>
+  <v-btn @click="test4()">롤4</v-btn>
    <div>
     <!-- <span>{{ $socket.connected ? 'Connected' : 'Disconnected' }}</span> -->
   </div>
@@ -59,6 +60,7 @@ export default {
   },
   data(){
     return {
+      context:store.state.context,
       mapData:{
         appKey: '789b2dc91d9235fae744572478c25f39', // 테스트용 appkey
         center: {lat:33.450701, lng:126.570667}, // 지도의 중심 좌표
@@ -104,7 +106,7 @@ export default {
     },
     test2(){
       var req = new XMLHttpRequest();
-      req.open('GET',`/futsal/test`, true);
+      req.open('GET',`${this.context}/futsal/test`, true);
       req.onreadystatechange = function () {
         if (req.readyState == 4) {
           alert(req)
@@ -118,7 +120,7 @@ export default {
       return new Promise(function(resolve, reject) {
         // Do the usual XHR stuff
         var req = new XMLHttpRequest();
-        req.open('GET', '/futsal/test');
+        req.open('GET', `${this.context}/futsal/test`);
         /* req.setRequestHeader("Access-Control-Allow-Origin", "*")
         req.setRequestHeader("Authorization", "Bearer XXXXX") */
         req.onload = function() {
@@ -145,15 +147,40 @@ export default {
       });
     },
     test(){
-			axios.get(`/futsal/test`)
-			.then(res=>{
-				this.lol = res.data
-			})
-			.catch(e=>{
-        alert(e)
-      })
+			let currentLocation = {x: 126.925356, y:37.553756}
+      let goalLocation = {x: 126.975598, y:37.554034}
+      axios.get(`http://api2.sktelecom.com/tmap/routes`,{
+        params: {
+          format: 'json',
+          version: '2',
+          appKey: '5c88a4e4-0f6d-4002-9989-f9e35e5257fe',
+          endX: goalLocation.x,
+          endY: goalLocation.y,
+          startX: currentLocation.x,
+          startY: currentLocation.y,
+          reqCoordType: 'WGS84GEO',
+          resCoordType: 'WGS84GEO',
+          //trafficInfo=Y
+        }
+      }).then(res=>{
+          this.moveInfo = res.data.features[0]
+        }).catch(e=>alert(`액시오스 실패 ${e}`))
 		},
-		//https://developers.kakao.com/docs/restapi/local#%ED%82%A4%EC%9B%8C%EB%93%9C-%EA%B2%80%EC%83%89
+    //https://developers.kakao.com/docs/restapi/local#%ED%82%A4%EC%9B%8C%EB%93%9C-%EA%B2%80%EC%83%89
+    test4(){
+      axios({url: 'http://dapi.kakao.com/v2/local/search/address.json',
+				headers:{
+					Authorization: 'KakaoAK 28d9076d78b899a3f85bb1c12320b0c3'
+				},
+				method: 'GET',
+				params: {
+					query: '경기도 시흥시 신천동',
+					page: this.page
+				}
+			}).then(res=>{
+        this.location = res
+      })
+    },
 		crawl(){
 			axios({url: 'http://dapi.kakao.com/v2/local/search/keyword.json',
 				headers:{
@@ -184,7 +211,7 @@ export default {
 					stadiumimg: '1,2,3', remain: remain(), adminname: '펭수'
 					}))
 				this.table = table
-				axios.post(`${store.state.futsal.context}/futsal/insertdummy`,table,store.state.futsal.header)
+				axios.post(`${this.context}/futsal/insertdummy`,table,store.state.futsal.header)
 				.catch(e => {
 					alert(e)
 				})

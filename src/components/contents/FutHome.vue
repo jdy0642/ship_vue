@@ -28,6 +28,7 @@ export default {
   components:{FutHead,FutSearchBar,FutReservation,FutReservationTable,FutMap},
   data(){
     return{
+      context:store.state.context,
       fnc: store.state.futsal.fnc,
       headImg: [
         'https://blog.hmgjournal.com/images/contents/article/20161214-Reissue-night-football-03.jpg',
@@ -44,10 +45,9 @@ export default {
   },
   created(){
     let table = []
-    axios.get(`/futsal/`)
+    axios.get(`${this.context}/futsal/`)
       .then(res => {
         table = res.data
-        
     }).catch(e => {
       alert(`axios fail ${e} 랜덤데이터 대체`)
       const ranAddr = () => '어디어디 어디 주소 어디어디 어디 길'
@@ -87,7 +87,7 @@ export default {
     },
     setStadium(stadiumName){
       this.stadiumName = stadiumName.place_name ? stadiumName.place_name : stadiumName
-      this.mapTogle = this.stadiumName==='' ? false : true
+      this.mapTogle = this.stadiumName == '' ? false : true
     },
     setGps(location){
       this.location = {lat: location.lat,lng: location.lng}

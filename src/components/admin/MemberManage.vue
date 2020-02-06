@@ -53,10 +53,11 @@
 </template>
 <script>
 import axios from 'axios'
+import { store } from '../../store'
 export default {
   created(){
     axios
-         .get(`/customermanage`)
+         .get(`${this.context}/customermanage`)
          .then(res =>{
             this.lists = res.data
             for(let i=0; i<this.lists.length;i++){
@@ -71,7 +72,7 @@ export default {
    data(){
       return{
         gender:[],
-    context : 'http://localhost:8080',
+    context : store.state.context,
     fixedHeader: true,
     page: 1,
     pageCount: 0,
