@@ -1,5 +1,5 @@
 <template>
-<div style="height:870px;">
+<div style="height:938px;">
   <div class="panels">
     <div class="panels__container">
       <div class="panel">
@@ -251,7 +251,7 @@ export default {
           transform: translate3d(0, 0, 0);
 }
 /* Responsive */
-@media (max-width: 550px) {
+@media (max-width: 350px) {
 .panels {
     /* Inactive panel */
     /* Override styles for an inactive panel AFTER the hovered panel */

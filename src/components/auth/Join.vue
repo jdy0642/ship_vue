@@ -1,9 +1,9 @@
 <template>
 <div id="app">
-  <v-btn color="indigo darken-1" dark fixed center @click="dialog = !dialog" style="font-size:15px"> 회원가입 </v-btn>
+  <v-btn color="blue darken-2" dark fixed center @click="dialog = !dialog" style="font-size:15px"> 회원가입 </v-btn>
     <v-dialog v-model="dialog" width="600px"  >
       <v-card>
-        <v-card-title class="red darken-2" style="font-color:white" > 아이디 생성 </v-card-title>
+        <v-card-title class="red darken-2" style="font-color:white" > 회 원 가 입 </v-card-title>
   <v-container>   
     <v-layout justify-center >
       <v-flex >
@@ -36,10 +36,6 @@
                 <v-flex  md8 style="padding:0px;">
                   <v-text-field style="margin:0px;" v-validate="'required|max:10'"  required
                   center v-model="email" label="이메일" :rules="emailRules"></v-text-field>
-                </v-flex>
-
-                <v-flex xs8 md8 style="padding:0px;">
-                    <v-text-field v-model="job" style="margin:0px;" required label="직업"></v-text-field>
                 </v-flex>
 
                 <v-flex xs8 md8>
@@ -101,20 +97,35 @@ export default {
         checkbox:false,
         idRules: [
           v => !!v || '아이디를 입력해주세요',
+          /* v =>  {
+          let result = true
+          let url = `${this.context}/idcheck`
+          let data = {userid : v}
+          let headers= {
+              'authorization': 'JWT fefege..',
+              'Accept' : 'application/json',
+              'Content-Type': 'application/json'
+        } 
+        axios
+        .post(url, data, headers)
+        .then(res=>{
+            if(res.data.result === "SUCCESS"){
+              result = false
+            }
+          })
+        .catch(()=>{
+          alert('axios fail')
+        })
+         return result || '다른 아이디를 입력해 주세요'
+        }, */
           v => v.length <= 10 || '아이디는 10자를 넘을 수 없습니다',
           () => false
         ],
+
         emailRules: [
           v => !!v || '이메일을 입력해주세요',
           v => /.+@.+/.test(v) || '유효하지 않은 이메일 형태입니다',
         ],
-        // date: null,
-      //   trip: {
-      //     name: '',
-      //     location: null,
-      //     start: null,
-      //     end: null,
-      // },
         select: null,
         userid:'',
         passwd:'',
@@ -139,6 +150,25 @@ export default {
           this.summonername = null
         }
       },
+        userid: function(param){
+          let url = `${this.context}/idcheck`
+          let data = {userid : param}
+          let headers= {
+              'authorization': 'JWT fefege..',
+              'Accept' : 'application/json',
+              'Content-Type': 'application/json'
+        } 
+        axios
+        .post(url, data, headers)
+        .then(res=>{
+            if(res.data.result === "SUCCESS"){
+                alert('이미 있는 아이디입니다')
+            }
+      })
+      .catch(()=>{
+         alert('axios fail')
+        })
+        }
       },
       methods:{
       join(){
