@@ -1,9 +1,9 @@
 <template>
 <div id="app">
-  <v-btn color="indigo darken-1" dark fixed center @click="dialog = !dialog" style="font-size:15px"> 회원가입 </v-btn>
+  <v-btn color="blue darken-2" dark fixed center @click="dialog = !dialog" style="font-size:15px"> 회원가입 </v-btn>
     <v-dialog v-model="dialog" width="600px"  >
       <v-card>
-        <v-card-title class="red darken-2" style="font-color:white" > 아이디 생성 </v-card-title>
+        <v-card-title class="red darken-2" style="font-color:white" > 회 원 가 입 </v-card-title>
   <v-container>   
     <v-layout justify-center >
       <v-flex >
@@ -36,10 +36,6 @@
                 <v-flex  md8 style="padding:0px;">
                   <v-text-field style="margin:0px;" v-validate="'required|max:10'"  required
                   center v-model="email" label="이메일" :rules="emailRules"></v-text-field>
-                </v-flex>
-
-                <v-flex xs8 md8 style="padding:0px;">
-                    <v-text-field v-model="job" style="margin:0px;" required label="직업"></v-text-field>
                 </v-flex>
 
                 <v-flex xs8 md8>
