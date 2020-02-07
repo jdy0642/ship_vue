@@ -5,8 +5,8 @@
     <v-col>
     <v-responsive style="width:350px;margin-left:40px;margin-top:30px;height:650px">
       <v-card class="mx-auto" style="margin-top:10px;height:700px"> 
-        <v-img style="width:650px;height:800px" :src="require(`@/assets/img/lol/${state.selectGame.imgurl}.jpg`)">
-          <div style="width:300px;height:560px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, transparent 160px)">
+        <v-img style="width:300px;height:600px" :src="require(`@/assets/img/lol/${state.selectGame.imgurl}.jpg`)">
+          <div style="width:300px;height:600px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, transparent 160px)">
           <br />
             <!-- <v-img style="width:80px;" :src="state.selectGame.img" alt="" /> -->
             <!-- <v-img style="width:90px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img> -->
@@ -20,9 +20,9 @@
         </v-img>
       </v-card>
     </v-responsive>
-      <v-row style="margin-left:110px">
+      <v-row style="margin-left:90px">
         <update-room></update-room>
-        <v-btn center style="margin-left:30px" @click="deleteRoom()"><v-icon>mdi-close</v-icon></v-btn>
+        <v-btn color="red" center style="margin-left:30px" @click="deleteRoom()"> 방 삭제</v-btn>
       </v-row>
     </v-col>
     
