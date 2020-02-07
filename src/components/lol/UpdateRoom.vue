@@ -49,8 +49,7 @@ export default {
         }
       axios
       .put(url, data,headers)
-      .then(res=>{
-        alert(res)
+      .then(()=>{
         this.$router.push({path: '/lol'})
       })
       .catch(()=>{

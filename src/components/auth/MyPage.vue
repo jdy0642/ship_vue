@@ -9,47 +9,45 @@
         <v-btn color="primary" dark v-on="on">회원정보수정</v-btn>
       </template>
       <v-card>
-        <v-card-title>
+        <v-card-title class="green">
           <span class="headline">회원정보</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12" sm="6" md="4">
-                <v-text-field label="아이디" hint="변경불가" required></v-text-field>
+                <v-text-field label="아이디" v-model="userid" hint="변경불가" ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="4">
-                <v-text-field label="이름" required></v-text-field>
+                <v-text-field label="이름" v-model="name" hint="변경불가" ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Email*" required></v-text-field>
+                <v-text-field label="Email*" v-model="email" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field :rules="rules" counter="25" label="Password*" type="password" required></v-text-field>
+                <v-text-field :rules="rules" counter="25" label="Password*" 
+                v-model="passwd" type="password" required></v-text-field>
               </v-col>
-              <v-col cols="12" sm="6">
-                <v-select
-                  :items="['0-17', '18-29', '30-54', '54+']"
-                  label="Age*"
-                  required>
-                </v-select>
+              <v-col cols="12">
+                <v-text-field label="소환사명*" v-model="summonername" required></v-text-field>
               </v-col>
-              <v-col cols="12" sm="6">
-                <v-autocomplete
-                  :items="['여자', '남자']"
-                  label="성별"
-                  multiple>
-                </v-autocomplete>
+              <v-col cols="12">
+                <v-text-field label="연락처*" v-model="tel" required></v-text-field>
+              </v-col>
+              
+              <v-col cols="12"> 
+                  <v-autocomplete v-model="interest" label="관심사" :items="['풋살', '야구(준비중입니다)', '테니스(준비중입니다)', '롤', 
+                  '피파(준비중입니다)', '배틀그라운드(준비중입니다)', '오버워치(준비중입니다)']" required ></v-autocomplete>
               </v-col>
             </v-row>
           </v-container>
-          <small>수정 완료후 저장버튼을 눌러주세요.</small>
+          <medium>수정 완료후 저장버튼을 눌러주세요.</medium>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog1 = false">닫기</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog1 = false">저장</v-btn>
-        </v-card-actions>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn text color="primary" @click="save()">저장</v-btn>
+        <v-btn text color="red" @click="dialog1 = false">CANCEL</v-btn>
+      </v-card-actions>
       </v-card>
     </v-dialog>
   </v-toolbar>
@@ -364,20 +362,51 @@
 </template>
 <script>
 import {store} from "../../store"
+import axios from 'axios'
 export default {
-  name: 'Payment',
   data() {
     return {
       context : store.state.context,
-      state: store.state,
       dialog1 : false,
       dialog2 : false,
       rules: [v => v.length <= 25 || 'Max 25 characters'],
       items: [5000, 10000, 20000],
-      value:''
+      value:'',
+      state: store.state,
+      userid: store.state.person.userid,
+      name: store.state.person.name,
+      email: store.state.person.email,
+      summonername: store.state.person.summonername,
+      tel: store.state.person.tel,
+      passwd:'',
+      interest:''
     }
   },
   methods : {
+    save(){
+        let url = `${store.state.context}/save/${this.userid}`
+        let data =  {
+          email: this.email,
+          passwd: this.passwd,
+          summonername: this.summonername,
+          tel:this.tel,
+          interest:this.interest
+        }
+        let headers= {
+               'authorization': 'JWT fefege..',
+               'Accept' : 'application/json',
+               'Content-Type': 'application/json'
+        }
+      axios
+      .put(url, data,headers)
+      .then(()=>{
+        alert("수정되었습니다. 창을 닫아주세요")
+        this.$router.push({path: '/mypage'})
+      })
+      .catch(()=>{
+         alert('axios fail')
+        })
+      },
     pay(){
       alert('아직 안댄다 색휘야!!')
     }
