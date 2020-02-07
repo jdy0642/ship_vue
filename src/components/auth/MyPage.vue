@@ -1,12 +1,12 @@
 <template>
-<div style="height:860px;">
+<div style="height:940px;">
   <v-card>
     <v-toolbar flat>
       <v-toolbar-title class="title">MY Page</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-dialog v-model="dialog1" persistent max-width="30%">
       <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on">회원정보수정</v-btn>
+        <v-btn color="green" dark v-on="on">회원정보수정</v-btn>
       </template>
       <v-card>
         <v-card-title class="green">
@@ -56,7 +56,7 @@
         max-width="39%"
         max-height="14%">
         <v-card-title>
-        <span class="title font-weight-light">{{state.person.name}}</span>
+        <span >{{state.person.name}}</span>
         <v-card-text class="headline font-weight-bold">MY POINT
         <span>{{state.person.point}}원</span>
         <v-dialog v-model="dialog2" persistent max-width="600px">
@@ -296,29 +296,30 @@
           <div>
             <div class="title">전적</div>
             <i class="fa fa-trophy"></i>
-            <div class="value">{{state.person.win}}승</div>
+            <div style="margin-top:5px" class="value">{{state.person.win}}승</div>
           </div>
           <div>
             <div class="title">득점</div>
             <i class="fa fa-gamepad"></i>
-            <div class="value">{{state.person.score}}점</div>
+            <div style="margin-top:5px" class="value">{{state.person.score}}점</div>
           </div>
           <div>
             <div class="title">런닝</div>
             <i class="fa fa-heartbeat"></i>
-            <div class="value">{{state.person.km}}Km</div>
+            <div style="margin-top:5px" class="value">{{state.person.km}}Km</div>
           </div>
           <div>
             <div class="title">경기수</div>
-            <i class="fa fa-star"></i>
-            <div class="value infinity">3회</div>
+            <i class="fa fa-futbol"></i>
+              <v-icon>sports_soccer</v-icon>
+            <div style="margin-top:5px" class="value infinity">10회</div>
           </div>
         </div>
       </div>
     </div>
       <img class="futsalimg" src="https://s3.eu-north-1.amazonaws.com/norkring/_articleLandscape/iStock-1149063259.jpg?mtime=20190925151000">
   </div>
-  <div class="card green">
+  <div style="margin-top:40px" class="card green">
     <div class="additional">
       <div class="user-card">
         <div class="level center">
@@ -329,28 +330,28 @@
         style="margin-top: 60%;">
       </div>
       <div class="more-info">
-        <h1>Ranked</h1>
+        <h1 style="margin-top:5px;margin-left:7px">Tier : {{tier}}</h1>
         <img width="200px" height="150px" src="https://opgg-static.akamaized.net/images/medals/challenger_1.png?image=q_auto&v=1" style="margin-left: 30px;">
-        <div class="stats">
+        <div class="stats" style="margin-left:30px">
           <div>
             <div class="title">LP</div>
             <i class="fa fa-gamepad"></i>
-            <div class="value">1,169</div>
+            <div class="value">{{lp}}</div>
           </div>
           <div>
             <div class="title">승</div>
-            <i class="fa fa-trophy"></i>
-            <div class="value">641</div>
+            <i class="fa fa-thumbs-up"></i>
+            <div class="value">{{win}}</div>
           </div>
           <div>
             <div class="title">패</div>
             <i class="fa fa-thumbs-down"></i>
-            <div class="value">621</div>
+            <div class="value">{{lose}}</div>
           </div>
           <div>
             <div class="title">승률</div>
             <i class="fa fa-bar-chart"></i>
-            <div class="value infinity">51%</div>
+            <div class="value infinity">{{winratio}}</div>
           </div>
         </div>
       </div>
@@ -379,8 +380,35 @@ export default {
       summonername: store.state.person.summonername,
       tel: store.state.person.tel,
       passwd:'',
-      interest:''
+      interest:'',
+      temp:'',
+      tier:'',
+      photo:'',
+      lp:'',
+      win:'',
+      lose:'',
+      winratio:''
+      
     }
+  },
+  created(){
+    let url = `${this.context}/lol/summoner/userName=${this.state.person.summonername}`
+    axios
+    .get(url)
+    .then(res=>{
+      this.temp = res.data[0]
+      this.tier = this.temp.tier
+      this.lp = this.temp.lp
+      this.win = this.temp.win
+      this.lose = this.temp.lose
+      this.winratio = this.temp.winratio
+      /* this.crawltier = this.temp.tier
+      this.crawlrate = this.temp.rate
+      this.img = this.temp.photo */ 
+    })
+    .catch(e=>{
+      alert('axios fail'+e)
+    })
   },
   methods : {
     save(){
