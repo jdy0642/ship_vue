@@ -93,41 +93,32 @@
     </v-card-title>
 </v-card>
 <v-container class="gameinfo">
-    <v-expansion-panels
-        v-for="(item,i) in 1"
-        :key="i"
-    >
+    <v-expansion-panels v-for="(item,i) of 1" :key="i">
       <v-expansion-panel>
         <v-expansion-panel-header>Match 1</v-expansion-panel-header>
         <v-expansion-panel-content>
     <v-row style="justify-content: center;">
           <v-card style="margin:2%;" width="10%">
             <br>
-          <p
-      class="text-break"
-      style="max-width: 3rem;"
-    >
-      12/12 토요일 15:00
-    </p>
+          <p class="text-break" style="max-width: 3rem;">
+            {{timeToDate(array[0].resdate)}}
+          </p>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="30%">
         <p></p>
-        <v-text>부천 크라우드 76</v-text>
-        <br>
-        <v-text>남성매치</v-text>
-        <v-text>(초급)</v-text>
+        <v-text>{{array[0].futsalmatchseq.stadiumname}}</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>개인득점</v-text>
         <p></p>
-        <v-text>2점</v-text>
+        <v-text>{{array[0].score}}득점</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>런닝</v-text>
         <p></p>
-        <v-text>7KM</v-text>
+        <v-text>{{array[0].km}}KM</v-text>
     </v-card>
     </v-row>
         </v-expansion-panel-content>
@@ -387,14 +378,13 @@ export default {
       lp:'',
       win:'',
       lose:'',
-      winratio:''
-      
+      winratio:'',
+      array:''
     }
   },
   created(){
-    let url = `${this.context}/lol/summoner/userName=${this.state.person.summonername}`
     axios
-    .get(url)
+    .get(`${this.context}/lol/summoner/userName=${this.state.person.summonername}`)
     .then(res=>{
       this.temp = res.data[0]
       this.tier = this.temp.tier
@@ -409,8 +399,20 @@ export default {
     .catch(e=>{
       alert('axios fail'+e)
     })
+    axios
+    .get(`${this.context}/res/mymatch/${this.state.person.personseq}`)
+    .then(res=>{
+      this.array = res.data
+    })
+    .catch(e=>{
+      alert('axios fail'+e)
+    })
   },
   methods : {
+    timeToDate(param){
+          const time = new Date(param)
+          return `${time.getFullYear()}년 ${(time.getMonth()+1)}월 ${time.getDate()}일 ${time.getHours()}시`
+        },
     save(){
         let url = `${store.state.context}/save/${this.userid}`
         let data =  {
