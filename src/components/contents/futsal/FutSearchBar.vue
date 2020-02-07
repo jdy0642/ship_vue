@@ -7,16 +7,14 @@
 				<span class="input-group-btn">
 					<button @click="submit" class="btn btn-default" type="button">Go!</button>
 				</span>
-				<v-btn>즐겨찾기</v-btn>
 				<v-btn @click="gps">현재위치</v-btn>
 			</div>
-			{{weather(stadiumName)}}
 		</div>
 	</div>
 </div>
 </template>
 <script>
-import axios from "axios"
+//import axios from "axios"
 //import { store } from '@/store'
 export default{
 	created(){
@@ -43,7 +41,7 @@ export default{
 				await send(location)
 			})
 			this.location = location
-		},
+		},/* 
 		weather(stadiumName){
 			let weather = ''			
 			axios
@@ -61,8 +59,8 @@ export default{
 				//alert('axios fail'+e)
 			})
 			return weather
-		},
-  }
+		}, */
+	}
 }
 </script>
 <style scoped>
