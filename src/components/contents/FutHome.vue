@@ -9,10 +9,17 @@
     :propImg="headImg" class="table"></fut-head>
   <fut-search-bar :style="`height: ${height[1]}vh`" class="table"
     @sendStadiumName="setStadium" @sendLocation="setGps"></fut-search-bar>
+  <v-card>
+    <v-card-text v-for="(msg,i) of msgList" :key="i">
+      {{msg}}
+    </v-card-text>
+    <v-text-field v-model="msg" @keyup.enter="botChat()"></v-text-field>
+  </v-card>
   <fut-reservation :style="`height: ${height[2]}vh`" class="table"
     @sendTime="setTime"></fut-reservation>
   <fut-reservation-table ma-auto class="table"  
     :propTime="time" :propStadium="stadiumName" :propTable="fnc.matchFilter(time,stadiumName,table)"></fut-reservation-table>
+
 </div>
 </template>
 
@@ -41,6 +48,9 @@ export default {
       time : Date.now(),
       table : [],
       height:[40,5,7],
+      msgList: ["무엇을 도와드릴까요?"],
+      msg: "",
+      console: ""
     }
   },
   created(){
@@ -92,6 +102,14 @@ export default {
     setGps(location){
       this.location = {lat: location.lat,lng: location.lng}
       this.mapTogle = true
+    },
+    botChat(){
+      axios({url: `${store.state.context}/bot/${this.msg}`, method: 'GET'})
+      .then(res=>{
+        this.console = res.data
+      })
+      this.msgList.push(this.msg)
+      this.msg = ''
     }
   }
 }

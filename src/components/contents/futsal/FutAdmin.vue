@@ -16,6 +16,8 @@
   <v-btn @click="test4()">롤4</v-btn>
   <v-btn @click="crawl()">크롤링</v-btn>
   <v-btn @click="test5()">컬렉션</v-btn>
+  <v-btn @click="test6()">봇</v-btn>
+  <v-text-field v-model="search" @keyup.enter="test6()"></v-text-field>
   <div>
     <!-- <span>{{ $socket.connected ? 'Connected' : 'Disconnected' }}</span> -->
   </div>
@@ -75,7 +77,8 @@ export default {
       searchresult: '',
       lol: '',
       pagination: '',
-      location: ''
+      location: '',
+      search: ''
     }
   },
   methods: {
@@ -187,6 +190,12 @@ export default {
       axios({url: `${store.state.context}/res/2`, method: 'GET'})
       .then(res=>{
         this.console = res
+      })
+    },
+    test6(){
+      axios({url: `${store.state.context}/bot/${this.search}`, method: 'GET'})
+      .then(res=>{
+        this.console = res.data
       })
     },
 		crawl(){
