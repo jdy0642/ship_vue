@@ -30,6 +30,7 @@
 					v-for="n of parseInt(item.difficulty)" 
 					:key="n" src="@/assets/img/matchRule/star.png">
 				</v-img>
+				
 			</template>
 			<template v-slot:item.remain="{item}">
 				<v-btn @click="selectMatch(item)" :color="item.remain > 3 ? '#2478FF' : 

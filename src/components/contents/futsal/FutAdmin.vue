@@ -15,7 +15,10 @@
   <v-btn @click="test3()">롤3</v-btn>
   <v-btn @click="test4()">롤4</v-btn>
   <v-btn @click="crawl()">크롤링</v-btn>
-   <div>
+  <v-btn @click="test5()">컬렉션</v-btn>
+  <v-btn @click="test6()">봇</v-btn>
+  <v-text-field v-model="search" @keyup.enter="test6()"></v-text-field>
+  <div>
     <!-- <span>{{ $socket.connected ? 'Connected' : 'Disconnected' }}</span> -->
   </div>
   <v-btn @click="clickButton('하이')">socket</v-btn>
@@ -43,22 +46,22 @@ import VueDaumMap from 'vue-daum-map'
 export default {
   components:{VueDaumMap},
   created(){
-    this.$socket.$subscribe('SEND', payload => {
+    /* this.$socket.$subscribe('SEND', payload => {
       alert(payload)
     })
     this.$socket.$subscribe('user', payload => {
       this.console = payload
     })
-    this.console = this.$socket
+    this.console = this.$socket */
   },
-  sockets: {
+  /* sockets: {
     connect() {
       alert('socket connected')
     },
     customEmit(val) {
       alert(`this method was fired by the socket server. eg: io.emit("customEmit", data)${val}`)
-    }
-  },
+    } 
+  },*/
   data(){
     return {
       context:store.state.context,
@@ -74,14 +77,15 @@ export default {
       searchresult: '',
       lol: '',
       pagination: '',
-      location: ''
+      location: '',
+      search: ''
     }
   },
   methods: {
-    clickButton(val) {
+    /* clickButton(val) {
       // this.$socket.client is `socket.io-client` instance
       this.$socket.client.emit('SEND', val);
-    },
+    }, */
     // 지도가 로드 완료되면 load 이벤트 발생
     onLoad (map) {
       // 지도의 현재 영역을 얻어옵니다
@@ -180,6 +184,18 @@ export default {
 				}
 			}).then(res=>{
         this.location = res
+      })
+    },
+    test5(){
+      axios({url: `${store.state.context}/res/2`, method: 'GET'})
+      .then(res=>{
+        this.console = res
+      })
+    },
+    test6(){
+      axios({url: `${store.state.context}/bot/${this.search}`, method: 'GET'})
+      .then(res=>{
+        this.console = res.data
       })
     },
 		crawl(){
