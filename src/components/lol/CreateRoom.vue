@@ -14,9 +14,9 @@
             <v-col center sm="1" md="6">
              <v-radio-group v-model="row" row>
         <v-radio label="개인/2인랭크게임" value="rank" ></v-radio>
-        <v-radio label="칼바람(준비중 )" ></v-radio>
-        <v-radio label="URF(준비중 )" ></v-radio>
-        <v-radio label="롤토체스(준비중 )" ></v-radio>
+        <v-radio label="칼바람(준비중 )" @click="prepare()"></v-radio>
+        <v-radio label="URF(준비중 )" @click="prepare()"></v-radio>
+        <v-radio label="롤토체스(준비중 )" @click="prepare()"></v-radio>
         <!-- <v-radio label="칼바람나락" value="kal"></v-radio> -->
       </v-radio-group>
       <v-divider></v-divider>
@@ -131,6 +131,9 @@ export default{
     }
   },
   methods:{
+    prepare(){
+      alert('준비중입니다.')
+    },
     lol(){
       this.$router.push({path:'/lol'})
     },
@@ -150,7 +153,6 @@ export default{
     })
     },
     createroom(){
-      // this.crawling()
       let url = `${this.context}/lol/createroom`
            let headers = {
               'authorization': 'JWT fefege..',
