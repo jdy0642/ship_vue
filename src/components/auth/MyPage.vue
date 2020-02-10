@@ -97,16 +97,18 @@
       <v-expansion-panel>
         <v-expansion-panel-header>Match 1</v-expansion-panel-header>
         <v-expansion-panel-content>
-    <v-row style="justify-content: center;">
-          <v-card style="margin:2%;" width="10%">
+    <v-row style="justify-content:center;">
+          <v-card style="margin:3%;" width="13%">
             <br>
-          <p class="text-break" style="max-width: 3rem;">
-            {{timeToDate(array[0].resdate)}}
-          </p>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="30%">
+                <p class="text-break" style="max-width: 4rem;">
+                  {{timeToDate(array[0].resdate)}}
+                </p>
+    </v-card >
+      <v-card style="margin:3%" class="title font-weight-light" width="33%" >
         <p></p>
-        <v-text>{{array[0].futsalmatchseq.stadiumname}}</v-text>
+        <v-text>경기장</v-text>
+        <p></p>
+        <v-text >{{array[0].futsalmatchseq.stadiumname}}</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
@@ -116,7 +118,7 @@
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
-        <v-text>런닝</v-text>
+        <v-text>뛴 거리</v-text>
         <p></p>
         <v-text>{{array[0].km}}KM</v-text>
     </v-card>
@@ -128,33 +130,33 @@
         <v-expansion-panel-header>Match 2</v-expansion-panel-header>
         <v-expansion-panel-content>
     <v-row style="justify-content: center;">
-          <v-card style="margin:2%;" width="10%">
+          <v-card style="margin:3%;" width="13%">
             <br>
           <p
       class="text-break"
-      style="max-width: 3rem;"
+      style="max-width: 4rem;"
     >
-      12/12 토요일 15:00
+      {{timeToDate(array[1].resdate)}}
     </p>
     </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="30%">
+      <v-card style="margin:3%" class="title font-weight-light" width="33%">
         <p></p>
-        <v-text>부천 크라우드 76</v-text>
+        <v-text>경기장</v-text>
+        <p></p>
+        <v-text>{{array[1].futsalmatchseq.stadiumname}}</v-text>
         <br>
-        <v-text>남성매치</v-text>
-        <v-text>(초급)</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>개인득점</v-text>
         <p></p>
-        <v-text>2점</v-text>
+        <v-text>{{array[1].score}}점</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>런닝</v-text>
         <p></p>
-        <v-text>7KM</v-text>
+        <v-text>{{array[1].km}}KM</v-text>
     </v-card>
     </v-row>
         </v-expansion-panel-content>
@@ -164,33 +166,33 @@
         <v-expansion-panel-header>Match 3</v-expansion-panel-header>
         <v-expansion-panel-content>
     <v-row style="justify-content: center;">
-          <v-card style="margin:2%;" width="10%">
+          <v-card style="margin:3%;" width="13%">
             <br>
           <p
       class="text-break"
-      style="max-width: 3rem;"
+      style="max-width: 4rem;"
     >
-      12/12 토요일 15:00
+      {{timeToDate(array[2].resdate)}}
     </p>
     </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="30%">
+      <v-card style="margin:3%" class="title font-weight-light" width="33%">
         <p></p>
-        <v-text>부천 크라우드 76</v-text>
+        <v-text>경기장</v-text>
+        <p></p>
+        <v-text>{{array[2].futsalmatchseq.stadiumname}}</v-text>
         <br>
-        <v-text>남성매치</v-text>
-        <v-text>(초급)</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>개인득점</v-text>
         <p></p>
-        <v-text>2점</v-text>
+        <v-text>{{array[2].score}}점</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>런닝</v-text>
         <p></p>
-        <v-text>7KM</v-text>
+        <v-text>{{array[2].km}}KM</v-text>
     </v-card>
     </v-row>
         </v-expansion-panel-content>
@@ -200,33 +202,33 @@
         <v-expansion-panel-header>Match 4</v-expansion-panel-header>
         <v-expansion-panel-content>
     <v-row style="justify-content: center;">
-          <v-card style="margin:2%;" width="10%">
+          <v-card style="margin:3%;" width="13%">
             <br>
           <p
       class="text-break"
-      style="max-width: 3rem;"
+      style="max-width: 4rem;"
     >
-      12/12 토요일 15:00
+      {{timeToDate(array[3].resdate)}}
     </p>
     </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="30%">
+      <v-card style="margin:3%" class="title font-weight-light" width="33%">
         <p></p>
-        <v-text>부천 크라우드 76</v-text>
+        <v-text>경기장</v-text>
+        <p></p>
+        <v-text>{{array[3].futsalmatchseq.stadiumname}}</v-text>
         <br>
-        <v-text>남성매치</v-text>
-        <v-text>(초급)</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>개인득점</v-text>
         <p></p>
-        <v-text>2점</v-text>
+        <v-text>{{array[3].score}}점</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>런닝</v-text>
         <p></p>
-        <v-text>7KM</v-text>
+        <v-text>{{array[3].km}}KM</v-text>
     </v-card>
     </v-row>
         </v-expansion-panel-content>
@@ -236,33 +238,33 @@
         <v-expansion-panel-header>Match 5</v-expansion-panel-header>
         <v-expansion-panel-content>
     <v-row style="justify-content: center;">
-          <v-card style="margin:2%;" width="10%">
+          <v-card style="margin:3%;" width="13%">
             <br>
           <p
       class="text-break"
-      style="max-width: 3rem;"
+      style="max-width: 4rem;"
     >
-      12/12 토요일 15:00
+      {{timeToDate(array[4].resdate)}}
     </p>
     </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="30%">
+      <v-card style="margin:3%" class="title font-weight-light" width="33%">
         <p></p>
-        <v-text>부천 크라우드 76</v-text>
+        <v-text>경기장</v-text>
+        <p></p>
+        <v-text>{{array[4].futsalmatchseq.stadiumname}}</v-text>
         <br>
-        <v-text>남성매치</v-text>
-        <v-text>(초급)</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>개인득점</v-text>
         <p></p>
-        <v-text>2점</v-text>
+        <v-text>{{array[4].score}}점</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>런닝</v-text>
         <p></p>
-        <v-text>7KM</v-text>
+        <v-text>{{array[4].km}}KM</v-text>
     </v-card>
     </v-row>
         </v-expansion-panel-content>
