@@ -20,28 +20,27 @@
                               <v-col>
                               <v-icon size="30px"> mdi-soccer</v-icon>
                                    <span style="color:white"> 서비스 지역 </span> <br />
-                                        <a >서울</a><br />
-                                        <a>경기</a> <br />
-                                        <!-- <a href="https://www.instagram.com" style="color:#999999"> 인천 </a> -->
-                                        <span>인천</span> <br />
-                                        <span>대전</span> 
+                                        <a >서울</a> <a style="margin-left:20px">경기</a><br />
+                                        <a>인천</a> <a style="margin-left:20px">대전</a><br />
+                                        <span>대구</span> <a style="margin-left:20px">부산</a><br />
+                                        <span>전주</span> <a style="margin-left:20px">울산</a>
                               </v-col>
                               <v-btn v-for="icon of icons" :key="icon" class="mx-4 white--text" icon @click="socialgo()">
                               <v-icon size="24px">{{ icon }}</v-icon>
                          </v-btn>
 
                               <v-col>
-                                   <v-icon size="30px"> mdi-vuetify</v-icon>
-                                   <span> 서울특별시 마포구 마포대로 10길 12 트레퍼빌딩 4층 405호 </span> <br />
-                                   <span> 주식회사 SHIP | 사업자번호 650-81-00575</span> <br />
-                                   <span> 전화 02-704-7983 | contact@gmail.com</span> <br />
-                                   <span> Copyright <strong>SHIP</strong> All rights reserved. </span>
+                                   <v-img src="required(@/assets/together2.png)"></v-img>
+                                   <span> 서울특별시 마포구 백범로 23 구프라자 지하1층 6강의실 </span> <br />
+                                   <span> 주식회사 doGether | 사업자번호 650-81-00575</span> <br />
+                                   <span> 전화 02-707-1480 | contact@gmail.com</span> <br />
+                                   <span> Copyright <strong>doGether</strong> All rights reserved. </span>
                               </v-col>
                          </v-row>
                     </v-card-text>
                     <v-divider></v-divider>
                     <v-card-text class="white--text">
-                         {{ new Date().getFullYear() }} — <strong>SHIP</strong>
+                         {{ new Date().getFullYear() }} — <strong>doGether</strong>
                     </v-card-text>
                </v-card>
           </v-footer>
@@ -69,7 +68,7 @@ export default {
      },
      methods:{
           socialgo(){
-        alert('준비중인 컨텐츠 입니다.')
+        alert('준비중인 서비스 입니다.')
       }
     }
 }

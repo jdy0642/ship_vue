@@ -85,6 +85,7 @@
                   <v-spacer></v-spacer>
                   <v-btn color="blue darken-1" text @click="dialog2 = false">취소</v-btn>
                 <v-btn color="blue darken-1" text @click="pay">결제</v-btn>
+                <v-btn><v-img style="" :src="require(`@/assets/payment.png`)" @click="kakao()"></v-img></v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -411,6 +412,36 @@ export default {
     })
   },
   methods : {
+    kakao(){
+      let data = {
+        cid: "TC0ONETIME",
+        partner_order_id: "partner_order_id",
+        partner_user_id: "partner_user_id",
+        item_name: "라이언빵",
+        quantity: "1",
+        total_amount: "1000",
+        vat_amount: "200",
+        tax_free_amount: "0",
+        approval_url: "https://developers.kakao.com/success",
+        fail_url: "https://developers.kakao.com/fail",
+        cancel_url: "https://developers.kakao.com/cancel"
+      }
+      let headers = {
+        "authorization": "KakaoAK 28d9076d78b899a3f85bb1c12320b0c3",
+        "Content-Type": "application/x-www-form-urlencoded",
+      }
+      let url = `https://kapi.kakao.com/v1/payment/ready`
+      axios
+      .post(url, data, headers)
+      .then(res=>{
+        alert(res)
+         let payUrl = res.data.next_redirect_pc_url
+         location.href = payUrl
+      })
+      .catch(e=>{
+         alert(e)
+        })
+    },
     timeToDate(param){
           const time = new Date(param)
           return `${time.getFullYear()}년 ${(time.getMonth()+1)}월 ${time.getDate()}일 ${time.getHours()}시`
