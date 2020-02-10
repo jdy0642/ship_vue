@@ -17,11 +17,12 @@
   <v-btn @click="crawl()">크롤링</v-btn>
   <v-btn @click="test5()">컬렉션</v-btn>
   <v-btn @click="test6()">봇</v-btn>
-  <v-text-field v-model="search" @keyup.enter="test6()"></v-text-field>
+  <v-text-field v-model="msg" @keyup.enter="test6()"></v-text-field>
   <div>
     <!-- <span>{{ $socket.connected ? 'Connected' : 'Disconnected' }}</span> -->
   </div>
   <v-btn @click="clickButton('하이')">socket</v-btn>
+  <div v-for="(item,index) of msgList" :key="index">{{item}}</div>
 </div>
 </template>
     /* @center_changed="onMapEvent('center_changed', $event)"
@@ -46,6 +47,40 @@ import VueDaumMap from 'vue-daum-map'
 export default {
   components:{VueDaumMap},
   created(){
+    let table = []
+    axios.get(`${this.context}/futsal/`)
+      .then(res => {
+        table = res.data
+    }).catch(e => {
+      alert(`axios fail ${e} 랜덤데이터 대체`)
+      const ranAddr = () => '어디어디 어디 주소 어디어디 어디 길'
+      const ranTel = () => `010-${[parseInt(Math.random()*9999)]}-${[parseInt(Math.random()*9999)]}`
+      const ranName = () => ['신촌','부산','용산','인천','서울','영등포'][parseInt(Math.random()*6)]
+      const rannum = () => [4,5,6][parseInt(Math.random()*3)]
+      const rangender = () => ['female','male'][parseInt(Math.random()*2)]
+      const ranrating = () => parseInt(Math.random()*3+1)
+      const rantime = x => x + Math.random()*1000*3600*24*13
+      const ranfacility = () => 'size0,shower0,park0,shoes0,wear0'
+      const remain = () => parseInt(Math.random()*12)
+      table = Array.from({length : 200},(_,i) => ({
+        futsalmatchseq: i,
+        time: rantime(Date.now()), stadiumname: ranName(),
+        stadiumaddr: ranAddr(), stadiumtel: ranTel(),
+        num : rannum(), gender: rangender(),difficulty: ranrating(),
+        shoes: 'shoes0', stadiumfacility: ranfacility(),
+        stadiumimg: '11,12,13', remain: remain(), adminname: '펭수'
+      }))
+    }).finally(()=>{
+      table.map(x =>{
+        x.stadiumGroundSize = x.stadiumfacility.split(',')[0]
+        x.stadiumShower = x.stadiumfacility.split(',')[1]
+        x.stadiumParking = x.stadiumfacility.split(',')[2]
+        x.stadiumShoesRental = x.stadiumfacility.split(',')[3]
+        x.stadiumDressRental = x.stadiumfacility.split(',')[4]
+      })
+      this.table = table
+      store.state.futsal.matchList = table	
+    })
     /* this.$socket.$subscribe('SEND', payload => {
       alert(payload)
     })
@@ -53,15 +88,14 @@ export default {
       this.console = payload
     })
     this.console = this.$socket */
-  },
   /* sockets: {
     connect() {
       alert('socket connected')
     },
     customEmit(val) {
       alert(`this method was fired by the socket server. eg: io.emit("customEmit", data)${val}`)
-    } 
-  },*/
+    } */
+  },
   data(){
     return {
       context:store.state.context,
@@ -78,7 +112,10 @@ export default {
       lol: '',
       pagination: '',
       location: '',
-      search: ''
+      search: '',
+      msg: '',
+      msgList: [],
+      table: []
     }
   },
   methods: {
@@ -193,26 +230,43 @@ export default {
       })
     },
     test6(){
-      axios({url: `${store.state.context}/bot/${this.search}`, method: 'GET'})
+      axios({url: `${store.state.context}/bot/${this.msg}`, method: 'GET'})
       .then(res=>{
+        this.msgList.push(this.msg)
+        this.msg = ''
         this.console = res.data
+        if(res.data.msg.includes('예약')){
+          let time = res.data.result.time
+          let year = time.match(/\d{1,4}년/)
+          let month = time.match(/\d{1,2}월/)
+          let day = time.match(/\d{1,2}일/)
+          let hour = time.match(/\d{1,2}시/)
+          let x = z => z.substring(0,z.length-1)
+          time = Date.parse(`${year ? x(year[0]) : new Date().getFullYear()}-${month ? x(month[0]) : new Date().getMonth()+1}-${day ? x(day[0]) : new Date().getDate()} ${hour ? x(hour[0]) : '00'}:00`)
+          alert(this.table.filter(j=>{
+            j.difficulty==3
+            //j.stadiumname == res.data.result.location || j.stadiumaddr.match(res.data.distinction.locationStack[0])
+          }).length)
+        }
       })
     },
-		crawl(){
+		crawl(location){
+      let result = ''
 			axios({url: 'http://dapi.kakao.com/v2/local/search/keyword.json',
 				headers:{
 					Authorization: 'KakaoAK 28d9076d78b899a3f85bb1c12320b0c3'
 				},
 				method: 'GET',
 				params: {
-					query: '서울 풋살장',
-					page: '2'
+					query: location,
+					page: '1'
 				}
 			}).then(res=>{
-        this.lol = res.data
+        result = res.data.documents
+        return result
       }).catch(e => {
 				alert(e)
-			})
+      })      
 		}
   }
 }
