@@ -31,11 +31,14 @@
         <v-btn fab dark color="indigo" style="margin-top:250px" @click="invite()">
           <v-icon dark>mdi-plus</v-icon>
         </v-btn>
+          <v-col>
+            <v-text-field type="text" v-model="champ"> </v-text-field>
+            <v-btn @click="champCrawl()">검색</v-btn>
+          </v-col>
       </v-card>
     </v-responsive>
-
   <v-responsive>
-    <iframe src="http://localhost:3000" style="margin-top:50px;margin-bottom:50px;margin-right:30px" width="450px" height="830px" frameborder="0"></iframe>
+    <iframe src="https://frogue.danbee.ai/?chatbot_id=3ea62809-b698-4f16-aabb-e623a9227fe0" style="margin-top:50px;margin-bottom:50px;margin-right:30px" width="450px" height="830px" frameborder="0"></iframe>
   </v-responsive>
     
         <!-- <v-flex style="margin-right:5px; margin-top:5px">
@@ -76,9 +79,21 @@ export default {
       state:store.state,
       context:store.state.context,
       temp:'',
+      champ:''
     }
   },
   methods: {
+    champCrawl(){
+      let url = `${this.context}/lol/chatbot/${this.champ}`
+      axios
+      .get(url)
+      .then(res =>{
+        this.temp = res.data
+      })
+      .catch(e=>{
+        alert(e)
+      })
+    },
     invite(){
       alert('친구 초대 준비중')
     },
@@ -125,9 +140,9 @@ export default {
     //   this.temp = res.data[0]
     //   this.summonername = res.data[0].summonername
     // })
-    let url2 = `http://192.168.5.46:3000`
+   /*  let url2 = `http://192.168.5.46:3000`
     axios
-    .get(url2)
+    .get(url2) */
     
   },
   // watch: {
