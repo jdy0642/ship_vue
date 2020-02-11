@@ -147,7 +147,8 @@ export default {
       ],
       mapView: true,
       moveInfo: '',
-      temp: ''
+      temp: '',
+      result:{}
     }
   },
   computed: {
@@ -254,13 +255,41 @@ export default {
         axios.post(`${this.context}/res/${this.$route.params.matchId}`
           ,store.state.person)
         .then(res=>{
-          if(res.data){
+          /* const host = 'https://cors-anywhere.herokuapp.com/http://kapi.kakao.com' */
+          let url = `/v1/payment/ready`
+          let header = {
+                'Authorization':'KakaoAK e0678ade6eb9926174c51399604603c9',
+                'Content-type':'application/x-www-form-urlencoded;charset=utf-8',
+                'Access-Control-Allow-Origin': '*'
+                }
+          let data = {
+              'cid': `TC0ONETIME`,
+              'partner_order_id': '1001',
+              'partner_user_id': 'test@test.com',
+              'item_name': '풋살',
+              'quantity': 1,
+              'total_amount': 10000,
+              'tax_free_amount': 0,
+              'approval_url':'localhost:8080',
+              'fail_url': 'localhost:8080',
+              'cancel_url':'localhost:8080'
+           }
+           axios
+           .post(url, data, header)
+           .then(() =>{
+             if(res.data){
             axios.put(`${this.context}/futsal/match/${this.$route.params.matchId}`)
             .then(()=>{
-              alert('결제성공')
+              alert('결제 시도 성공!')
               this.$router.push({name: 'futsalhome'})
             })
           }
+           })
+           .catch(e=>{
+              alert('kakao pay fail'+e)
+           })
+
+          
         })
         .catch(()=>alert('실패'))
       }else{

@@ -98,8 +98,6 @@ export default {
           { text: '관심사', value: 'interest' },
           { text: '이메일', value: 'email' },
           { text: '롤블랙', value: 'lolblack' },
-          { text: '구분', value: 'job' },
-          
         ],
       }
    },

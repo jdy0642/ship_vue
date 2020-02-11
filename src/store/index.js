@@ -6,8 +6,8 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    /* context:'http://15.164.228.72', */
-    context:'',
+    /* context:'http://15.164.129.171', */
+    context:'http://localhost:8080',
     selectGame:{},
     futsal: {
       currentLocation: {},
