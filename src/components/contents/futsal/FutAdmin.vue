@@ -10,6 +10,7 @@
     @click="marker()"
     style="width:100%;height:400px;">
   </vue-daum-map>
+  <v-btn @click="kakao()">카카오페이</v-btn>
   <v-btn @click="test()">롤1</v-btn>
   <v-btn @click="test2()">롤2</v-btn>
   <v-btn @click="test3()">롤3</v-btn>
@@ -81,6 +82,14 @@ export default {
       this.table = table
       store.state.futsal.matchList = table	
     })
+    axios({
+      url:`${store.state.context}/kakaopay/respones`,
+      method: "POST",
+      data: {tid: store.state.tid, token: this.$route.query.pg_token}
+    })
+    .then(res =>{
+      this.temp = res.data
+    }).catch(()=>alert('실패'))
     /* this.$socket.$subscribe('SEND', payload => {
       alert(payload)
     })
@@ -115,10 +124,18 @@ export default {
       search: '',
       msg: '',
       msgList: [],
-      table: []
+      table: [],
+      temp: ''
     }
   },
   methods: {
+    kakao(){
+      axios.get(`${store.state.context}/kakaopay/request`)
+      .then(res=>{
+        window.open(res.data.next_redirect_pc_url,'test popup','width:500px','location=yes')
+        store.state.tid = res.data.tid
+      })
+    },
     /* clickButton(val) {
       // this.$socket.client is `socket.io-client` instance
       this.$socket.client.emit('SEND', val);
@@ -146,69 +163,82 @@ export default {
       });
       this.mapObject = map;
     },
+    test(){
+      axios({//https://cors-anywhere.herokuapp.com/
+          url: '/v1/payment/ready',
+          headers:{
+            Authorization: 'KakaoAK 98fa824fb203f20a3caee0ed79a0203e',
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+          },
+          method: 'POST',
+          params: {
+            'cid': `TC0ONETIME`,
+            'partner_order_id': '1001',
+            'partner_user_id': 'test@test.com',
+            'item_name': '풋살',
+            'quantity': 1,
+            'total_amount': 10000,
+            'tax_free_amount': 0,
+            'approval_url':'http://localhost:8081/futsal/admin',
+            'fail_url': 'http://localhost:8081/fail',
+            'cancel_url':'http://localhost:8081/cancel'
+          }
+        }).then(res =>{
+          //this.temp = res.data
+          let dd = i => store.state.tid = i
+          dd(res.data.tid)
+          window.open(res.data.next_redirect_pc_url,'test popup','width:500px','location=yes')
+          axios.get(`${store.state.context}/kakaopay/`)
+        }).catch(()=>alert('실패'))
+		},
     test2(){
-      var req = new XMLHttpRequest();
-      req.open('GET',`${this.context}/futsal/test`, true);
-      req.onreadystatechange = function () {
-        if (req.readyState == 4) {
-          alert(req)
-        }
-        alert(req)
-      }
-      req.send();
+      axios({
+          url: 'http:://localhost:8081/',
+          headers:{
+            Authorization: 'KakaoAK 98fa824fb203f20a3caee0ed79a0203e',
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+            //origin: 'http://kapi.kakao.com/v1/payment/ready'
+          },
+          //method: 'POST',
+          data: {
+            'cid': `TC0ONETIME`,
+            'partner_order_id': '1001',
+            'partner_user_id': 'test@test.com',
+            'item_name': '풋살',
+            'quantity': 1,
+            'total_amount': 10000,
+            'tax_free_amount': 0,
+            'approval_url':'localhost:8081',
+            'fail_url': 'localhost:8081',
+            'cancel_url':'localhost:8081'
+          }
+        }).then(res =>{this.temp = res})
+        .catch(()=>alert('실패'))
     },
     test3(){
-      // Return a new promise.
-      return new Promise(function(resolve, reject) {
-        // Do the usual XHR stuff
-        var req = new XMLHttpRequest();
-        req.open('GET', `${this.context}/futsal/test`);
-        /* req.setRequestHeader("Access-Control-Allow-Origin", "*")
-        req.setRequestHeader("Authorization", "Bearer XXXXX") */
-        req.onload = function() {
-          // This is called even on 404 etc
-          // so check the status
-          if (req.status == 200) {
-            // Resolve the promise with the response text
-            resolve(req.response);
+      axios({//https://cors-anywhere.herokuapp.com/
+          url: 'https://kapi.kakao.com/v1/payment/ready',
+          headers:{
+            Authorization: 'KakaoAK 98fa824fb203f20a3caee0ed79a0203e',
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+            //origin: 'http://kapi.kakao.com/v1/payment/ready'
+          },
+          //method: 'POST',
+          data: {
+            'cid': `TC0ONETIME`,
+            'partner_order_id': '1001',
+            'partner_user_id': 'test@test.com',
+            'item_name': '풋살',
+            'quantity': 1,
+            'total_amount': 10000,
+            'tax_free_amount': 0,
+            'approval_url':'localhost:8081',
+            'fail_url': 'localhost:8081',
+            'cancel_url':'localhost:8081'
           }
-          else {
-            // Otherwise reject with the status text
-            // which will hopefully be a meaningful error
-            reject(Error(req.statusText));
-          }
-        };
-
-        // Handle network errors
-        req.onerror = function() {
-          reject(Error("Network Error"));
-        };
-
-        // Make the request
-        req.send();
-      });
+        }).then(res =>{this.temp = res})
+        .catch(()=>alert('실패'))
     },
-    test(){
-			let currentLocation = {x: 126.925356, y:37.553756}
-      let goalLocation = {x: 126.975598, y:37.554034}
-      axios.get(`http://api2.sktelecom.com/tmap/routes`,{
-        params: {
-          format: 'json',
-          version: '2',
-          appKey: '5c88a4e4-0f6d-4002-9989-f9e35e5257fe',
-          endX: goalLocation.x,
-          endY: goalLocation.y,
-          startX: currentLocation.x,
-          startY: currentLocation.y,
-          reqCoordType: 'WGS84GEO',
-          resCoordType: 'WGS84GEO',
-          //trafficInfo=Y
-        }
-      }).then(res=>{
-          this.moveInfo = res.data.features[0]
-        }).catch(e=>alert(`액시오스 실패 ${e}`))
-		},
-    //https://developers.kakao.com/docs/restapi/local#%ED%82%A4%EC%9B%8C%EB%93%9C-%EA%B2%80%EC%83%89
     test4(){
       axios({url: 'http://dapi.kakao.com/v2/local/search/address.json',
 				headers:{
@@ -266,7 +296,7 @@ export default {
         return result
       }).catch(e => {
 				alert(e)
-      })      
+      })
 		}
   }
 }

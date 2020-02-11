@@ -19,6 +19,7 @@ import CreateRoom from '@/components/lol/CreateRoom.vue'
 import JoinRank from '@/components/lol/JoinRank.vue'
 import UpdateRoom from '@/components/lol/UpdateRoom.vue'
 import Testpage from '@/components/admin/Testpage.vue'
+import Pay from '@/components/auth/Pay.vue'
 Vue.use(Router)
 export default new Router({
      mode: 'history',
@@ -41,6 +42,7 @@ export default new Router({
           {path: '/revenuemanage', name: 'revenuemanage', component: RevenueManage},
           {path: '/reservationmanage', name: 'reservationmanage', component: ReservationManage},
           {path: '/updateroom', name: 'updateroom', component: UpdateRoom},
-          {path: '/', name: 'carousel', component: Carousel}
+          {path: '/', name: 'carousel', component: Carousel},
+          {path: '/kakaopay/respones', name: 'pay', component: Pay},
      ]    
 })
