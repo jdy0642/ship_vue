@@ -32,8 +32,11 @@
           <v-icon dark>mdi-plus</v-icon>
         </v-btn>
           <v-col>
+            <br>
+            <br>
+            <br>
             <v-text-field type="text" v-model="champ"> </v-text-field>
-            <v-btn @click="champCrawl()">검색</v-btn>
+            <v-btn @click="champCrawl()">카운터 검색</v-btn>
           </v-col>
       </v-card>
     </v-responsive>
