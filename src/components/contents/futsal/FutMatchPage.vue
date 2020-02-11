@@ -251,21 +251,21 @@ export default {
     },
     payment(){
       if(store.state.person.hasOwnProperty('userid')){
-        axios.post(`${this.context}/res/${this.$route.params.matchId}`
-          ,store.state.person)
-        .then(res=>{
-          if(res.data){
-            axios.put(`${this.context}/futsal/match/${this.$route.params.matchId}`)
-            .then(()=>{
-              alert('결제성공')
-              this.$router.push({name: 'futsalhome'})
-            })
-          }
-        })
-        .catch(()=>alert('실패'))
-      }else{
-        alert('로그인 하세요')
-      }
+        if(store.state.person.point >= 10000){
+          axios.post(`${this.context}/res/${this.$route.params.matchId}`
+            ,store.state.person)
+          .then(res=>{
+            if(res.data){
+              axios.put(`${this.context}/futsal/match/${this.$route.params.matchId}`)
+              .then(()=>{
+                alert('결제성공')
+                this.$router.push({name: 'futsalhome'})
+              })
+            }
+          })
+          .catch(()=>alert('실패'))
+        }else{alert('캐쉬를 충전하세요.')}
+      }else{alert('로그인 하세요.')}
     }
   }
 }

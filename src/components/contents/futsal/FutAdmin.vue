@@ -64,7 +64,7 @@ export default {
       const ranfacility = () => 'size0,shower0,park0,shoes0,wear0'
       const remain = () => parseInt(Math.random()*12)
       table = Array.from({length : 200},(_,i) => ({
-        futsalmatchseq: i,
+        futsalseq: i,
         time: rantime(Date.now()), stadiumname: ranName(),
         stadiumaddr: ranAddr(), stadiumtel: ranTel(),
         num : rannum(), gender: rangender(),difficulty: ranrating(),
@@ -128,13 +128,16 @@ export default {
       temp: ''
     }
   },
+  computed:{
+  },
   methods: {
     kakao(){
-      axios.get(`${store.state.context}/kakaopay/request`)
-      .then(res=>{
-        window.open(res.data.next_redirect_pc_url,'test popup','width:500px','location=yes')
-        store.state.tid = res.data.tid
-      })
+      this.win().console.log(window)
+      this.win().location.href='http://naver.com'
+
+    },
+    win(){
+      return window
     },
     /* clickButton(val) {
       // this.$socket.client is `socket.io-client` instance

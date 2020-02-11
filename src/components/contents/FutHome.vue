@@ -9,12 +9,6 @@
     :propImg="headImg" class="table"></fut-head>
   <fut-search-bar :style="`height: ${height[1]}vh`" class="table"
     @sendStadiumName="setStadium" @sendLocation="setGps"></fut-search-bar>
-  <v-card>
-    <v-card-text v-for="(msg,i) of msgList" :key="i">
-      {{msg}}
-    </v-card-text>
-    <v-text-field v-model="msg" @keyup.enter="botChat()"></v-text-field>
-  </v-card>
   <fut-reservation :style="`height: ${height[2]}vh`" class="table"
     @sendTime="setTime"></fut-reservation>
   <fut-reservation-table ma-auto class="table"  
@@ -48,9 +42,9 @@ export default {
       time : Date.now(),
       table : [],
       height:[40,5,7],
-      msgList: ["무엇을 도와드릴까요?"],
-      msg: "",
-      console: ""
+      // msgList: ["무엇을 도와드릴까요?"],
+      // msg: "",
+      // console: ""
     }
   },
   created(){
@@ -70,7 +64,7 @@ export default {
       const ranfacility = () => 'size0,shower0,park0,shoes0,wear0'
       const remain = () => parseInt(Math.random()*12)
       table = Array.from({length : 200},(_,i) => ({
-        futsalmatchseq: i,
+        futsalseq: i,
         time: rantime(Date.now()), stadiumname: ranName(),
         stadiumaddr: ranAddr(), stadiumtel: ranTel(),
         num : rannum(), gender: rangender(),difficulty: ranrating(),
@@ -103,27 +97,25 @@ export default {
       this.location = {lat: location.lat,lng: location.lng}
       this.mapTogle = true
     },
-    botChat(){
-      axios({url: `${store.state.context}/bot/${this.msg}`, method: 'GET'})
-      .then(res=>{
-        this.msgList.push(this.msg)
-        this.msg = ''
-        this.console = res.data
-        if(res.data.msg.includes('예약')){
-          let time = res.data.result.time
-          let year = time.match(/\d{1,4}년/)
-          let month = time.match(/\d{1,2}월/)
-          let day = time.match(/\d{1,2}일/)
-          let hour = time.match(/\d{1,2}시/)
-          this.location = res.data.result.location
-          this.mapTogle = true
-          let x = z => z.substring(0,z.length-1)
-          time = Date.parse(`${year ? x(year[0]) : new Date().getFullYear()}-${month ? x(month[0]) : new Date().getMonth()+1}-${day ? x(day[0]) : new Date().getDate()} ${hour ? x(hour[0]) : '00'}:00`)
-        }
-
-      })
-    },
-    
+    // botChat(){
+    //   axios({url: `${store.state.context}/bot/${this.msg}`, method: 'GET'})
+    //   .then(res=>{
+    //     this.msgList.push(this.msg)
+    //     this.msg = ''
+    //     this.console = res.data
+    //     if(res.data.msg.includes('예약')){
+    //       let time = res.data.result.time
+    //       let year = time.match(/\d{1,4}년/)
+    //       let month = time.match(/\d{1,2}월/)
+    //       let day = time.match(/\d{1,2}일/)
+    //       let hour = time.match(/\d{1,2}시/)
+    //       this.location = res.data.result.location
+    //       this.mapTogle = true
+    //       let x = z => z.substring(0,z.length-1)
+    //       time = Date.parse(`${year ? x(year[0]) : new Date().getFullYear()}-${month ? x(month[0]) : new Date().getMonth()+1}-${day ? x(day[0]) : new Date().getDate()} ${hour ? x(hour[0]) : '00'}:00`)
+    //     }
+    //   })
+    // },
   }
 }
 </script>

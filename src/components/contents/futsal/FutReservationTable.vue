@@ -64,6 +64,9 @@ export default{
 		}
 	},
 	computed: {
+		con(){
+			return window.console
+		},
 		table(){
 			return this.propTable
 		}
@@ -72,7 +75,7 @@ export default{
 		selectMatch(param){
 			if(param.remain != 0){
 				store.state.futsal.selectMatch = param
-				this.$router.push({ name: 'futsalmatch', params: { matchId: param.futsalmatchseq }})
+				this.$router.push({ name: 'futsalmatch', params: { matchId: param.futsalseq }})
 			}
 		}
 	}
