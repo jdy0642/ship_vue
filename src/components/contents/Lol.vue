@@ -296,7 +296,7 @@ export default {
 .v-card {
   transition: opacity .4s ease-in-out;
   margin-top:10px;
-  color:yellow;
+  color: #ffff66;
 }
 
 .v-card:not(.on-hover) {

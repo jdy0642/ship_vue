@@ -1,5 +1,5 @@
 <template>
-<div id="app">
+<div id="app" >
 <layout>
    <template #header>
     <v-app id="inspire" style="height:1010px;">
@@ -127,6 +127,7 @@ import Layout from '@/components/cmm/Layout.vue'
 import {store} from '@/store'
 import FixedHeader from 'vue-fixed-header'
 export default {
+  name:'Home',
   components:{
     Layout, Login, Join, FixedHeader
   },
@@ -136,15 +137,6 @@ export default {
       { title: 'LOL' ,link:'/lol'},
       { title: 'FUTSAL', link:'/futsal' },
     ],
-     contents: [
-        { text: 'LOL' },
-        { text: 'FUTSAL' },
-      ],
-      sides: [
-          { title: 'Home', icon: 'mdi-home', link:'/'},
-          { title: '구장 등록', icon: 'mdi-account-group-outline', link:'/register' },
-          { title: '회원 관리', icon: 'mdi-account-group-outline', link:'/membermanage' },
-        ],
       state:store.state,
       hover: false,
       }

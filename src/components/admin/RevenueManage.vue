@@ -95,7 +95,7 @@
         })
       },
       rcounting(x){
-        return this.today.filter(t => (t.futsalmatchseq.stadiumaddr.substr(0,2) == x)).length
+        return this.today.filter(t => (t.futsalseq.stadiumaddr.substr(0,2) == x)).length
       },
       gcounting(){
         return this.today.filter(t => (t.personseq.male == false)).length

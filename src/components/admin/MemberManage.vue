@@ -97,7 +97,6 @@ export default {
           { text: '성별', value: 'male'},
           { text: '관심사', value: 'interest' },
           { text: '이메일', value: 'email' },
-          { text: '롤블랙', value: 'lolblack' },
         ],
       }
    },

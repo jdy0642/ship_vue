@@ -5,8 +5,8 @@
     <v-col>
     <v-responsive style="width:350px;margin-left:40px;margin-top:30px;height:650px">
       <v-card class="mx-auto" style="margin-top:10px;height:700px"> 
-        <v-img style="width:650px;height:800px" :src="require(`@/assets/img/lol/${state.selectGame.imgurl}.jpg`)">
-          <div style="width:300px;height:560px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, transparent 160px)">
+        <v-img style="width:300px;height:600px" :src="require(`@/assets/img/lol/${state.selectGame.imgurl}.jpg`)">
+          <div style="width:300px;height:600px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, transparent 160px)">
           <br />
             <v-img style="width:80px;" :src="state.selectGame.img" alt="" />
             <!-- <v-img style="width:90px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img> -->
@@ -20,9 +20,9 @@
         </v-img>
       </v-card>
     </v-responsive>
-      <v-row style="margin-left:110px">
+      <v-row style="margin-left:90px">
         <update-room></update-room>
-        <v-btn center style="margin-left:30px" @click="deleteRoom()"><v-icon>mdi-close</v-icon></v-btn>
+        <v-btn color="red" center style="margin-left:30px" @click="deleteRoom()"> 방 삭제</v-btn>
       </v-row>
     </v-col>
     
@@ -31,11 +31,17 @@
         <v-btn fab dark color="indigo" style="margin-top:250px" @click="invite()">
           <v-icon dark>mdi-plus</v-icon>
         </v-btn>
+          <v-col>
+            <br>
+            <br>
+            <br>
+            <v-text-field type="text" v-model="champ"> </v-text-field>
+            <v-btn @click="champCrawl()">카운터 검색</v-btn>
+          </v-col>
       </v-card>
     </v-responsive>
-
   <v-responsive>
-    <iframe src="http://localhost:3000" style="margin-top:50px;margin-bottom:50px;margin-right:30px" width="450px" height="830px" frameborder="0"></iframe>
+    <iframe src="https://frogue.danbee.ai/?chatbot_id=3ea62809-b698-4f16-aabb-e623a9227fe0" style="margin-top:50px;margin-bottom:50px;margin-right:30px" width="450px" height="830px" frameborder="0"></iframe>
   </v-responsive>
     
         <!-- <v-flex style="margin-right:5px; margin-top:5px">
@@ -76,9 +82,21 @@ export default {
       state:store.state,
       context:store.state.context,
       temp:'',
+      champ:''
     }
   },
   methods: {
+    champCrawl(){
+      let url = `${this.context}/lol/chatbot/${this.champ}`
+      axios
+      .get(url)
+      .then(res =>{
+        this.temp = res.data
+      })
+      .catch(e=>{
+        alert(e)
+      })
+    },
     invite(){
       alert('친구 초대 준비중')
     },
@@ -125,9 +143,9 @@ export default {
     //   this.temp = res.data[0]
     //   this.summonername = res.data[0].summonername
     // })
-    let url2 = `http://192.168.5.46:3000`
+   /*  let url2 = `http://192.168.5.46:3000`
     axios
-    .get(url2)
+    .get(url2) */
     
   },
   // watch: {

@@ -7,8 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "init": "yarn add vue-burger-menu",
-    "mbuild": "vue-cli-service build --mode development --mode development",    
-    "deploy": "yarn build && aws s3 sync ./dist s3://shipteamdb9"
+    "mbuild": "vue-cli-service build --mode development",    
+    "deploy": "yarn build && aws s3 sync ./dist s3://shipteamdb3"
   },
   "dependencies": {
     "axios": "^0.19.2",

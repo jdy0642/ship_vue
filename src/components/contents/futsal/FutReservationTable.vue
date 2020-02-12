@@ -30,6 +30,7 @@
 					v-for="n of parseInt(item.difficulty)" 
 					:key="n" src="@/assets/img/matchRule/star.png">
 				</v-img>
+				
 			</template>
 			<template v-slot:item.remain="{item}">
 				<v-btn @click="selectMatch(item)" :color="item.remain > 3 ? '#2478FF' : 
@@ -63,6 +64,9 @@ export default{
 		}
 	},
 	computed: {
+		con(){
+			return window.console
+		},
 		table(){
 			return this.propTable
 		}
@@ -71,7 +75,7 @@ export default{
 		selectMatch(param){
 			if(param.remain != 0){
 				store.state.futsal.selectMatch = param
-				this.$router.push({ name: 'futsalmatch', params: { matchId: param.futsalmatchseq }})
+				this.$router.push({ name: 'futsalmatch', params: { matchId: param.futsalseq }})
 			}
 		}
 	}

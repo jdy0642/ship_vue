@@ -14,8 +14,8 @@
         <template v-slot:item.resdate="{item}">
           {{fnc.timeToDate(item.resdate)}}
         </template>
-        <template v-slot:item.personseq.userid="{item}">
-          <v-btn @click="openDialog(item)">{{item.personseq.userid}}</v-btn>
+        <template v-slot:item.userid="{item}">
+          <v-btn @click="openDialog(item)">{{item.userid}}</v-btn>
         </template>
       </v-data-table>
       <div class="text-center pt-2">
@@ -44,7 +44,7 @@ import { store } from '@/store'
 export default {
   created(){
     axios
-    .get(`${this.context}/res/1`)
+    .get(`${this.context}/res/2`)
     .then(res =>{
       this.lists = res.data.sort((a,b) =>
         a.resdate > b.resdate ? 1 : (a.resdate < b.resdate ? -1 : 0))
@@ -65,8 +65,8 @@ export default {
         headers: [
           { text: '예약 번호', value: 'resseq'},
           { text: '예약 일자', value: 'resdate' },
-          { text: '구장명', value: 'futsalmatchseq.stadiumname'},
-          { text: '유저 아이디', value: 'personseq.userid' },
+          { text: '구장명', value: 'stadiumname'},
+          { text: '유저 아이디', value: 'userid' },
         ],
         dialog: false,
         selectUser: '',
@@ -89,7 +89,7 @@ export default {
       this.matchResult = item.km ?
         {resseq: item.resseq, km: item.km, win:item.win, score:item.score, index: index}
         : {resseq: item.resseq, km:'',win:'',score:'', index: index}
-      this.selectUser = item.personseq.name
+      this.selectUser = item.name
       this.dialog = true
     },
     setMatchResult(){
