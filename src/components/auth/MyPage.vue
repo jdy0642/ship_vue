@@ -53,8 +53,8 @@
   </v-toolbar>
 </v-card>
 <v-card class="cardinfo" color="#26c6da"
-        max-width="39%"
-        max-height="18%">
+  max-width="39%"
+  max-height="18%">
   <v-card-title>
     <span class="font-weight-light">{{state.person.name}}</span>
     <v-card-text class="headline font-weight-bold">MY POINT

@@ -153,6 +153,9 @@ export default {
     }
   },
   computed: {
+    con(){
+      return window.console
+    },
     moveResult(){
       return this.moveInfo ? 
         `${parseInt(this.moveInfo.properties.totalTime/60)}분 총 거리 : ${
@@ -232,7 +235,7 @@ export default {
     },
     navigation(){
       this.addressSearch(this.selectMatch.stadiumname,(goalLocation)=>{
-        this.currentLocation((location)=>{
+        //this.currentLocation((location)=>{
           axios.get(`http://api2.sktelecom.com/tmap/routes`,{
             params: {
               format: 'json',
@@ -240,22 +243,20 @@ export default {
               appKey: '5c88a4e4-0f6d-4002-9989-f9e35e5257fe',
               endX: goalLocation.lng,
               endY: goalLocation.lat,
-              startX: location.lng,
-              startY: location.lat,
+              startX: location.lng ? location.lng : store.state.futsal.currentLoc.lng,
+              startY: location.lat ? location.lat : store.state.futsal.currentLoc.lat,
               reqCoordType: 'WGS84GEO',
               resCoordType: 'WGS84GEO',
-              
-              
             }
           }).then(res=>{
             this.moveInfo = res.data.features[0]
           }).catch(e=>alert(`액시오스 실패 ${e}`))
-        })
+        //})
       })
     },
     payment(){
       if(store.state.person.hasOwnProperty('userid')){
-        if(store.state.person.point >= 10000){
+        if(store.state.person.point >= 10000 && !store.state.person.futblack){
           axios.post(`${this.context}/res/${this.$route.params.matchId}`
             ,store.state.person)
           .then(res=>{
@@ -268,7 +269,7 @@ export default {
             }
           })
           .catch(()=>alert('실패'))
-        }else{alert('캐쉬를 충전하세요.')}
+        }else{alert(store.state.person.futblack ? '블랙 유저입니다.'  : '캐쉬를 충전하세요.')}
       }else{alert('로그인 하세요.')}
     }
   }

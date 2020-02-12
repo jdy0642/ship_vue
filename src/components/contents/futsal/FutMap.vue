@@ -7,6 +7,7 @@
     :mapTypeId="mapData.mapTypeId"
     :libraries="mapData.libraries"
     @load="onLoad"
+	@rightclick="rightClick($event)"
 	:style="`height: 100%; width: 100%;`">
 	</vue-daum-map>
 	<div v-show="mapRoadView" id="roadview" style="height: 100%; width: 100%;text-align:left;"></div> <!-- 로드뷰를 표시할 div 입니다 -->
@@ -17,28 +18,29 @@
 </div>
 </template>
 <script>
+import { store } from '@/store'
 import VueDaumMap from 'vue-daum-map'
 export default {
   components:{VueDaumMap},
-	props:['propSearchWord','propLocation'],
-  data(){
-    return {
-		mapData:{
-			appKey: '789b2dc91d9235fae744572478c25f39', // 테스트용 appkey
-			center: {lat:37.5605672, lng:126.94334860559148},
-			level: 3, // 지도의 레벨(확대, 축소 정도),
-			mapTypeId: VueDaumMap.MapTypeId.NORMAL, // 맵 타입
-			libraries: ['services', 'clusterer', 'drawing'], // 추가로 불러올 라이브러리
-		},
-		markers: [],
-		mapObject: null, // 지도 객체. 지도가 로드되면 할당됨.
-		roadMap: '',
-		searchWord: '',
-		temp: '',
-		mapStandardView: true,
-		mapRoadView: false
-    }
-  },
+	props:['propSearchWord','propLocation','propRightClick'],
+	data(){
+		return {
+			mapData:{
+				appKey: '789b2dc91d9235fae744572478c25f39', // 테스트용 appkey
+				center: {lat:37.5605672, lng:126.94334860559148},
+				level: 3, // 지도의 레벨(확대, 축소 정도),
+				mapTypeId: VueDaumMap.MapTypeId.NORMAL, // 맵 타입
+				libraries: ['services', 'clusterer', 'drawing'], // 추가로 불러올 라이브러리
+			},
+			markers: [],
+			mapObject: null, // 지도 객체. 지도가 로드되면 할당됨.
+			roadMap: '',
+			searchWord: '',
+			temp: '',
+			mapStandardView: true,
+			mapRoadView: false
+		}
+	},
 	watch: {
 		propSearchWord: function(param){
 			this.searchChanged(param)
@@ -49,6 +51,11 @@ export default {
 			this.locationChanged(param)
 			this.mapStandardView = true,
 			this.mapRoadView = false
+		}
+	},
+	computed: {
+		con(){
+			return window.console
 		}
 	},
 	methods: {
@@ -157,8 +164,17 @@ export default {
 			roadviewClient.getNearestPanoId(position, 50, function(panoId) {
 				map.setPanoId(panoId, position);
 			})
+		},
+		rightClick(b){
+			if(this.propRightClick){
+				let loc = b[0].latLng
+				store.state.futsal.currentLoc = {lat: loc.Ha, lng: loc.Ga}
+				this.locationChanged({lat: loc.Ha, lng: loc.Ga})
+				this.mapStandardView = true,
+				this.mapRoadView = false
+			}
 		}
-  }
+	}
 }
 </script>
 <style scoped>
