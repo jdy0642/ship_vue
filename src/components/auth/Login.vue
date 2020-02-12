@@ -70,6 +70,7 @@ export default {
                 store.state.person = res.data.person
                 if(this.state.person.role != 'customer'){
                     this.state.authCheck = true
+
                 }else{
                     this.state.authCheck = false
                 }

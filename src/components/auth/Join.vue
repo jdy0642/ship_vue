@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <v-btn color="blue darken-2" dark fixed center @click="dialog = !dialog" style="font-size:15px"> 회원가입 </v-btn>
-    <v-dialog v-model="dialog" width="600px"  >
+    <v-dialog persistent v-model="dialog" width="600px"  >
       <v-card>
         <v-card-title class="red darken-2" style="font-color:white" > 회 원 가 입 </v-card-title>
   <v-container>   
