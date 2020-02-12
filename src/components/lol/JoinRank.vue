@@ -11,7 +11,7 @@
             <v-img style="width:80px;" :src="state.selectGame.img" alt="" />
             <!-- <v-img style="width:90px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img> -->
             <v-card-text><v-icon >mdi-crown</v-icon> {{state.selectGame.rhost}}</v-card-text>
-            <v-card-text>티어 : {{state.selectGame.crawltier}}</v-card-text>
+            <v-card-text>티어 : {{state.selectGame.tier}}</v-card-text>
                 <v-card-text>승률 : {{state.selectGame.crawlrate}}</v-card-text>
                 <v-card-text>방 번호: {{state.selectGame.cardseq}}</v-card-text>
                 <v-card-text>방 제목: {{state.selectGame.title}}</v-card-text>
@@ -35,8 +35,8 @@
             <br>
             <br>
             <br>
-            <v-text-field type="text" v-model="champ"> </v-text-field>
-            <v-btn @click="champCrawl()">카운터 검색</v-btn>
+            <v-text-field type="text"> </v-text-field>
+            <v-btn @click="champCrawl()">유저 검색</v-btn>
           </v-col>
       </v-card>
     </v-responsive>
@@ -82,15 +82,17 @@ export default {
       state:store.state,
       context:store.state.context,
       temp:'',
-      champ:''
+      champ:'',
+      champ2:''
     }
   },
   methods: {
     champCrawl(){
-      let url = `${this.context}/lol/chatbot/${this.champ}`
+      let url = `${this.context}/lol/recommend/${this.state.selectGame.tier}/${this.state.selectGame.rhost}`
       axios
       .get(url)
       .then(res =>{
+        alert(res)
         this.temp = res.data
       })
       .catch(e=>{
@@ -136,16 +138,6 @@ export default {
     }
   },
   created(){
-    // let url = `http://localhost:8080/lol/summoner/userName=${this.state.person.summonername}`
-    // axios
-    // .get(url)
-    // .then(res=>{
-    //   this.temp = res.data[0]
-    //   this.summonername = res.data[0].summonername
-    // })
-   /*  let url2 = `http://192.168.5.46:3000`
-    axios
-    .get(url2) */
     
   },
   // watch: {
