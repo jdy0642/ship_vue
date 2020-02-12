@@ -147,7 +147,9 @@ export default {
       ],
       mapView: true,
       moveInfo: '',
-      temp: ''
+      temp: {},
+      result:{},
+      pageurl:'',
     }
   },
   computed: {
@@ -241,7 +243,9 @@ export default {
               startX: location.lng,
               startY: location.lat,
               reqCoordType: 'WGS84GEO',
-              resCoordType: 'WGS84GEO'
+              resCoordType: 'WGS84GEO',
+              
+              
             }
           }).then(res=>{
             this.moveInfo = res.data.features[0]

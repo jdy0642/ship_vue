@@ -109,7 +109,7 @@
         <p></p>
         <v-text>경기장</v-text>
         <p></p>
-        <v-text >{{array[0].futsalmatchseq.stadiumname}}</v-text>
+        <v-text >{{array[0].futsal.stadiumname}}</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
@@ -144,7 +144,7 @@
         <p></p>
         <v-text>경기장</v-text>
         <p></p>
-        <v-text>{{array[1].futsalmatchseq.stadiumname}}</v-text>
+        <v-text>{{array[1].futsal.stadiumname}}</v-text>
         <br>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
@@ -180,7 +180,7 @@
         <p></p>
         <v-text>경기장</v-text>
         <p></p>
-        <v-text>{{array[2].futsalmatchseq.stadiumname}}</v-text>
+        <v-text>{{array[2].futsal.stadiumname}}</v-text>
         <br>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
@@ -216,7 +216,7 @@
         <p></p>
         <v-text>경기장</v-text>
         <p></p>
-        <v-text>{{array[3].futsalmatchseq.stadiumname}}</v-text>
+        <v-text>{{array[3].futsal.stadiumname}}</v-text>
         <br>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
@@ -252,7 +252,7 @@
         <p></p>
         <v-text>경기장</v-text>
         <p></p>
-        <v-text>{{array[4].futsalmatchseq.stadiumname}}</v-text>
+        <v-text>{{array[4].futsal.stadiumname}}</v-text>
         <br>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
@@ -358,13 +358,9 @@
 <script>
 import axios from 'axios'
 import {store} from "../../store"
-import axios from 'axios'
 export default {
   name: 'Payment',
   computed: {
-    win(){
-      return window
-    },
     con(){
       return window.console
     }
@@ -498,8 +494,9 @@ export default {
         })
       }else{
         alert('로그인하세요')
-      },
+      }
   }
+}
 }
 </script>
 <style scoped>
