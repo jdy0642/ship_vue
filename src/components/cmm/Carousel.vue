@@ -20,7 +20,7 @@
       </div>
       <div href="#" class="panel">
         <div class="panel__content" style="background-image: url(https://utsports.com/images/2019/6/21/Full_Draft_Graphic_v2.jpeg?width=1061&height=597&mode=crop);">
-          <h3 @click="Ball()" class="panel__title">Street Ball</h3>
+          <h3 @click="Ball()" class="panel__title">Basket Ball</h3>
         </div>
       </div>
     </div>

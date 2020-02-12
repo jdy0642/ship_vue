@@ -32,47 +32,47 @@
               <v-radio
                   label="아이언"
                   color="#6D4C41"
-                  value="iron"
+                  value="Iron"
                 ></v-radio>
                 <v-radio
                   label="브론즈"
                   color="#6D4C41"
-                  value="bronze"
+                  value="Bronze"
                 ></v-radio>
                 <v-radio
                   label="실버"
                   color="#CFD8DC"
-                  value="silver"
+                  value="Silver"
                 ></v-radio>
                 <v-radio
                   label="골드"
                   color="#FF9800"
-                  value="gold"
+                  value="Gold"
                 ></v-radio>
                 <v-radio
                   label="플레티넘"
                   color="#00796B"
-                  value="platinum"
+                  value="Platinum"
                 ></v-radio>
                 <v-radio
                   label="다이아"
                   color="#0288D1"
-                  value="diamond"
+                  value="Diamond"
                 ></v-radio>
                 <v-radio
                   label="마스터"
                   color="#4DB6AC"
-                  value="master"
+                  value="Master"
                 ></v-radio>
                 <v-radio
                   label="그랜드 마스터"
                   color="#4DB6AC"
-                  value="grande master"
+                  value="Grand master"
                 ></v-radio>
                 <v-radio
                   label="챌린져"
                   color="#AFB42B"
-                  value="challenger"
+                  value="Challenger"
                 ></v-radio>
                 
               </v-radio-group>

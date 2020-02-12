@@ -53,5 +53,6 @@ export const store = new Vuex.Store({
     },
     person:{},
     authCheck : false,
+    userCheck: false
   }
 })
