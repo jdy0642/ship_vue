@@ -402,6 +402,7 @@ export default {
           personseq: JSON.parse(window.sessionStorage.getItem('person')).personseq}
       }).then(res =>{
         if(res.data.msg == "success"){
+          window.sessionStorage.clear()
           window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
           store.state.person = res.data.person
           this.getLol()
