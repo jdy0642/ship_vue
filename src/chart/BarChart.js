@@ -5,10 +5,18 @@ export default {
   mixins: [reactiveProp],
   data(){
     return{
+      
     chartdata: {},
     options: {
+
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      legend: {
+        labels: {
+            fontColor: 'black',
+            
+        },
+      },
     }
   }
 },

@@ -135,9 +135,7 @@ export default {
             }
               this.timechange()
            })
-           .catch(e=>{
-              alert('tier AXIOS FAIL'+e)
-           })
+           
       },
       filterposition(){
 
@@ -169,9 +167,7 @@ export default {
             }
               this.timechange()
            })
-           .catch(e=>{
-              alert('tier AXIOS FAIL'+e)
-           })
+           
       },
       filtersort(){
 
@@ -222,9 +218,7 @@ export default {
             }
               this.timechange()
            })
-           .catch(e=>{
-              alert('tier AXIOS FAIL'+e)
-           })
+           
       },
       scroll(){
          window.onscroll = () => {
@@ -272,14 +266,19 @@ export default {
               this.timechange()
            })
            .catch(e=>{
-              alert('AXIOS FAIL'+e)
+              alert('게시판 불러오는 것을 실패하였습니다. '+e)
            })
       },
       kal(){
          alert('칼바람은 준비중입니다.')
       },
       createRoom(){
-         this.$router.push({path:'/createRoom'})
+         if(this.state.person.userid != null){
+            this.$router.push({path:'/createRoom'})
+         }else{
+            alert('로그인해야 사용할 수 있는 기능입니다.')
+         }
+         
       },
       timechange(){
          this.btime = []

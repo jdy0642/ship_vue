@@ -122,7 +122,7 @@ export default{
       title: '',
       contents: '',
       state : store.state,
-      temp : '',
+      temp : "",
       result : {},
       crawltier:'',
       crawlrate:'',
@@ -138,7 +138,10 @@ export default{
       this.$router.push({path:'/lol'})
     },
     crawling(){
-    let url = `${this.context}/lol/summoner/userName=${this.state.person.summonername}`
+      if(this.state.person.userid == null){
+        alert('로그인해야 이용 하실 수 있습니다.')
+      }else{
+        let url = `${this.context}/lol/summoner/userName=${this.state.person.summonername}`
     axios
     .get(url)
     .then(res=>{
@@ -146,14 +149,19 @@ export default{
       this.crawltier = this.temp.tier
       this.crawlrate = this.temp.rate
       this.img = this.temp.photo
+      if(this.temp == ''){
+        alert('opgg에 등록된 정보가 없습니다.')
+      }
       this.createroom()
     })
-    .catch(e=>{
-      alert('axios fail'+e)
-    })
+      }
+
     },
     createroom(){
-      let url = `${this.context}/lol/createroom`
+      if(this.title == "" || this.tier == "" || this.contents == "" || this.position == ""){
+        alert('모든 정보를 입력해주세요')
+      }else{
+        let url = `${this.context}/lol/createroom`
            let headers = {
               'authorization': 'JWT fefege..',
                 'Accept' : 'application/json',
@@ -175,12 +183,13 @@ export default{
            .post(url, data, headers)
            .then(res =>{
               this.result = res.data
-              // alert('방생성 완료!')
+
               this.$router.push({path:`/lol`})
            })
-           .catch(e=>{
-              alert('AXIOS FAIL'+e)
-           })
+          
+      }
+      
+           
     }
   }
 }

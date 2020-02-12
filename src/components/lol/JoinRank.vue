@@ -123,7 +123,7 @@ export default {
               alert('AXIOS FAIL'+e)
            })
       }else{
-        alert("저런~ ");
+        alert("방 삭제를 실패하였습니다. ");
     }
           
       },
