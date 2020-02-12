@@ -121,6 +121,9 @@ import FutMap from './FutMap'
 import FutHead from './FutHead'
 export default {
   created(){
+    if(!store.state.futsal.currentLoc.hasOwnProperty('lng')){
+      store.state.futsal.currentLoc = {lng: 126.975598, lat:37.554034}
+    }
     if(!store.state.futsal.selectMatch.hasOwnProperty('futsalseq')){
       axios.get(`${this.context}/futsal/match/${this.$route.params.matchId}`)
       .then(res =>{
