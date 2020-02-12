@@ -413,7 +413,7 @@ export default {
           }
         }
       })
-    }//else if(store.state.person.hasOwnProperty('personseq')){
+    }else if(store.state.person.hasOwnProperty('personseq')){this.getLol()}
     //   axios
     //   .post(`${store.state.context}/login`,
     //     {userid: store.state.person.userid, passwd : store.state.person.passwd})
