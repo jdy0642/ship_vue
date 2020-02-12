@@ -1,6 +1,6 @@
 <template>
 <div>
-   <vue-daum-map
+   <vue-daum-map v-show="mapStandardView"
     :appKey="mapData.appKey"
     :center.sync="mapData.center"
     :level.sync="mapData.level"
@@ -10,6 +10,8 @@
     @click="marker()"
     style="width:100%;height:400px;">
   </vue-daum-map>
+  <div v-show="mapRoadView" id="roadview" style="width:100%;height:700px;text-align:left;"></div> <!-- 로드뷰를 표시할 div 입니다 -->
+  <input type="button" id="btnMap" @click="toggleMap()" title="지도 보기" value="지도">
   <v-btn @click="kakao()">카카오페이</v-btn>
   <v-btn @click="test()">롤1</v-btn>
   <v-btn @click="test2()">롤2</v-btn>
@@ -18,6 +20,7 @@
   <v-btn @click="crawl()">크롤링</v-btn>
   <v-btn @click="test5()">컬렉션</v-btn>
   <v-btn @click="test6()">봇</v-btn>
+  <v-btn @click="test7()">윈도우 콘솔</v-btn>
   <v-text-field v-model="msg" @keyup.enter="test6()"></v-text-field>
   <div>
     <!-- <span>{{ $socket.connected ? 'Connected' : 'Disconnected' }}</span> -->
@@ -82,14 +85,6 @@ export default {
       this.table = table
       store.state.futsal.matchList = table	
     })
-    axios({
-      url:`${store.state.context}/kakaopay/respones`,
-      method: "POST",
-      data: {tid: store.state.tid, token: this.$route.query.pg_token}
-    })
-    .then(res =>{
-      this.temp = res.data
-    }).catch(()=>alert('실패'))
     /* this.$socket.$subscribe('SEND', payload => {
       alert(payload)
     })
@@ -125,19 +120,23 @@ export default {
       msg: '',
       msgList: [],
       table: [],
-      temp: ''
+      temp: '',
+
+      mapStandardView: true,
+      mapRoadView: false,
     }
   },
   computed:{
+    win(){
+      return window
+    },
+    con(){
+      return window.console
+    }
   },
   methods: {
     kakao(){
       this.win().console.log(window)
-      this.win().location.href='http://naver.com'
-
-    },
-    win(){
-      return window
     },
     /* clickButton(val) {
       // this.$socket.client is `socket.io-client` instance
@@ -151,11 +150,12 @@ export default {
       // 영역정보를 문자열로 얻어옵니다. ((남,서), (북,동)) 형식입니다
       let boundsStr = bounds.toString();
       let control = new daummaps.ZoomControl();
+      let position = new daummaps.LatLng(37.53762225647159, 126.9755716893961)
       map.addControl(control, daummaps.ControlPosition.TOPRIGHT); 
       this.console = ('Daum Map Loaded', boundsStr);
       let marker = new daummaps.Marker({
         map: map,
-        position: new daummaps.LatLng(33.450701, 126.570667)
+        position: position
       })
       marker.setMap(map)
       daummaps.event.addListener(marker, 'mouseover',() =>{
@@ -165,6 +165,29 @@ export default {
           alert('marker click!');
       });
       this.mapObject = map;
+
+     // let container = document.getElementById('container'), // 지도와 로드뷰를 감싸고 있는 div 입니다
+     //   mapWrapper = document.getElementById('mapWrapper'), // 지도를 감싸고 있는 div 입니다
+     // let btnRoadview = document.getElementById('btnRoadview') // 지도 위의 로드뷰 버튼, 클릭하면 지도는 감춰지고 로드뷰가 보입니다 
+     //   btnMap = document.getElementById('btnMap'), // 로드뷰 위의 지도 버튼, 클릭하면 로드뷰는 감춰지고 지도가 보입니다 
+      let rvContainer = document.getElementById('roadview') // 로드뷰를 표시할 div 입니다
+      //mapContainer = document.getElementById('map'); // 지도를 표시할 div 입니다
+      let roadviewClient = new daummaps.RoadviewClient(),
+          roadview = new daummaps.Roadview(rvContainer)
+      roadviewClient.getNearestPanoId(position, 200, function(panoId) {
+        roadview.setPanoId(panoId, position);
+      })
+      window.daum.maps.event.addListener(roadview, 'init', function() {
+        //let rvMarker = 
+        new window.daum.maps.Marker({
+          position: position,
+          map: roadview
+        });
+      });
+    },
+    toggleMap() {
+      this.mapStandardView = !this.mapStandardView
+      this.mapRoadView = !this.mapRoadView
     },
     test(){
       axios({//https://cors-anywhere.herokuapp.com/
@@ -282,6 +305,9 @@ export default {
           }).length)
         }
       })
+    },
+    test7(){
+      this.con.log(window.daum.maps)
     },
 		crawl(location){
       let result = ''
