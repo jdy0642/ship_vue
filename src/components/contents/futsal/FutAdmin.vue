@@ -10,6 +10,7 @@
     @click="marker()"
     style="width:100%;height:400px;">
   </vue-daum-map>
+  <v-btn @click="kakao()">카카오페이</v-btn>
   <v-btn @click="test()">롤1</v-btn>
   <v-btn @click="test2()">롤2</v-btn>
   <v-btn @click="test3()">롤3</v-btn>
@@ -17,11 +18,12 @@
   <v-btn @click="crawl()">크롤링</v-btn>
   <v-btn @click="test5()">컬렉션</v-btn>
   <v-btn @click="test6()">봇</v-btn>
-  <v-text-field v-model="search" @keyup.enter="test6()"></v-text-field>
+  <v-text-field v-model="msg" @keyup.enter="test6()"></v-text-field>
   <div>
     <!-- <span>{{ $socket.connected ? 'Connected' : 'Disconnected' }}</span> -->
   </div>
   <v-btn @click="clickButton('하이')">socket</v-btn>
+  <div v-for="(item,index) of msgList" :key="index">{{item}}</div>
 </div>
 </template>
     /* @center_changed="onMapEvent('center_changed', $event)"
@@ -46,6 +48,48 @@ import VueDaumMap from 'vue-daum-map'
 export default {
   components:{VueDaumMap},
   created(){
+    let table = []
+    axios.get(`${this.context}/futsal/`)
+      .then(res => {
+        table = res.data
+    }).catch(e => {
+      alert(`axios fail ${e} 랜덤데이터 대체`)
+      const ranAddr = () => '어디어디 어디 주소 어디어디 어디 길'
+      const ranTel = () => `010-${[parseInt(Math.random()*9999)]}-${[parseInt(Math.random()*9999)]}`
+      const ranName = () => ['신촌','부산','용산','인천','서울','영등포'][parseInt(Math.random()*6)]
+      const rannum = () => [4,5,6][parseInt(Math.random()*3)]
+      const rangender = () => ['female','male'][parseInt(Math.random()*2)]
+      const ranrating = () => parseInt(Math.random()*3+1)
+      const rantime = x => x + Math.random()*1000*3600*24*13
+      const ranfacility = () => 'size0,shower0,park0,shoes0,wear0'
+      const remain = () => parseInt(Math.random()*12)
+      table = Array.from({length : 200},(_,i) => ({
+        futsalseq: i,
+        time: rantime(Date.now()), stadiumname: ranName(),
+        stadiumaddr: ranAddr(), stadiumtel: ranTel(),
+        num : rannum(), gender: rangender(),difficulty: ranrating(),
+        shoes: 'shoes0', stadiumfacility: ranfacility(),
+        stadiumimg: '11,12,13', remain: remain(), adminname: '펭수'
+      }))
+    }).finally(()=>{
+      table.map(x =>{
+        x.stadiumGroundSize = x.stadiumfacility.split(',')[0]
+        x.stadiumShower = x.stadiumfacility.split(',')[1]
+        x.stadiumParking = x.stadiumfacility.split(',')[2]
+        x.stadiumShoesRental = x.stadiumfacility.split(',')[3]
+        x.stadiumDressRental = x.stadiumfacility.split(',')[4]
+      })
+      this.table = table
+      store.state.futsal.matchList = table	
+    })
+    axios({
+      url:`${store.state.context}/kakaopay/respones`,
+      method: "POST",
+      data: {tid: store.state.tid, token: this.$route.query.pg_token}
+    })
+    .then(res =>{
+      this.temp = res.data
+    }).catch(()=>alert('실패'))
     /* this.$socket.$subscribe('SEND', payload => {
       alert(payload)
     })
@@ -53,15 +97,14 @@ export default {
       this.console = payload
     })
     this.console = this.$socket */
-  },
   /* sockets: {
     connect() {
       alert('socket connected')
     },
     customEmit(val) {
       alert(`this method was fired by the socket server. eg: io.emit("customEmit", data)${val}`)
-    } 
-  },*/
+    } */
+  },
   data(){
     return {
       context:store.state.context,
@@ -78,10 +121,24 @@ export default {
       lol: '',
       pagination: '',
       location: '',
-      search: ''
+      search: '',
+      msg: '',
+      msgList: [],
+      table: [],
+      temp: ''
     }
   },
+  computed:{
+  },
   methods: {
+    kakao(){
+      this.win().console.log(window)
+      this.win().location.href='http://naver.com'
+
+    },
+    win(){
+      return window
+    },
     /* clickButton(val) {
       // this.$socket.client is `socket.io-client` instance
       this.$socket.client.emit('SEND', val);
@@ -109,69 +166,82 @@ export default {
       });
       this.mapObject = map;
     },
+    test(){
+      axios({//https://cors-anywhere.herokuapp.com/
+          url: '/v1/payment/ready',
+          headers:{
+            Authorization: 'KakaoAK 98fa824fb203f20a3caee0ed79a0203e',
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+          },
+          method: 'POST',
+          params: {
+            'cid': `TC0ONETIME`,
+            'partner_order_id': '1001',
+            'partner_user_id': 'test@test.com',
+            'item_name': '풋살',
+            'quantity': 1,
+            'total_amount': 10000,
+            'tax_free_amount': 0,
+            'approval_url':'http://localhost:8081/futsal/admin',
+            'fail_url': 'http://localhost:8081/fail',
+            'cancel_url':'http://localhost:8081/cancel'
+          }
+        }).then(res =>{
+          //this.temp = res.data
+          let dd = i => store.state.tid = i
+          dd(res.data.tid)
+          window.open(res.data.next_redirect_pc_url,'test popup','width:500px','location=yes')
+          axios.get(`${store.state.context}/kakaopay/`)
+        }).catch(()=>alert('실패'))
+		},
     test2(){
-      var req = new XMLHttpRequest();
-      req.open('GET',`${this.context}/futsal/test`, true);
-      req.onreadystatechange = function () {
-        if (req.readyState == 4) {
-          alert(req)
-        }
-        alert(req)
-      }
-      req.send();
+      axios({
+          url: 'http:://localhost:8081/',
+          headers:{
+            Authorization: 'KakaoAK 98fa824fb203f20a3caee0ed79a0203e',
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+            //origin: 'http://kapi.kakao.com/v1/payment/ready'
+          },
+          //method: 'POST',
+          data: {
+            'cid': `TC0ONETIME`,
+            'partner_order_id': '1001',
+            'partner_user_id': 'test@test.com',
+            'item_name': '풋살',
+            'quantity': 1,
+            'total_amount': 10000,
+            'tax_free_amount': 0,
+            'approval_url':'localhost:8081',
+            'fail_url': 'localhost:8081',
+            'cancel_url':'localhost:8081'
+          }
+        }).then(res =>{this.temp = res})
+        .catch(()=>alert('실패'))
     },
     test3(){
-      // Return a new promise.
-      return new Promise(function(resolve, reject) {
-        // Do the usual XHR stuff
-        var req = new XMLHttpRequest();
-        req.open('GET', `${this.context}/futsal/test`);
-        /* req.setRequestHeader("Access-Control-Allow-Origin", "*")
-        req.setRequestHeader("Authorization", "Bearer XXXXX") */
-        req.onload = function() {
-          // This is called even on 404 etc
-          // so check the status
-          if (req.status == 200) {
-            // Resolve the promise with the response text
-            resolve(req.response);
+      axios({//https://cors-anywhere.herokuapp.com/
+          url: 'https://kapi.kakao.com/v1/payment/ready',
+          headers:{
+            Authorization: 'KakaoAK 98fa824fb203f20a3caee0ed79a0203e',
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+            //origin: 'http://kapi.kakao.com/v1/payment/ready'
+          },
+          //method: 'POST',
+          data: {
+            'cid': `TC0ONETIME`,
+            'partner_order_id': '1001',
+            'partner_user_id': 'test@test.com',
+            'item_name': '풋살',
+            'quantity': 1,
+            'total_amount': 10000,
+            'tax_free_amount': 0,
+            'approval_url':'localhost:8081',
+            'fail_url': 'localhost:8081',
+            'cancel_url':'localhost:8081'
           }
-          else {
-            // Otherwise reject with the status text
-            // which will hopefully be a meaningful error
-            reject(Error(req.statusText));
-          }
-        };
-
-        // Handle network errors
-        req.onerror = function() {
-          reject(Error("Network Error"));
-        };
-
-        // Make the request
-        req.send();
-      });
+        }).then(res =>{this.temp = res})
+        .catch(()=>alert('실패'))
     },
-    test(){
-			let currentLocation = {x: 126.925356, y:37.553756}
-      let goalLocation = {x: 126.975598, y:37.554034}
-      axios.get(`http://api2.sktelecom.com/tmap/routes`,{
-        params: {
-          format: 'json',
-          version: '2',
-          appKey: '5c88a4e4-0f6d-4002-9989-f9e35e5257fe',
-          endX: goalLocation.x,
-          endY: goalLocation.y,
-          startX: currentLocation.x,
-          startY: currentLocation.y,
-          reqCoordType: 'WGS84GEO',
-          resCoordType: 'WGS84GEO',
-          //trafficInfo=Y
-        }
-      }).then(res=>{
-          this.moveInfo = res.data.features[0]
-        }).catch(e=>alert(`액시오스 실패 ${e}`))
-		},
-    //https://developers.kakao.com/docs/restapi/local#%ED%82%A4%EC%9B%8C%EB%93%9C-%EA%B2%80%EC%83%89
     test4(){
       axios({url: 'http://dapi.kakao.com/v2/local/search/address.json',
 				headers:{
@@ -193,26 +263,43 @@ export default {
       })
     },
     test6(){
-      axios({url: `${store.state.context}/bot/${this.search}`, method: 'GET'})
+      axios({url: `${store.state.context}/bot/${this.msg}`, method: 'GET'})
       .then(res=>{
+        this.msgList.push(this.msg)
+        this.msg = ''
         this.console = res.data
+        if(res.data.msg.includes('예약')){
+          let time = res.data.result.time
+          let year = time.match(/\d{1,4}년/)
+          let month = time.match(/\d{1,2}월/)
+          let day = time.match(/\d{1,2}일/)
+          let hour = time.match(/\d{1,2}시/)
+          let x = z => z.substring(0,z.length-1)
+          time = Date.parse(`${year ? x(year[0]) : new Date().getFullYear()}-${month ? x(month[0]) : new Date().getMonth()+1}-${day ? x(day[0]) : new Date().getDate()} ${hour ? x(hour[0]) : '00'}:00`)
+          alert(this.table.filter(j=>{
+            j.difficulty==3
+            //j.stadiumname == res.data.result.location || j.stadiumaddr.match(res.data.distinction.locationStack[0])
+          }).length)
+        }
       })
     },
-		crawl(){
+		crawl(location){
+      let result = ''
 			axios({url: 'http://dapi.kakao.com/v2/local/search/keyword.json',
 				headers:{
 					Authorization: 'KakaoAK 28d9076d78b899a3f85bb1c12320b0c3'
 				},
 				method: 'GET',
 				params: {
-					query: '서울 풋살장',
-					page: '2'
+					query: location,
+					page: '1'
 				}
 			}).then(res=>{
-        this.lol = res.data
+        result = res.data.documents
+        return result
       }).catch(e => {
 				alert(e)
-			})
+      })
 		}
   }
 }

@@ -54,44 +54,44 @@
 </v-card>
 <v-card class="cardinfo" color="#26c6da"
         max-width="39%"
-        max-height="14%">
-        <v-card-title>
-        <span >{{state.person.name}}</span>
-        <v-card-text class="headline font-weight-bold">MY POINT
-        <span>{{state.person.point}}원</span>
-        <v-dialog v-model="dialog2" persistent max-width="600px">
-          <template v-slot:activator="{ on }">
-            <v-btn class="paybtn" rounded color="#ffc107" dark v-on="on">충전하기</v-btn>
-            </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">결제 정보 입력</span>
-                  </v-card-title>
-                    <v-card-text>
-                      <v-container>
-                        <v-row>
-                        <v-col cols="12" sm="6">
-                        <v-select
-                          :items="items"
-                          v-model="value"
-                          label="충전금액*"
-                          required></v-select>
-                          </v-col>
-                          </v-row>
-                      </v-container>
-                  <small>결제는 카카오페이로 진행됩니다</small>
-                  </v-card-text>
-                  <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="dialog2 = false">취소</v-btn>
-                <v-btn color="blue darken-1" text @click="pay">결제</v-btn>
-                <v-btn><v-img style="" :src="require(`@/assets/payment.png`)" @click="kakao()"></v-img></v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        <v-divider class="mx-4"></v-divider>
+        max-height="18%">
+  <v-card-title>
+    <span class="font-weight-light">{{state.person.name}}</span>
+    <v-card-text class="headline font-weight-bold">MY POINT
+      <span>{{state.person.point}}원</span>
+      <v-dialog v-model="dialog2" persistent max-width="600px">
+        <template v-slot:activator="{ on }">
+          <v-btn color="primary" dark v-on="on">결제하기</v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+            <span class="headline">결제 정보 입력</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-select
+                  :items="items"
+                  v-model="value"
+                  label="충전금액*"
+                  required
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-container>
+            <small>결제는 카카오페이로 진행됩니다</small>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialog2 = false">취소</v-btn>
+            <v-btn color="blue darken-1" text @click="pay(value)">결제</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-divider class="mx-4"></v-divider>
     </v-card-text>
-    </v-card-title>
+  </v-card-title>
 </v-card>
 <v-container class="gameinfo">
     <v-expansion-panels v-for="(item,i) of 1" :key="i">
@@ -356,16 +356,26 @@
 </div>
 </template>
 <script>
+import axios from 'axios'
 import {store} from "../../store"
 import axios from 'axios'
 export default {
+  name: 'Payment',
+  computed: {
+    win(){
+      return window
+    },
+    con(){
+      return window.console
+    }
+  },
   data() {
     return {
       context : store.state.context,
       dialog1 : false,
       dialog2 : false,
       rules: [v => v.length <= 25 || 'Max 25 characters'],
-      items: [5000, 10000, 20000],
+      items: [5000, 10000, 20000, 50000],
       value:'',
       state: store.state,
       userid: store.state.person.userid,
@@ -386,6 +396,44 @@ export default {
     }
   },
   created(){
+  if(this.$route.query.hasOwnProperty('pg_token')){
+      axios({
+        url:`${store.state.context}/kakaopay/respones`,
+        method: "POST",
+        data: {token: this.$route.query.pg_token}
+      }).then(res =>{
+        if(res.data.msg == "success"){
+            store.state.person = res.data.person
+            if(this.state.person.role != 'customer'){
+                this.state.authCheck = true
+            }else{
+                this.state.authCheck = false
+            }
+        }
+        this.con.log(res)
+        this.con.log(this.state)
+      })
+    }else if(store.state.person.hasOwnProperty('personseq')){
+      axios
+      .post(`${store.state.context}/login`,
+        {userid: store.state.person.userid, passwd : store.state.person.passwd})
+        //store.state.header)
+      .then(res=>{
+        if(res.data.result == "SUCCESS"){
+          store.state.person = res.data.person
+          if(this.state.person.role != 'customer'){
+              this.state.authCheck = true
+          }else{
+              this.state.authCheck = false
+          }
+        }else{
+          alert(`로그인 실패`)
+          this.$router.go({path: '/login'})
+        }
+      }).catch(()=>{
+         alert('axios fail')
+      })
+    }
     axios
     .get(`${this.context}/lol/summoner/userName=${this.state.person.summonername}`)
     .then(res=>{
@@ -412,36 +460,7 @@ export default {
     })
   },
   methods : {
-    kakao(){
-      let data = {
-        cid: "TC0ONETIME",
-        partner_order_id: "partner_order_id",
-        partner_user_id: "partner_user_id",
-        item_name: "라이언빵",
-        quantity: "1",
-        total_amount: "1000",
-        vat_amount: "200",
-        tax_free_amount: "0",
-        approval_url: "https://developers.kakao.com/success",
-        fail_url: "https://developers.kakao.com/fail",
-        cancel_url: "https://developers.kakao.com/cancel"
-      }
-      let headers = {
-        "authorization": "KakaoAK 28d9076d78b899a3f85bb1c12320b0c3",
-        "Content-Type": "application/x-www-form-urlencoded",
-      }
-      let url = `https://kapi.kakao.com/v1/payment/ready`
-      axios
-      .post(url, data, headers)
-      .then(res=>{
-        alert(res)
-         let payUrl = res.data.next_redirect_pc_url
-         location.href = payUrl
-      })
-      .catch(e=>{
-         alert(e)
-        })
-    },
+  
     timeToDate(param){
           const time = new Date(param)
           return `${time.getFullYear()}년 ${(time.getMonth()+1)}월 ${time.getDate()}일 ${time.getHours()}시`
@@ -470,9 +489,16 @@ export default {
          alert('axios fail')
         })
       },
-    pay(){
-      alert('아직 안댄다 색휘야!!')
-    }
+    pay(value){
+      if(store.state.person.hasOwnProperty('personseq')){
+        axios.get(`${store.state.context}/kakaopay/request/${store.state.person.personseq}/${value}`)
+        .then(res=>{
+          this.state.tid = res.data.tid
+          window.location.href = res.data.next_redirect_pc_url
+        })
+      }else{
+        alert('로그인하세요')
+      },
   }
 }
 </script>
