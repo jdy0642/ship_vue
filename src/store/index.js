@@ -9,6 +9,7 @@ export const store = new Vuex.Store({
     /* context:'http://15.164.129.171', */
     context:'http://localhost:8080',
     selectGame:{},
+    pay:'',
     futsal: {
       currentLocation: {},
       header: {

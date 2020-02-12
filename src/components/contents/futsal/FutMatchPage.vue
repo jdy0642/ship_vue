@@ -147,8 +147,9 @@ export default {
       ],
       mapView: true,
       moveInfo: '',
-      temp: '',
-      result:{}
+      temp: {},
+      result:{},
+      pageurl:'',
     }
   },
   computed: {
@@ -242,7 +243,9 @@ export default {
               startX: location.lng,
               startY: location.lat,
               reqCoordType: 'WGS84GEO',
-              resCoordType: 'WGS84GEO'
+              resCoordType: 'WGS84GEO',
+              
+              
             }
           }).then(res=>{
             this.moveInfo = res.data.features[0]
@@ -254,47 +257,77 @@ export default {
       if(store.state.person.hasOwnProperty('userid')){
         axios.post(`${this.context}/res/${this.$route.params.matchId}`
           ,store.state.person)
-        .then(res=>{
-          /* const host = 'https://cors-anywhere.herokuapp.com/http://kapi.kakao.com' */
-          let url = `/v1/payment/ready`
-          let header = {
-                'Authorization':'KakaoAK e0678ade6eb9926174c51399604603c9',
-                'Content-type':'application/x-www-form-urlencoded;charset=utf-8',
-                'Access-Control-Allow-Origin': '*'
-                }
-          let data = {
-              'cid': `TC0ONETIME`,
-              'partner_order_id': '1001',
-              'partner_user_id': 'test@test.com',
-              'item_name': '풋살',
-              'quantity': 1,
-              'total_amount': 10000,
-              'tax_free_amount': 0,
-              'approval_url':'localhost:8080',
-              'fail_url': 'localhost:8080',
-              'cancel_url':'localhost:8080'
-           }
-           axios
-           .post(url, data, header)
-           .then(() =>{
-             if(res.data){
+        .then(()=>{
+        this.payready()
+       /*  alert(this.temp.document.body.loadTimeDate.data.reload_url) */
+          /* if(res.data){
             axios.put(`${this.context}/futsal/match/${this.$route.params.matchId}`)
-            .then(()=>{
-              alert('결제 시도 성공!')
-              this.$router.push({name: 'futsalhome'})
-            })
-          }
-           })
-           .catch(e=>{
-              alert('kakao pay fail'+e)
-           })
-
+                .then(()=>{
+                  alert('결제 성공!')
+                  this.$router.push({name: 'futsalhome'})
+                })
+              } */
+        
           
         })
         .catch(()=>alert('실패'))
       }else{
         alert('로그인 하세요')
       }
+    },
+    payready(){
+      axios({//https://cors-anywhere.herokuapp.com/
+          url: '/v1/payment/ready',
+          headers:{
+            Authorization: 'KakaoAK e0678ade6eb9926174c51399604603c9',
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+          },
+          method: 'POST',
+          params: {
+            cid: `TC0ONETIME`,
+            'partner_order_id': '홍길동',
+            'partner_user_id': 'abc@naver.com',
+            'item_name': '풋살',
+            'quantity': 1,
+            'total_amount': 10000,
+            'tax_free_amount': 0,
+            'approval_url':'http://localhost:8081/success',
+            'fail_url': 'http://localhost:8081/fail',
+            'cancel_url':'http://localhost:8081/cancel'
+          }
+        }).then(res =>{
+         this.pageurl = res.data.next_redirect_pc_url
+         window.open(this.pageurl,'test popup','width=150px,top = 100px, location=yes')
+         store.state.pay = this.$route.query.pg_token
+         alert(store.state.pay)
+         /* alert(window.opener.location.hostname) */
+         /* this.temp = child.window.document.loadTimeData.data.details */
+         })
+        .catch(()=>alert('결제 요청 실패'))
+    },
+    payapprove(x){
+      axios({//https://cors-anywhere.herokuapp.com/
+          url: '/v1/payment/approve',
+          headers:{
+            Authorization: 'KakaoAK e0678ade6eb9926174c51399604603c9',
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+          },
+          method: 'POST',
+          params: {
+            cid: `TC0ONETIME`,
+            tid: x,
+            'partner_order_id': '홍길동',
+            'partner_user_id': 'abc@naver.com',
+            'pg_token' : '4dac7552d3fc7bc60512'
+          }
+        }).then(() =>{
+          /* this.temp = res.data.next_redirect_pc_url
+          alert(this.temp) */
+        
+          
+        })
+        .catch(()=>alert('결제 요청 실패'))
+
     }
   }
 }
