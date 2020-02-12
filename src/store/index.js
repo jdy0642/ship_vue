@@ -16,6 +16,7 @@ export const store = new Vuex.Store({
       "Access-Control-Allow-Origin": '*'
     },
     selectGame:{},
+    pay:'',
     futsal: {
       currentLocation: {},
       matchList:{},

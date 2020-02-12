@@ -16,8 +16,8 @@
       </v-hover>
       <div style="margin-top:10px">
   <v-btn @click="onedaylist('y')" color="blue" style="margin:5px">어제 예약 보기</v-btn>
-  <v-btn @click="onedaylist('c')" color="red" style="margin:5px">오늘 예약 현황 보기</v-btn>
-  <v-btn @click="weeklist()" color="orange" style="margin:5px">최근 일주일 예약 현황 보기</v-btn>
+  <v-btn @click="onedaylist('t')" color="red" style="margin:5px">오늘 예약 보기</v-btn>
+  <v-btn @click="weeklist()" color="orange" style="margin:5px">최근 일주일(오늘 제외) 예약 보기</v-btn>
   </div>
         <br /><br />
         <v-row style="width:100%">
@@ -61,7 +61,7 @@
       PieChart
     },
     created(){
-      this.onedaylist('c')
+      this.onedaylist('t')
     },
     data () {
       return {
@@ -75,10 +75,10 @@
         gender:null,
         ager:null,
 /*         days: ['월요일', '화요일','수요일','목요일', '금요일', '토요일', '일요일'], */
-/*         legion:['서울','경기','인천', '강원', '세종', '충청','대전','대구', '전라', '경상', '부산', '광주','울산' ] */
+/*         legion:['서울','인천','경기','세종','강원','대전','대구', '전라', '경상', '부산', '광주','울산' ] */
       }
     },
-    mounted () {
+    computed () {
       
     },
     methods: {
@@ -106,12 +106,13 @@
         return this.today.filter(t => (String(t.personseq.age).substr(0,1) == a)).length
       },
       onedaylist(t){
-        if(t === 'y'){
+        this.today = []
+        if(t == 'y'){
           this.day = this.yesterday
         }else{
           this.day = this.current
         }
-        this.today = []
+        /* /onedaylist/region={region}/day={day} */
         let url = `${store.state.context}/res/onedaylist/${this.day}`
         let data = {
           day : this.day
@@ -133,7 +134,7 @@
       },
       fillData () {
         this.barlist = {
-          labels: [this.$moment(new Date()).format('YYYY-MM-DD')+' 예약 인원'],
+          labels: ['예약 현황'],
           datasets: [
             {label: '서울 지역',
               backgroundColor: 'red',
