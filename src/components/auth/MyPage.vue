@@ -393,23 +393,25 @@ export default {
   },
   created(){
   if(this.$route.query.hasOwnProperty('pg_token')){
+      this.con.log('1')
       axios({
         url:`${store.state.context}/kakaopay/respones`,
         method: "POST",
         data: {token: this.$route.query.pg_token}
       }).then(res =>{
         if(res.data.msg == "success"){
-            store.state.person = res.data.person
-            if(this.state.person.role != 'customer'){
-                this.state.authCheck = true
-            }else{
-                this.state.authCheck = false
-            }
+          this.con.log('2')
+          store.state.person = res.data.person
+          this.getLol()
+          if(this.state.person.role != 'customer'){
+              this.state.authCheck = true
+          }else{
+              this.state.authCheck = false
+          }
         }
-        this.con.log(res)
-        this.con.log(this.state)
       })
     }else if(store.state.person.hasOwnProperty('personseq')){
+      this.con.log('else1')
       axios
       .post(`${store.state.context}/login`,
         {userid: store.state.person.userid, passwd : store.state.person.passwd})
@@ -417,6 +419,7 @@ export default {
       .then(res=>{
         if(res.data.result == "SUCCESS"){
           store.state.person = res.data.person
+          this.getLol()
           if(this.state.person.role != 'customer'){
               this.state.authCheck = true
           }else{
@@ -430,30 +433,6 @@ export default {
          alert('axios fail')
       })
     }
-    axios
-    .get(`${this.context}/lol/summoner/userName=${this.state.person.summonername}`)
-    .then(res=>{
-      this.temp = res.data[0]
-      this.tier = this.temp.tier
-      this.lp = this.temp.lp
-      this.win = this.temp.win
-      this.lose = this.temp.lose
-      this.winratio = this.temp.winratio
-      /* this.crawltier = this.temp.tier
-      this.crawlrate = this.temp.rate
-      this.img = this.temp.photo */ 
-    })
-    .catch(e=>{
-      alert('axios fail'+e)
-    })
-    axios
-    .get(`${this.context}/res/mymatch/${this.state.person.personseq}`)
-    .then(res=>{
-      this.array = res.data
-    })
-    .catch(e=>{
-      alert('axios fail'+e)
-    })
   },
   methods : {
   
@@ -495,8 +474,34 @@ export default {
       }else{
         alert('로그인하세요')
       }
+    },
+    getLol(){
+      axios
+      .get(`${this.context}/lol/summoner/userName=${this.state.person.summonername}`)
+      .then(res=>{
+        this.temp = res.data[0]
+        this.tier = this.temp.tier
+        this.lp = this.temp.lp
+        this.win = this.temp.win
+        this.lose = this.temp.lose
+        this.winratio = this.temp.winratio
+        /* this.crawltier = this.temp.tier
+        this.crawlrate = this.temp.rate
+        this.img = this.temp.photo */ 
+      })
+      .catch(e=>{
+        alert('axios fail'+e)
+      })
+      axios
+      .get(`${this.context}/res/mymatch/${this.state.person.personseq}`)
+      .then(res=>{
+        this.array = res.data
+      })
+      .catch(e=>{
+        alert('axios fail'+e)
+      })
+    }
   }
-}
 }
 </script>
 <style scoped>
