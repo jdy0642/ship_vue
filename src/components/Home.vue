@@ -148,6 +148,7 @@ export default {
     logout(){
       this.state.person={}
       this.state.authCheck = false
+      window.sessionStorage.clear()
       this.$router.push({path:'/'})
     },
     mypage(){

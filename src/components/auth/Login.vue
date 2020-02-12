@@ -68,6 +68,7 @@ export default {
       .then(res=>{
             if(res.data.result === "SUCCESS"){
                 store.state.person = res.data.person
+                window.sessionStorage.setItem('person',JSON.stringify(store.state.person))
                 if(this.state.person.role != 'customer'){
                     this.state.authCheck = true
 

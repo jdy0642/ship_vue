@@ -23,6 +23,12 @@ Vue.use(VueMonentJS,moment)
 Vue.use(map)
 
 new Vue({
+  beforeCreate(){
+    if(sessionStorage.getItem('person')){
+      this.$store.state.person = JSON.parse(window.sessionStorage.getItem('person'))
+      this.$store.state.authCheck = true
+    }
+  },
   vuetify,
   router,
   vuex,

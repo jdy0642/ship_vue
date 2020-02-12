@@ -397,10 +397,12 @@ export default {
       axios({
         url:`${store.state.context}/kakaopay/respones`,
         method: "POST",
-        data: {token: this.$route.query.pg_token}
+        data: {token: this.$route.query.pg_token,
+          tid: window.sessionStorage.getItem('tid'),
+          personseq: JSON.parse(window.sessionStorage.getItem('person')).personseq}
       }).then(res =>{
         if(res.data.msg == "success"){
-          this.con.log('2')
+          window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
           store.state.person = res.data.person
           this.getLol()
           if(this.state.person.role != 'customer'){
@@ -410,29 +412,28 @@ export default {
           }
         }
       })
-    }else if(store.state.person.hasOwnProperty('personseq')){
-      this.con.log('else1')
-      axios
-      .post(`${store.state.context}/login`,
-        {userid: store.state.person.userid, passwd : store.state.person.passwd})
-        //store.state.header)
-      .then(res=>{
-        if(res.data.result == "SUCCESS"){
-          store.state.person = res.data.person
-          this.getLol()
-          if(this.state.person.role != 'customer'){
-              this.state.authCheck = true
-          }else{
-              this.state.authCheck = false
-          }
-        }else{
-          alert(`로그인 실패`)
-          this.$router.go({path: '/login'})
-        }
-      }).catch(()=>{
-         alert('axios fail')
-      })
-    }
+    }//else if(store.state.person.hasOwnProperty('personseq')){
+    //   axios
+    //   .post(`${store.state.context}/login`,
+    //     {userid: store.state.person.userid, passwd : store.state.person.passwd})
+    //     //store.state.header)
+    //   .then(res=>{
+    //     if(res.data.result == "SUCCESS"){
+    //       store.state.person = res.data.person
+    //       this.getLol()
+    //       if(this.state.person.role != 'customer'){
+    //           this.state.authCheck = true
+    //       }else{
+    //           this.state.authCheck = false
+    //       }
+    //     }else{
+    //       alert(`로그인 실패`)
+    //       this.$router.go({path: '/login'})
+    //     }
+    //   }).catch(()=>{
+    //      alert('axios fail')
+    //   })
+    // }
   },
   methods : {
   
@@ -468,7 +469,7 @@ export default {
       if(store.state.person.hasOwnProperty('personseq')){
         axios.get(`${store.state.context}/kakaopay/request/${store.state.person.personseq}/${value}`)
         .then(res=>{
-          this.state.tid = res.data.tid
+          window.sessionStorage.setItem('tid',res.data.tid)
           window.location.href = res.data.next_redirect_pc_url
         })
       }else{
