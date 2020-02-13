@@ -3,7 +3,7 @@
     <!-- :propLocation="location" -->
   <fut-map v-if="mapTogle" :style="`height: ${height[0]}vh; width:100%;`"
     :propSearchWord="`${stadiumName} 풋살 경기장`"
-    :propLocation="location" :propRightClick="true"
+    :propLocation="location" :propRightClick="true" :propRoadView="true"
     @sendStadiumName="setStadium"></fut-map>
   <fut-head v-else :style="`height: ${height[0]}vh`"
     :propImg="headImg" class="table"></fut-head>

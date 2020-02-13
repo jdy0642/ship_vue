@@ -11,7 +11,7 @@
 	:style="`height: 100%; width: 100%;`">
 	</vue-daum-map>
 	<div v-show="mapRoadView" id="roadview" style="height: 100%; width: 100%;text-align:left;"></div> <!-- 로드뷰를 표시할 div 입니다 -->
-	<input style="position:absolute;top:5px;left:5px;padding:7px 12px;font-size:14px;
+	<input v-if="propRoadView" style="position:absolute;top:5px;left:5px;padding:7px 12px;font-size:14px;
 		border: 1px solid #dbdbdb;background-color: #fff;border-radius: 2px;
 		box-shadow: 0 1px 1px rgba(0,0,0,.04);z-index:1;cursor:pointer;color:black;"
 		type="button" id="btnMap" @click="toggleMap()" title="지도 보기" :value="mapStandardView ? '로드뷰' : '지도'">
@@ -22,7 +22,7 @@ import { store } from '@/store'
 import VueDaumMap from 'vue-daum-map'
 export default {
   components:{VueDaumMap},
-	props:['propSearchWord','propLocation','propRightClick'],
+	props:['propSearchWord','propLocation','propRightClick','propRoadView'],
 	data(){
 		return {
 			mapData:{
