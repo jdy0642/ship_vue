@@ -38,9 +38,9 @@
       <div :color="{'on-hover':hover}" style="width:100%;height:200px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.6) 85%, transparent 190px)">
       <br />
       <h5>{{room.title}}</h5>
-      <h6>방장: {{room.rhost}}</h6>
-      <h6>티어: {{room.tier}}</h6>
-      <h6>포지션: {{room.position}}
+      <h6>소환사명 : {{room.rhost}}</h6>
+      <h6>티어 : {{room.crawltier}}</h6>
+      <h6>포지션 : {{room.position}}
         <!--  <v-img :src="positionimg()" style="width:30px;height:30px"></v-img>  -->
       </h6>
       <h6>{{btime[i]}}</h6>
@@ -59,9 +59,6 @@ import axios from 'axios'
 import {store} from '@/store'
 export default {
    computed: {},
-   mounted(){
-   
-   },
    created(){
 
       this.bringlist()
@@ -215,7 +212,6 @@ export default {
             if((this.list.length)%9===0){
             this.rooms = this.list
             this.scroll()
-
             }else{
                this.rooms = this.list
                window.onscroll = null
@@ -228,7 +224,6 @@ export default {
       },
       scroll(){
          window.onscroll = () => {
-            
             let bottomOfWindow = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
             if (bottomOfWindow) {
             this.scrolledToBottom = true // replace it with your code
@@ -243,30 +238,25 @@ export default {
          this.$router.push({name : 'joinrank', params:{ game: param.cardseq}})
       },
       bringlist(){
-      
-      let url = `${this.context}/lol/listpage=${this.page}`
-      let data = {
-         page: this.page
-      }
-      let headers = {
+         let url = `${this.context}/lol/listpage=${this.page}`
+         let data = {
+            page: this.page
+         }
+         let headers = {
               'authorization': 'JWT fefege..',
                 'Accept' : 'application/json',
                 'Content-Type': 'application/json'
                 }
-      axios
+         axios
            .get(url, data, headers)
            .then(res =>{
             this.list = res.data
             if((this.list.length)%9===0){
-
-            this.rooms = this.list
-            this.scroll()
-
+               this.rooms = this.list
+               this.scroll()
             }else{
-
                this.rooms = this.list
                window.onscroll = null
-
             }
               this.rooms = res.data
               this.timechange()

@@ -9,13 +9,13 @@
           <br />
             <!-- <v-img style="width:80px;" :src="state.selectGame.img" alt="" /> -->
             <!-- <v-img style="width:90px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img> -->
-            <v-card-text><v-icon >mdi-crown</v-icon> 소환사명: {{state.selectGame.rhost}}</v-card-text>
-            <v-card-text>티어 : {{state.selectGame.tier}}</v-card-text>
+            <v-icon >mdi-crown</v-icon>
+            <v-card-text> 소환사명: {{state.selectGame.rhost}}</v-card-text>
+            <v-card-text>티어 : {{state.selectGame.crawltier}}</v-card-text>
                 <v-card-text>승률 : {{state.selectGame.crawlrate}}</v-card-text>
-                <v-card-text>선호 포지션 : {{state.selectGame.position}}</v-card-text>
-                <v-card-text>방 번호: {{state.selectGame.cardseq}}</v-card-text>
-                <v-card-text>방 제목: {{state.selectGame.title}}</v-card-text>
-                <v-card-text>내용: {{state.selectGame.contents}}</v-card-text>
+                <v-card-text>카드 번호: {{state.selectGame.cardseq}}</v-card-text>
+                <v-card-text>카드 제목: {{state.selectGame.title}}</v-card-text>
+                <v-card-text>카드 내용: {{state.selectGame.contents}}</v-card-text>
           </div>
         </v-img>
       </v-card>
@@ -41,20 +41,20 @@
         <v-img style="width:300px;height:600px" :src="require(`@/assets/img/lol/${state.selectGame.imgurl}.jpg`)">
           <div style="width:300px;height:600px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, transparent 160px)">
           <br />
-            <v-img style="width:80px;" :src="temp2.photo" alt="" />
+            
             <!-- <v-img style="width:90px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img> -->
+            <br>
             <v-card-text>소환사명: {{user}}</v-card-text>
             <v-card-text>티어 : {{temp2.tier}}</v-card-text>
-            <v-card-text>리그 포인트 : {{temp2.lp}}</v-card-text>
-            <v-card-text>승률 : {{temp2.win}}승 {{temp2.lose}}패 {{temp2.winratio}}</v-card-text>
+            <v-card-text>승률 : {{temp2.rate}}</v-card-text>
             <v-card-text>모스트 챔피언 : {{temp2.most}}</v-card-text>
-            <v-card-text>선호 포지션 : {{temp2.prefer}}</v-card-text>
+            <v-img style="width:80px;" :src="temp2.photo"/>
           </div>
         </v-img>
       </v-card>
     </v-responsive>
 
-    <v-text-field type="text" v-model="user" style="width:300px;margin-left:10px"> </v-text-field>
+    <v-text-field type="text" v-model="user" style="width:300px;margin-left:10px;text-align-last:center"> </v-text-field>
             <v-btn @click="champCrawl()">유저 검색</v-btn>
     </v-col>
   <v-responsive>
@@ -132,7 +132,7 @@ export default {
       })
     },
     invite(){
-      alert('친구 초대 준비중')
+      alert("친구 초대 준비중")
     },
     deleteRoom(){
      let result = confirm("지우시겠습니까?");

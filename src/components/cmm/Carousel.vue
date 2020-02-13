@@ -4,8 +4,7 @@
     <div class="panels__container">
       <div class="panel">
         <div class="panel__content" style="background-image: url(https://i.ibb.co/Jt9ttbQ/FIFA-19-note-joueurs.jpg);">
-          <h3 @click="FIFA()" class="panel__title">FIFA</h3>
-          <!-- <input @click="FIFA()" type="button" value="FIFA" class="panel__title"/> -->
+          <h3 @click="FIFA()" class="panel__title">PHOTO</h3>
         </div>
       </div>
       <div href="#" class="panel">
@@ -20,7 +19,7 @@
       </div>
       <div href="#" class="panel">
         <div class="panel__content" style="background-image: url(https://utsports.com/images/2019/6/21/Full_Draft_Graphic_v2.jpeg?width=1061&height=597&mode=crop);">
-          <h3 @click="Ball()" class="panel__title">Basket Ball</h3>
+          <h3 @click="Ball()" class="panel__title">Knitting</h3>
         </div>
       </div>
     </div>
