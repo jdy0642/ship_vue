@@ -2,7 +2,7 @@
 <div id="app" >
 <layout>
    <template #header>
-    <v-app id="inspire" style="height:1010px;">
+    <v-app id="inspire" style="height:970px;">
   <fixed-header >
   <!-- --------------------------------------- 네비 ------------------------------------------ -->
       <div >
@@ -148,6 +148,8 @@ export default {
     logout(){
       this.state.person={}
       this.state.authCheck = false
+      window.localStorage.removeItem('person')
+      window.sessionStorage.removeItem('person')
       this.$router.push({path:'/'})
     },
     mypage(){
