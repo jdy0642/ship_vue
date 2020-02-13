@@ -1,12 +1,12 @@
 <template>
 <v-card class="d-flex justify-space-around pa-1" elevation="20">
-  <v-btn @click="prev()"><v-icon>keyboard_arrow_left</v-icon></v-btn>
+  <v-btn style="margin-top:7px" @click="prev()"><v-icon>keyboard_arrow_left</v-icon></v-btn>
   <v-btn v-for="(time,index) in timeArray" :key="index"
     class="d-inline" rounded max-width="120" max-height="80" min-height="50" min-width="70"  
     :color="selected(time,selectTime)" @click="tableChange(index,time)">
     {{timeToDateAndWeek(time)}}
   </v-btn>
-  <v-btn @click="next()"><v-icon>keyboard_arrow_right</v-icon></v-btn>
+  <v-btn style="margin-top:7px" @click="next()"><v-icon>keyboard_arrow_right</v-icon></v-btn>
     <!-- 부트스트랩
     <button @click="tableChange(index,time)" :class="selected(time,selectTime)">{{timeToDateAndWeek(time)}}</button> -->    
 </v-card>  

@@ -60,11 +60,6 @@
                 ></div> -->
                 </v-flex>
 
-                <v-flex xs8 md8> 
-                  <v-checkbox v-model="checkbox" :rules="[v => !!v || '선택하셔야 가입이 진행됩니다!']"
-                            label="위의 정보를 제공하는 것에 동의하십니까?" required></v-checkbox>
-                </v-flex>
-
               </v-layout>
             </v-container>
         </v-form>
