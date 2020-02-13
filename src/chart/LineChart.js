@@ -6,7 +6,9 @@ export default {
   data(){
     return{
     chartdata: {},
+    
     options: {
+      
       responsive: true,
       maintainAspectRatio: true,
       legend: {

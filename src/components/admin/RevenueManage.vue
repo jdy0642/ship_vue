@@ -10,7 +10,7 @@
         <v-card
           :elevation="hover ? 12 : 2"
           class="mx-auto"
-          style="margin:20px;backgroundColor:#B0BEC5"
+          style="margin:20px;backgroundColor:#F0E5E2"
           max-height="500px"
         >
         <bar-chart :chart-data="barlist"></bar-chart>
@@ -24,7 +24,7 @@
           :elevation="hover ? 12 : 2"
           class="mx-auto"
           max-width="420px"
-          style="float:left;backgroundColor:#B0BEC5"
+          style="float:left;backgroundColor:#F0E5E2"
         >
         <line-chart :chart-data="ager"></line-chart>
         </v-card>
@@ -33,11 +33,14 @@
   <v-card
     class="mx-auto"
     width="380px"
-    style="float:right;backgroundColor:#B0BEC5"
+    style="float:right;backgroundColor:#F0E5E2;color:black"
   >
+  <br>
   <h3 style="margin:10px"> {{day}} 예약 정보</h3>
+  <br>
   <div float="right">
   <h4>총 예약 : {{today.length}}건</h4>
+  <br>
   <h4>20대 여성 이용률: {{Math.floor(this.wgcounting('2')*100/this.today.length)}}%</h4>
   <h4>30대 여성 이용률: {{Math.floor(this.wgcounting('3')*100/this.today.length)}}%</h4>
   <h4>20대 남성 이용률: {{Math.floor(this.mgcounting('2')*100/this.today.length)}}%</h4>
@@ -51,7 +54,7 @@
           :elevation="hover ? 12 : 2"
           class="mx-auto"
           max-width="420px"
-          style="float:right;backgroundColor:#B0BEC5"
+          style="float:right;backgroundColor:#F0E5E2"
         >
   <pie-chart :chart-data="gender"></pie-chart>
   </v-card>
@@ -211,16 +214,22 @@
               label: this.$moment(new Date()).format('YYYY-MM-DD')+' 예약 성별 비율',
               backgroundColor: ['#4DD0E1','#FF4081'],
               data: [this.today.length-this.gcounting(), this.gcounting()]
-            }]
+            },
+            ]
         },
         this.ager={
           labels:['10대 ', '20대', '30대', '40대'],
           
           datasets: [
             {
-              label: '연령별 예약현황',
-              backgroundColor: ['#2196F3'],
-              data: [this.acounting('1'), this.acounting('2'), this.acounting('3'), this.acounting('4')]
+              label: '남성 예약',
+              backgroundColor: ['rgba(38, 140, 194,0.9'],
+              data: [this.mgcounting('1'), this.mgcounting('2'), this.mgcounting('3'), this.mgcounting('4')]
+            },
+            {
+              label: '여성 예약',
+              backgroundColor: ['rgba(212, 89, 61 ,0.9'],
+              data: [this.wgcounting('1'), this.wgcounting('2'), this.wgcounting('3'), this.wgcounting('4')]
             }
           ]
         }

@@ -3,9 +3,10 @@ const { reactiveProp } = mixins
 export default {
   extends: Bar,
   mixins: [reactiveProp],
+  
   data(){
     return{
-      
+  
     chartdata: {},
     options: {
 
@@ -16,11 +17,21 @@ export default {
             fontColor: 'black',
             
         },
+
       },
+      /* scales: {
+        xAxes: [{
+            stacked: false,
+            fontColor: 'black',
+        }],
+        yAxes: [{
+            stacked: true
+        }]
+    } */
     }
   }
 },
   mounted () {
-    this.renderChart(this.chartdata, this.options)
+    this.renderChart(this.data, this.options)
   }
 }
