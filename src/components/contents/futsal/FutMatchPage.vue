@@ -177,10 +177,13 @@ export default {
         this.selectMatch.stadiumfacility.split(',')
         : ['park0','shoes1','shoes0','shower1','wear1']
     },
+    stadiumImgChange(){
+      return this.selectMatch.stadiumimg
+    },
     stadiumImg(){
-    return this.selectMatch.stadiumImg ?
-      this.selectMatch.stadiumimg.split(',').map(i => require(`@/assets/img/stadium/${i}.jpg`)) 
-      : Array.from({length:3},(_,i) => require(`@/assets/img/stadium/1${i+1}.jpg`))
+      return this.stadiumImgChange ?
+        this.stadiumImgChange.split(',').map(i => require(`@/assets/img/stadium/${i}.jpg`)) 
+        : Array.from({length:3},(_,i) => require(`@/assets/img/stadium/1${i+1}.jpg`))
     },
     stadiumText(){
       let selectMatch = this.selectMatch
