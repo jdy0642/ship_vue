@@ -1,23 +1,12 @@
 <template>
 <div style="padding:0.5%;">
 
-  <h2>지역별 예약 현황 페이지</h2>
-  <v-input></v-input>
-  <v-btn @click="onedaylist('y')" color="blue" style="margin:5px">어제 예약 보기</v-btn>
-  <v-btn @click="onedaylist('t')" color="red" style="margin:5px">오늘 예약 보기</v-btn>
-  <v-btn @click="weeklist()" color="orange" style="margin:5px">최근 일주일(오늘 제외) 예약 보기</v-btn>
-      <v-hover v-slot:default="{ hover }">
-        <v-card
-          :elevation="hover ? 12 : 2"
-          class="mx-auto"
-          style="margin:20px;backgroundColor:#F0E5E2"
-          max-height="500px"
-        >
-        <bar-chart :chart-data="barlist"></bar-chart>
-        </v-card>
-      </v-hover>
-     
-        <v-row style="width:100%">
+  <h2 style="margin:10px">지역별 예약 현황 페이지</h2>
+  <v-divider></v-divider>
+  <v-btn @click="onedaylist('y')" color="blue" style="margin:5px;float:right">어제 예약 보기</v-btn>
+  <v-btn @click="onedaylist('t')" color="red" style="margin:5px;float:right">오늘 예약 보기</v-btn>
+  <v-btn @click="weeklist()" color="orange" style="margin:5px;float:right">최근 일주일(오늘 제외) 예약 보기</v-btn>
+  <v-row style="width:100%">
           
         <v-hover v-slot:default="{ hover }">
         <v-card
@@ -45,7 +34,6 @@
   <h4>30대 여성 이용률: {{Math.floor(this.wgcounting('3')*100/this.today.length)}}%</h4>
   <h4>20대 남성 이용률: {{Math.floor(this.mgcounting('2')*100/this.today.length)}}%</h4>
   <h4>30대 남성 이용률: {{Math.floor(this.mgcounting('3')*100/this.today.length)}}%</h4>
-  
   </div>
   </v-card>
 
@@ -60,6 +48,18 @@
   </v-card>
         </v-hover>
         </v-row>
+      <v-hover v-slot:default="{ hover }">
+        <v-card
+          :elevation="hover ? 12 : 2"
+          class="mx-auto"
+          style="margin:10px;backgroundColor:#F0E5E2"
+          max-height="500px"
+        >
+        <bar-chart :chart-data="barlist"></bar-chart>
+        </v-card>
+      </v-hover>
+     
+        
 
     
 </div>
@@ -223,12 +223,12 @@
           datasets: [
             {
               label: '남성 예약',
-              backgroundColor: ['rgba(38, 140, 194,0.9'],
+              backgroundColor: ['rgba(38, 140, 194,0.8'],
               data: [this.mgcounting('1'), this.mgcounting('2'), this.mgcounting('3'), this.mgcounting('4')]
             },
             {
               label: '여성 예약',
-              backgroundColor: ['rgba(212, 89, 61 ,0.9'],
+              backgroundColor: ['rgba(212, 89, 61 ,0.8'],
               data: [this.wgcounting('1'), this.wgcounting('2'), this.wgcounting('3'), this.wgcounting('4')]
             }
           ]

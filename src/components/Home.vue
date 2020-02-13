@@ -2,7 +2,7 @@
 <div id="app" >
 <layout>
    <template #header>
-    <v-app id="inspire" style="height:1010px;">
+    <v-app id="inspire" style="height:970px;">
   <fixed-header >
   <!-- --------------------------------------- 네비 ------------------------------------------ -->
       <div >

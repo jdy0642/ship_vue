@@ -20,7 +20,8 @@
       </v-data-table>
       <div class="text-center pt-2">
         <v-pagination prev-icon="mdi-arrow-left" next-icon="mdi-arrow-right" circle
-          color="grey" v-model="page" :length="pageCount" ></v-pagination>
+          color="grey" v-model="page" :length="pageCount" total-visible="150"
+          ></v-pagination>
       </div>
     </v-card>
     <v-dialog v-model="dialog" width="400px">
@@ -54,7 +55,7 @@ export default {
     .get(`${this.context}/res/2`)
     .then(res =>{
       this.lists = res.data.sort((a,b) =>
-        a.resdate > b.resdate ? 1 : (a.resdate < b.resdate ? -1 : 0))
+        a.resdate > b.resdate ? 1 : (a.resdate < b.resdate ? -1 : 0)).reverse().filter(t=>t.resdate <= this.$moment(new Date()).add(5,'d').format('x'))
     })
     .catch(e=>{
       alert('AXIOS FAIL'+e)
