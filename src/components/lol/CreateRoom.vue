@@ -14,9 +14,9 @@
             <v-col center sm="1" md="6">
              <v-radio-group v-model="row" row>
         <v-radio label="개인/2인랭크게임" value="rank" ></v-radio>
-        <v-radio label="칼바람(준비중 )" ></v-radio>
-        <v-radio label="URF(준비중 )" ></v-radio>
-        <v-radio label="롤토체스(준비중 )" ></v-radio>
+        <v-radio label="칼바람(준비중 )" @click="prepare()"></v-radio>
+        <v-radio label="URF(준비중 )" @click="prepare()"></v-radio>
+        <v-radio label="롤토체스(준비중 )" @click="prepare()"></v-radio>
         <!-- <v-radio label="칼바람나락" value="kal"></v-radio> -->
       </v-radio-group>
       <v-divider></v-divider>
@@ -32,47 +32,47 @@
               <v-radio
                   label="아이언"
                   color="#6D4C41"
-                  value="iron"
+                  value="Iron"
                 ></v-radio>
                 <v-radio
                   label="브론즈"
                   color="#6D4C41"
-                  value="bronze"
+                  value="Bronze"
                 ></v-radio>
                 <v-radio
                   label="실버"
                   color="#CFD8DC"
-                  value="silver"
+                  value="Silver"
                 ></v-radio>
                 <v-radio
                   label="골드"
                   color="#FF9800"
-                  value="gold"
+                  value="Gold"
                 ></v-radio>
                 <v-radio
                   label="플레티넘"
                   color="#00796B"
-                  value="platinum"
+                  value="Platinum"
                 ></v-radio>
                 <v-radio
                   label="다이아"
                   color="#0288D1"
-                  value="diamond"
+                  value="Diamond"
                 ></v-radio>
                 <v-radio
                   label="마스터"
                   color="#4DB6AC"
-                  value="master"
+                  value="Master"
                 ></v-radio>
                 <v-radio
                   label="그랜드 마스터"
                   color="#4DB6AC"
-                  value="grande master"
+                  value="Grand master"
                 ></v-radio>
                 <v-radio
                   label="챌린져"
                   color="#AFB42B"
-                  value="challenger"
+                  value="Challenger"
                 ></v-radio>
                 
               </v-radio-group>
@@ -122,7 +122,7 @@ export default{
       title: '',
       contents: '',
       state : store.state,
-      temp : '',
+      temp : "",
       result : {},
       crawltier:'',
       crawlrate:'',
@@ -131,11 +131,17 @@ export default{
     }
   },
   methods:{
+    prepare(){
+      alert('준비중입니다.')
+    },
     lol(){
       this.$router.push({path:'/lol'})
     },
     crawling(){
-    let url = `${this.context}/lol/summoner/userName=${this.state.person.summonername}`
+      if(this.state.person.userid == null){
+        alert('로그인해야 이용 하실 수 있습니다.')
+      }else{
+        let url = `${this.context}/lol/summoner/userName=${this.state.person.summonername}`
     axios
     .get(url)
     .then(res=>{
@@ -143,15 +149,19 @@ export default{
       this.crawltier = this.temp.tier
       this.crawlrate = this.temp.rate
       this.img = this.temp.photo
+      if(this.temp == ''){
+        alert('opgg에 등록된 정보가 없습니다.')
+      }
       this.createroom()
     })
-    .catch(e=>{
-      alert('axios fail'+e)
-    })
+      }
+
     },
     createroom(){
-      // this.crawling()
-      let url = `${this.context}/lol/createroom`
+      if(this.title == "" || this.tier == "" || this.contents == "" || this.position == ""){
+        alert('모든 정보를 입력해주세요')
+      }else{
+        let url = `${this.context}/lol/createroom`
            let headers = {
               'authorization': 'JWT fefege..',
                 'Accept' : 'application/json',
@@ -173,12 +183,13 @@ export default{
            .post(url, data, headers)
            .then(res =>{
               this.result = res.data
-              // alert('방생성 완료!')
+
               this.$router.push({path:`/lol`})
            })
-           .catch(e=>{
-              alert('AXIOS FAIL'+e)
-           })
+          
+      }
+      
+           
     }
   }
 }

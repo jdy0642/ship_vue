@@ -1,8 +1,8 @@
 <template>
-<div id="app">
+<div id="app" >
 <layout>
    <template #header>
-    <v-app id="inspire" style="height:1010px;">
+    <v-app id="inspire" style="height:970px;">
   <fixed-header >
   <!-- --------------------------------------- 네비 ------------------------------------------ -->
       <div >
@@ -29,19 +29,19 @@
             <v-row style="margin-right:85px; margin-top:12px;" v-if="!authCheck">
             </v-row>
             <v-row v-else>
-              <v-btn text style="font-size:15px;margin-top:12px" class="white--text" @click="reservationmanage()">예약 관리</v-btn>
+              <v-btn text style="margin-right:3px;font-size:15px;margin-top:12px" class="white--text" @click="reservationmanage()">예약 관리</v-btn>
             </v-row>
 
             <v-row style="margin-right:85px; margin-top:12px;" v-if="!authCheck">
             </v-row>
             <v-row v-else>
-              <v-btn text style="font-size:15px;margin-top:12px" class="white--text" @click="membermanage()">회원 관리</v-btn>
+              <v-btn text style="margin-right:3px;font-size:15px;margin-top:12px" class="white--text" @click="membermanage()">회원 관리</v-btn>
             </v-row>
 
             <v-row style="margin-right:85px; margin-top:12px;" v-if="!authCheck">
             </v-row>
             <v-row v-else>
-              <v-btn text style="font-size:15px;margin-top:12px" class="white--text" @click="register()">구장 등록</v-btn>
+              <v-btn text style="margin-right:3px;font-size:15px;margin-top:12px" class="white--text" @click="register()">구장 등록</v-btn>
             </v-row>
 
            
@@ -49,20 +49,20 @@
             <v-row style="margin-right:85px; margin-top:12px;" v-if="!authCheck">
             </v-row>
             <v-row v-else>
-              <v-btn text style="font-size:15px;margin-top:12px" class="white--text" @click="revenuemanage()">수익 관리</v-btn>
+              <v-btn text style="margin-right:3px;font-size:15px;margin-top:12px" class="white--text" @click="revenuemanage()">수익 관리</v-btn>
             </v-row>
 
             <v-row style="margin-right:113px; margin-top:12px;" v-if="!authCheck">
               <join></join>
             </v-row>
             <v-row v-else>
-              <v-btn text style="font-size:15px;margin-top:12px" class="white--text" @click="mypage()">마이페이지</v-btn>
+              <v-btn text style="margin-right:3px;font-size:15px;margin-top:12px" class="white--text" @click="mypage()">마이페이지</v-btn>
             </v-row>
 
             <v-row style="margin-right:85px ; margin-top:12px"  v-if="!authCheck">
                 <login></login>
             </v-row>
-            <v-row style="margin-right:5px ; margin-top:12px" v-else >
+            <v-row style="margin-right:1px ; margin-top:12px" v-else >
                 <v-btn text style="font-size:15px" class="white--text" @click="logout()">로그아웃</v-btn>
             </v-row>
 
@@ -127,6 +127,7 @@ import Layout from '@/components/cmm/Layout.vue'
 import {store} from '@/store'
 import FixedHeader from 'vue-fixed-header'
 export default {
+  name:'Home',
   components:{
     Layout, Login, Join, FixedHeader
   },
@@ -136,15 +137,6 @@ export default {
       { title: 'LOL' ,link:'/lol'},
       { title: 'FUTSAL', link:'/futsal' },
     ],
-     contents: [
-        { text: 'LOL' },
-        { text: 'FUTSAL' },
-      ],
-      sides: [
-          { title: 'Home', icon: 'mdi-home', link:'/'},
-          { title: '구장 등록', icon: 'mdi-account-group-outline', link:'/register' },
-          { title: '회원 관리', icon: 'mdi-account-group-outline', link:'/membermanage' },
-        ],
       state:store.state,
       hover: false,
       }
@@ -156,6 +148,8 @@ export default {
     logout(){
       this.state.person={}
       this.state.authCheck = false
+      window.localStorage.removeItem('person')
+      window.sessionStorage.removeItem('person')
       this.$router.push({path:'/'})
     },
     mypage(){

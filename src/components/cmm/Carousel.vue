@@ -1,26 +1,26 @@
 <template>
-<div style="height:938px;">
+<div style="height:975px;">
   <div class="panels">
     <div class="panels__container">
       <div class="panel">
-        <div class="panel__content" style="background-image: url(https://i.ibb.co/Jt9ttbQ/FIFA-19-note-joueurs.jpg);">
-          <h3 @click="FIFA()" class="panel__title">FIFA</h3>
+        <div class="panel__content" style="background-image: url(https://previews.123rf.com/images/chaoss/chaoss1705/chaoss170500115/78035090-%EC%85%80-%EB%A3%B0-%EB%9D%BC%EC%9D%B4%ED%8A%B8%EB%A5%BC-%EB%A7%8C%EB%93%9C%EB%8A%94-%EC%A0%8A%EC%9D%80-%EB%82%A8%EC%9E%90-%EC%82%AC%EC%A7%84-%EC%9E%91%EA%B0%80-%EC%B9%B4%EB%A9%94%EB%9D%BC-%EB%A0%8C%EC%A6%88%EC%97%90-%EC%A4%91%EC%A0%90%EC%9D%84-%EB%91%A1%EB%8B%88%EB%8B%A4-.jpg);">
+          <h3 @click="FIFA()" style="margin-left:100px" class="panel__title">PHOTO</h3>
           <!-- <input @click="FIFA()" type="button" value="FIFA" class="panel__title"/> -->
         </div>
       </div>
       <div href="#" class="panel">
-        <div class="panel__content" style="background-image: url(https://image.redbull.com/rbcom/052/2019-05-17/0e0d5093-854c-41a6-b383-56fd6dfc16e5/0012/0/0/449/717/1023/1150/1/ezreal-league-of-legends.jpg);">
+        <div class="panel__content" style="background-image: url(https://pbs.twimg.com/media/DkQTOgHVsAEjxNY.jpg);">
           <h3 @click="lol()" class="panel__title">LOL</h3>
         </div>
       </div>
       <div href="#" class="panel">
-        <div class="panel__content" style="background-image: url(https://i.pinimg.com/originals/e2/42/90/e24290842bcc0e7d9bf566492ee36923.jpg)">
+        <div class="panel__content" style="background-image: url(https://static.fecam.net.br/thumbs/377/1391000_resize_1500_840.jpg)">
           <h3 @click="futsal()" class="panel__title">FUTSAL</h3>
         </div>
       </div>
       <div href="#" class="panel">
-        <div class="panel__content" style="background-image: url(https://utsports.com/images/2019/6/21/Full_Draft_Graphic_v2.jpeg?width=1061&height=597&mode=crop);">
-          <h3 @click="Ball()" class="panel__title">Street Ball</h3>
+        <div class="panel__content" style="background-image: url(https://previews.123rf.com/images/piksel/piksel1510/piksel151000008/46571276-%EB%B0%94%EB%A6%AC-%EC%8A%A4%ED%83%80%EB%8A%94-%EC%BB%A4%ED%94%BC-%ED%95%84%ED%84%B0%EC%97%90-%EB%AC%BC%EC%9D%84-%EB%B6%93%EB%8A%94.jpg);">
+          <h3 @click="Ball()" class="panel__title">COFFEE</h3>
         </div>
       </div>
     </div>

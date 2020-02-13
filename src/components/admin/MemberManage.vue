@@ -1,6 +1,6 @@
 <template>
   <div style="margin:10px;">
-  <div class="text-center" style="">
+  <div class="text-center">
   </div>
    <v-card >
     <v-card-title style="padding-left:250px;color:black;background-color:#B0BEC5">
@@ -19,7 +19,7 @@
       :items="lists"
       :search="search"
       :page.sync="page"
-      :items-per-page="10"
+      :items-per-page="20"
  
       class="elevation-1"
       @page-count="pageCount = $event"
@@ -97,9 +97,6 @@ export default {
           { text: '성별', value: 'male'},
           { text: '관심사', value: 'interest' },
           { text: '이메일', value: 'email' },
-          { text: '롤블랙', value: 'lolblack' },
-          { text: '구분', value: 'job' },
-          
         ],
       }
    },

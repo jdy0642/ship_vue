@@ -1,135 +1,127 @@
 <template>
-<div style="height:860px;">
+<div style="height:940px;">
   <v-card>
     <v-toolbar flat>
       <v-toolbar-title class="title">MY Page</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-dialog v-model="dialog1" persistent max-width="30%">
       <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on">회원정보수정</v-btn>
+        <v-btn color="green" dark v-on="on">회원정보수정</v-btn>
       </template>
       <v-card>
-        <v-card-title>
+        <v-card-title class="green">
           <span class="headline">회원정보</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12" sm="6" md="4">
-                <v-text-field label="아이디" hint="변경불가" required></v-text-field>
+                <v-text-field label="아이디" v-model="userid" hint="변경불가" ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="4">
-                <v-text-field label="이름" required></v-text-field>
+                <v-text-field label="이름" v-model="name" hint="변경불가" ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Email*" required></v-text-field>
+                <v-text-field label="Email*" v-model="email" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field :rules="rules" counter="25" label="Password*" type="password" required></v-text-field>
+                <v-text-field :rules="rules" counter="25" label="Password*" 
+                v-model="passwd" type="password" required></v-text-field>
               </v-col>
-              <v-col cols="12" sm="6">
-                <v-select
-                  :items="['0-17', '18-29', '30-54', '54+']"
-                  label="Age*"
-                  required>
-                </v-select>
+              <v-col cols="12">
+                <v-text-field label="소환사명*" v-model="summonername" required></v-text-field>
               </v-col>
-              <v-col cols="12" sm="6">
-                <v-autocomplete
-                  :items="['여자', '남자']"
-                  label="성별"
-                  multiple>
-                </v-autocomplete>
+              <v-col cols="12">
+                <v-text-field label="연락처*" v-model="tel" required></v-text-field>
+              </v-col>
+              
+              <v-col cols="12"> 
+                  <v-autocomplete v-model="interest" label="관심사" :items="['풋살', '야구(준비중입니다)', '테니스(준비중입니다)', '롤', 
+                  '피파(준비중입니다)', '배틀그라운드(준비중입니다)', '오버워치(준비중입니다)']" required ></v-autocomplete>
               </v-col>
             </v-row>
           </v-container>
-          <small>수정 완료후 저장버튼을 눌러주세요.</small>
+          <medium>수정 완료후 저장버튼을 눌러주세요.</medium>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog1 = false">닫기</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog1 = false">저장</v-btn>
-        </v-card-actions>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn text color="primary" @click="save()">저장</v-btn>
+        <v-btn text color="red" @click="dialog1 = false">CANCEL</v-btn>
+      </v-card-actions>
       </v-card>
     </v-dialog>
   </v-toolbar>
 </v-card>
 <v-card class="cardinfo" color="#26c6da"
-        max-width="39%"
-        max-height="14%">
-        <v-card-title>
-        <span class="title font-weight-light">{{state.person.name}}</span>
-        <v-card-text class="headline font-weight-bold">MY POINT
-        <span>{{state.person.point}}원</span>
-        <v-dialog v-model="dialog2" persistent max-width="600px">
-          <template v-slot:activator="{ on }">
-            <v-btn class="paybtn" rounded color="#ffc107" dark v-on="on">충전하기</v-btn>
-            </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">결제 정보 입력</span>
-                  </v-card-title>
-                    <v-card-text>
-                      <v-container>
-                        <v-row>
-                        <v-col cols="12" sm="6">
-                        <v-select
-                          :items="items"
-                          v-model="value"
-                          label="충전금액*"
-                          required></v-select>
-                          </v-col>
-                          </v-row>
-                      </v-container>
-                  <small>결제는 카카오페이로 진행됩니다</small>
-                  </v-card-text>
-                  <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="dialog2 = false">취소</v-btn>
-                <v-btn color="blue darken-1" text @click="pay">결제</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        <v-divider class="mx-4"></v-divider>
+  max-width="39%"
+  max-height="18%">
+  <v-card-title>
+    <span class="font-weight-light">{{state.person.name}}</span>
+    <v-card-text class="headline font-weight-bold">MY POINT
+      <span>{{state.person.point}}원</span>
+      <v-dialog v-model="dialog2" persistent max-width="600px">
+        <template v-slot:activator="{ on }">
+          <v-btn style="margin-left:40px" color="warning" dark v-on="on"> 카카오 결제 </v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+            <span class="headline">결제 정보 입력</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-select
+                  :items="items"
+                  v-model="value"
+                  label="충전금액*"
+                  required
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-container>
+            <medium>결제는 카카오페이로 진행됩니다</medium>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="pay(value)">결제</v-btn>
+            <v-btn color="red darken-1" text @click="dialog2 = false">취소</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-divider class="mx-4"></v-divider>
     </v-card-text>
-    </v-card-title>
+  </v-card-title>
 </v-card>
 <v-container class="gameinfo">
-    <v-expansion-panels
-        v-for="(item,i) in 1"
-        :key="i"
-    >
+    <v-expansion-panels v-for="(item,i) of 1" :key="i">
       <v-expansion-panel>
         <v-expansion-panel-header>Match 1</v-expansion-panel-header>
         <v-expansion-panel-content>
-    <v-row style="justify-content: center;">
-          <v-card style="margin:2%;" width="10%">
+    <v-row style="justify-content:center;">
+          <v-card style="margin:3%;" width="13%">
             <br>
-          <p
-      class="text-break"
-      style="max-width: 3rem;"
-    >
-      12/12 토요일 15:00
-    </p>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="30%">
+                <p class="text-break" style="max-width: 4rem;">
+                  {{timeToDate(array[0].resdate)}}
+                </p>
+    </v-card >
+      <v-card style="margin:3%" class="title font-weight-light" width="33%" >
         <p></p>
-        <v-text>부천 크라우드 76</v-text>
-        <br>
-        <v-text>남성매치</v-text>
-        <v-text>(초급)</v-text>
+        <v-text>경기장</v-text>
+        <p></p>
+        <v-text >{{array[0].futsal.stadiumname}}</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>개인득점</v-text>
         <p></p>
-        <v-text>2점</v-text>
+        <v-text>{{array[0].score}}득점</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
-        <v-text>런닝</v-text>
+        <v-text>뛴 거리</v-text>
         <p></p>
-        <v-text>7KM</v-text>
+        <v-text>{{array[0].km}}KM</v-text>
     </v-card>
     </v-row>
         </v-expansion-panel-content>
@@ -139,33 +131,33 @@
         <v-expansion-panel-header>Match 2</v-expansion-panel-header>
         <v-expansion-panel-content>
     <v-row style="justify-content: center;">
-          <v-card style="margin:2%;" width="10%">
+          <v-card style="margin:3%;" width="13%">
             <br>
           <p
       class="text-break"
-      style="max-width: 3rem;"
+      style="max-width: 4rem;"
     >
-      12/12 토요일 15:00
+      {{timeToDate(array[1].resdate)}}
     </p>
     </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="30%">
+      <v-card style="margin:3%" class="title font-weight-light" width="33%">
         <p></p>
-        <v-text>부천 크라우드 76</v-text>
+        <v-text>경기장</v-text>
+        <p></p>
+        <v-text>{{array[1].futsal.stadiumname}}</v-text>
         <br>
-        <v-text>남성매치</v-text>
-        <v-text>(초급)</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>개인득점</v-text>
         <p></p>
-        <v-text>2점</v-text>
+        <v-text>{{array[1].score}}점</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>런닝</v-text>
         <p></p>
-        <v-text>7KM</v-text>
+        <v-text>{{array[1].km}}KM</v-text>
     </v-card>
     </v-row>
         </v-expansion-panel-content>
@@ -175,33 +167,33 @@
         <v-expansion-panel-header>Match 3</v-expansion-panel-header>
         <v-expansion-panel-content>
     <v-row style="justify-content: center;">
-          <v-card style="margin:2%;" width="10%">
+          <v-card style="margin:3%;" width="13%">
             <br>
           <p
       class="text-break"
-      style="max-width: 3rem;"
+      style="max-width: 4rem;"
     >
-      12/12 토요일 15:00
+      {{timeToDate(array[2].resdate)}}
     </p>
     </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="30%">
+      <v-card style="margin:3%" class="title font-weight-light" width="33%">
         <p></p>
-        <v-text>부천 크라우드 76</v-text>
+        <v-text>경기장</v-text>
+        <p></p>
+        <v-text>{{array[2].futsal.stadiumname}}</v-text>
         <br>
-        <v-text>남성매치</v-text>
-        <v-text>(초급)</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>개인득점</v-text>
         <p></p>
-        <v-text>2점</v-text>
+        <v-text>{{array[2].score}}점</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>런닝</v-text>
         <p></p>
-        <v-text>7KM</v-text>
+        <v-text>{{array[2].km}}KM</v-text>
     </v-card>
     </v-row>
         </v-expansion-panel-content>
@@ -211,33 +203,33 @@
         <v-expansion-panel-header>Match 4</v-expansion-panel-header>
         <v-expansion-panel-content>
     <v-row style="justify-content: center;">
-          <v-card style="margin:2%;" width="10%">
+          <v-card style="margin:3%;" width="13%">
             <br>
           <p
       class="text-break"
-      style="max-width: 3rem;"
+      style="max-width: 4rem;"
     >
-      12/12 토요일 15:00
+      {{timeToDate(array[3].resdate)}}
     </p>
     </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="30%">
+      <v-card style="margin:3%" class="title font-weight-light" width="33%">
         <p></p>
-        <v-text>부천 크라우드 76</v-text>
+        <v-text>경기장</v-text>
+        <p></p>
+        <v-text>{{array[3].futsal.stadiumname}}</v-text>
         <br>
-        <v-text>남성매치</v-text>
-        <v-text>(초급)</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>개인득점</v-text>
         <p></p>
-        <v-text>2점</v-text>
+        <v-text>{{array[3].score}}점</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>런닝</v-text>
         <p></p>
-        <v-text>7KM</v-text>
+        <v-text>{{array[3].km}}KM</v-text>
     </v-card>
     </v-row>
         </v-expansion-panel-content>
@@ -247,33 +239,33 @@
         <v-expansion-panel-header>Match 5</v-expansion-panel-header>
         <v-expansion-panel-content>
     <v-row style="justify-content: center;">
-          <v-card style="margin:2%;" width="10%">
+          <v-card style="margin:3%;" width="13%">
             <br>
           <p
       class="text-break"
-      style="max-width: 3rem;"
+      style="max-width: 4rem;"
     >
-      12/12 토요일 15:00
+      {{timeToDate(array[4].resdate)}}
     </p>
     </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="30%">
+      <v-card style="margin:3%" class="title font-weight-light" width="33%">
         <p></p>
-        <v-text>부천 크라우드 76</v-text>
+        <v-text>경기장</v-text>
+        <p></p>
+        <v-text>{{array[4].futsal.stadiumname}}</v-text>
         <br>
-        <v-text>남성매치</v-text>
-        <v-text>(초급)</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>개인득점</v-text>
         <p></p>
-        <v-text>2점</v-text>
+        <v-text>{{array[4].score}}점</v-text>
     </v-card>
       <v-card style="margin:3%" class="title font-weight-light" width="15%">
         <p></p>
         <v-text>런닝</v-text>
         <p></p>
-        <v-text>7KM</v-text>
+        <v-text>{{array[4].km}}KM</v-text>
     </v-card>
     </v-row>
         </v-expansion-panel-content>
@@ -298,22 +290,23 @@
           <div>
             <div class="title">전적</div>
             <i class="fa fa-trophy"></i>
-            <div class="value">{{state.person.win}}승</div>
+            <div style="margin-top:5px" class="value">{{state.person.win}}승</div>
           </div>
           <div>
             <div class="title">득점</div>
             <i class="fa fa-gamepad"></i>
-            <div class="value">{{state.person.score}}점</div>
+            <div style="margin-top:5px" class="value">{{state.person.score}}점</div>
           </div>
           <div>
             <div class="title">런닝</div>
             <i class="fa fa-heartbeat"></i>
-            <div class="value">{{state.person.km}}Km</div>
+            <div style="margin-top:5px" class="value">{{state.person.km}}Km</div>
           </div>
           <div>
             <div class="title">경기수</div>
-            <i class="fa fa-star"></i>
-            <div class="value infinity">3회</div>
+            <i class="fa fa-futbol"></i>
+              <v-icon>sports_soccer</v-icon>
+            <div style="margin-top:5px" class="value infinity">10회</div>
           </div>
         </div>
       </div>
@@ -331,55 +324,185 @@
         style="margin-top: 60%;">
       </div>
       <div class="more-info">
-        <h1>Ranked</h1>
+        <h1 style="margin-top:5px;margin-left:7px">Tier : {{tier}}</h1>
         <img width="200px" height="150px" src="https://opgg-static.akamaized.net/images/medals/challenger_1.png?image=q_auto&v=1" style="margin-left: 30px;">
-        <div class="stats">
+        <div class="stats" style="margin-left:30px">
           <div>
             <div class="title">LP</div>
             <i class="fa fa-gamepad"></i>
-            <div class="value">1,169</div>
+            <div class="value">{{lp}}</div>
           </div>
-          <div>
+          <div style="margin-top:10px">
             <div class="title">승</div>
-            <i class="fa fa-trophy"></i>
-            <div class="value">641</div>
+            <i class="fa fa-thumbs-up"></i>
+            <div class="value">{{win}}승</div>
           </div>
-          <div>
+          <div style="margin-top:10px">
             <div class="title">패</div>
             <i class="fa fa-thumbs-down"></i>
-            <div class="value">621</div>
+            <div class="value">{{lose}}패</div>
           </div>
-          <div>
+          <div style="margin-top:10px">
             <div class="title">승률</div>
             <i class="fa fa-bar-chart"></i>
-            <div class="value infinity">51%</div>
+            <div class="value infinity">{{winratio}}</div>
           </div>
         </div>
       </div>
     </div>
-    <img class="futsalimg" src="https://www.gamingdose.com/wp-content/uploads/2019/10/Qiyana-Louis-Vuitton-768x455.jpg">
+    <img class="futsalimg" src="@/assets/mypage.jpg">
   </div>
 </div>
 </div>
 </template>
 <script>
+import axios from 'axios'
 import {store} from "../../store"
 export default {
   name: 'Payment',
+  computed: {
+    con(){
+      return window.console
+    }
+  },
   data() {
     return {
       context : store.state.context,
-      state: store.state,
       dialog1 : false,
       dialog2 : false,
       rules: [v => v.length <= 25 || 'Max 25 characters'],
-      items: [5000, 10000, 20000],
-      value:''
+      items: [5000, 10000, 20000, 50000],
+      value:'',
+      state: store.state,
+      userid: store.state.person.userid,
+      name: store.state.person.name,
+      email: store.state.person.email,
+      summonername: store.state.person.summonername,
+      tel: store.state.person.tel,
+      passwd:'',
+      interest:'',
+      temp:'',
+      tier:'',
+      photo:'',
+      lp:'',
+      win:'',
+      lose:'',
+      winratio:'',
+      array:''
+    }
+  },
+  created(){
+  if(this.$route.query.hasOwnProperty('pg_token')){
+    axios({
+      url:`${store.state.context}/kakaopay/respones`,
+      method: "POST",
+      data: {token: this.$route.query.pg_token,
+        tid: window.sessionStorage.getItem('tid'),
+        personseq: JSON.parse(window.sessionStorage.getItem('person')).personseq}
+      }).then(res =>{
+        if(res.data.msg == "success"){
+          window.sessionStorage.removeItem('tid')
+          window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
+          if(window.localStorage.getItem('person')){
+            window.localStorage.setItem('person',JSON.stringify(res.data.person))
+          }
+          store.state.person = res.data.person
+          this.getLol()
+          this.state.authCheck = true
+        }
+      }).catch(()=>{
+         alert('결제 실패')
+      })
+    }else if(store.state.person.hasOwnProperty('personseq')){
+      axios
+      .post(`${store.state.context}/login`,
+        {userid: store.state.person.userid, passwd : store.state.person.passwd},
+        store.state.header)
+      .then(res=>{
+        if(res.data.result == "SUCCESS"){
+          window.sessionStorage.removeItem('tid')
+          window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
+          if(window.localStorage.getItem('person')){
+            window.localStorage.setItem('person',JSON.stringify(res.data.person))
+          }
+          store.state.person = res.data.person
+          this.getLol()
+          this.state.authCheck = true
+        }else{
+          alert(`로그인 실패`)
+          this.$router.go({path: '/login'})
+        }
+      }).catch(()=>{
+         alert('axios fail')
+      })
     }
   },
   methods : {
-    pay(){
-      alert('아직 안댄다 색휘야!!')
+  
+    timeToDate(param){
+          const time = new Date(param)
+          return `${time.getFullYear()}년 ${(time.getMonth()+1)}월 ${time.getDate()}일 ${time.getHours()}시`
+        },
+    save(){
+        let url = `${store.state.context}/save/${this.userid}`
+        let data =  {
+          email: this.email,
+          passwd: this.passwd,
+          summonername: this.summonername,
+          tel:this.tel,
+          interest:this.interest
+        }
+        let headers= {
+               'authorization': 'JWT fefege..',
+               'Accept' : 'application/json',
+               'Content-Type': 'application/json'
+        }
+      axios
+      .put(url, data,headers)
+      .then(()=>{
+        alert("수정되었습니다. 창을 닫아주세요")
+        this.$router.push({path: '/mypage'})
+      })
+      .catch(()=>{
+         alert('axios fail')
+        })
+      },
+    pay(value){
+      if(store.state.person.hasOwnProperty('personseq')){
+        axios.get(`${store.state.context}/kakaopay/request/${store.state.person.personseq}/${value}`)
+        .then(res=>{
+          window.sessionStorage.setItem('tid',res.data.tid)
+          window.location.href = res.data.next_redirect_pc_url
+        })
+      }else{
+        alert('로그인하세요')
+      }
+    },
+    getLol(){
+      axios
+      .get(`${this.context}/lol/summoner/userName=${this.state.person.summonername}`)
+      .then(res=>{
+        this.temp = res.data[0]
+        this.tier = this.temp.tier
+        this.lp = this.temp.lp
+        this.win = this.temp.win
+        this.lose = this.temp.lose
+        this.winratio = this.temp.winratio
+        /* this.crawltier = this.temp.tier
+        this.crawlrate = this.temp.rate
+        this.img = this.temp.photo */ 
+      })
+      .catch(e=>{
+        alert('axios fail'+e)
+      })
+      axios
+      .get(`${this.context}/res/mymatch/${this.state.person.personseq}`)
+      .then(res=>{
+        this.array = res.data
+      })
+      .catch(e=>{
+        alert('axios fail'+e)
+      })
     }
   }
 }

@@ -41,6 +41,6 @@ export default new Router({
           {path: '/revenuemanage', name: 'revenuemanage', component: RevenueManage},
           {path: '/reservationmanage', name: 'reservationmanage', component: ReservationManage},
           {path: '/updateroom', name: 'updateroom', component: UpdateRoom},
-          {path: '/', name: 'carousel', component: Carousel}
+          {path: '/', name: 'carousel', component: Carousel},
      ]    
 })

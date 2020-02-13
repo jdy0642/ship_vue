@@ -25,7 +25,7 @@
       <v-col
         v-for="n of matchRule"
         :key="n" cols="2">
-        <v-card>
+        <v-card style="height:100%">
           <v-img :src="require(`@/assets/img/matchRule/${n}.svg`)"/>
           <v-card-text class="text-center">{{msgSwitch(n)}}</v-card-text>
         </v-card>
@@ -69,7 +69,7 @@
   <v-card class="card">   
     <ul>
       <h2>- 주의사항 -</h2>
-      <span>플랩풋볼 매치는 참가자 간의 신뢰를 바탕으로 진행됩니다.</span>
+      <span>풋볼 매치는 참가자 간의 신뢰를 바탕으로 진행됩니다.</span>
       <li>다른 참가자들을 위해 시간을 준수해 주세요.</li>
       <li>풋살화 또는 스터드가 없는 운동화를 착용해주세요.</li>
       <li>불필요한 언행, 지시 등은 삼가해주세요.</li>
@@ -109,7 +109,7 @@
     </ul>
   </v-card>
   <div id="floatdiv">
-    <v-btn @click="payment()" color="#cc33ff" pa-2 x-large block>신 청 하 기</v-btn>
+    <v-btn @click="payment()" style="background-color:blueviolet;" pa-2 x-large block>신 청 하 기</v-btn>
   </div>
 </div>
 </template>
@@ -121,7 +121,10 @@ import FutMap from './FutMap'
 import FutHead from './FutHead'
 export default {
   created(){
-    if(!store.state.futsal.selectMatch.hasOwnProperty('futsalmatchseq')){
+    if(!store.state.futsal.currentLoc.hasOwnProperty('lng')){
+      store.state.futsal.currentLoc = {lng: 126.975598, lat:37.554034}
+    }
+    if(!store.state.futsal.selectMatch.hasOwnProperty('futsalseq')){
       axios.get(`${this.context}/futsal/match/${this.$route.params.matchId}`)
       .then(res =>{
         store.state.futsal.selectMatch = res.data
@@ -147,10 +150,15 @@ export default {
       ],
       mapView: true,
       moveInfo: '',
-      temp: ''
+      temp: {},
+      result:{},
+      pageurl:'',
     }
   },
   computed: {
+    con(){
+      return window.console
+    },
     moveResult(){
       return this.moveInfo ? 
         `${parseInt(this.moveInfo.properties.totalTime/60)}분 총 거리 : ${
@@ -169,10 +177,13 @@ export default {
         this.selectMatch.stadiumfacility.split(',')
         : ['park0','shoes1','shoes0','shower1','wear1']
     },
+    stadiumImgChange(){
+      return this.selectMatch.stadiumimg
+    },
     stadiumImg(){
-    return this.selectMatch.stadiumImg ?
-      this.selectMatch.stadiumimg.split(',').map(i => require(`@/assets/img/stadium/${i}.jpg`)) 
-      : Array.from({length:3},(_,i) => require(`@/assets/img/stadium/1${i+1}.jpg`))
+      return this.stadiumImgChange ?
+        this.stadiumImgChange.split(',').map(i => require(`@/assets/img/stadium/${i}.jpg`)) 
+        : Array.from({length:3},(_,i) => require(`@/assets/img/stadium/1${i+1}.jpg`))
     },
     stadiumText(){
       let selectMatch = this.selectMatch
@@ -202,6 +213,8 @@ export default {
         case 'shoes1' : return '풋살화 필수'
         case 'shoes0' : return '축구화 가능'
         case 'minmax' : return `${this.selectMatch.num*2 - 2} ~ ${this.selectMatch.num*2 + 4}명`
+        case 'male' : return '남성 매치'
+        case 'female' : return '여성 매치'
         default : return item
       }
     },
@@ -230,7 +243,7 @@ export default {
     },
     navigation(){
       this.addressSearch(this.selectMatch.stadiumname,(goalLocation)=>{
-        this.currentLocation((location)=>{
+        //this.currentLocation((location)=>{
           axios.get(`http://api2.sktelecom.com/tmap/routes`,{
             params: {
               format: 'json',
@@ -238,34 +251,34 @@ export default {
               appKey: '5c88a4e4-0f6d-4002-9989-f9e35e5257fe',
               endX: goalLocation.lng,
               endY: goalLocation.lat,
-              startX: location.lng,
-              startY: location.lat,
+              startX: location.lng ? location.lng : store.state.futsal.currentLoc.lng,
+              startY: location.lat ? location.lat : store.state.futsal.currentLoc.lat,
               reqCoordType: 'WGS84GEO',
-              resCoordType: 'WGS84GEO'
+              resCoordType: 'WGS84GEO',
             }
           }).then(res=>{
             this.moveInfo = res.data.features[0]
           }).catch(e=>alert(`액시오스 실패 ${e}`))
-        })
+        //})
       })
     },
     payment(){
       if(store.state.person.hasOwnProperty('userid')){
-        axios.post(`${this.context}/res/${this.$route.params.matchId}`
-          ,store.state.person)
-        .then(res=>{
-          if(res.data){
-            axios.put(`${this.context}/futsal/match/${this.$route.params.matchId}`)
-            .then(()=>{
-              alert('결제성공')
-              this.$router.push({name: 'futsalhome'})
-            })
-          }
-        })
-        .catch(()=>alert('실패'))
-      }else{
-        alert('로그인 하세요')
-      }
+        if((store.state.person.point >= 10000) && (!store.state.person.futblack)){
+          axios.post(`${this.context}/res/${this.$route.params.matchId}`
+            ,store.state.person)
+          .then(res=>{
+            if(res.data){
+              axios.put(`${this.context}/futsal/match/${this.$route.params.matchId}`)
+              .then(()=>{
+                alert('결제성공')
+                this.$router.push({name: 'futsalhome'})
+              })
+            }
+          })
+          .catch(()=>alert('실패'))
+        }else{alert(store.state.person.futblack ? '블랙 유저입니다.'  : '캐쉬를 충전하세요.')}
+      }else{alert('로그인 하세요.')}
     }
   }
 }
@@ -281,7 +294,7 @@ export default {
   display:inline-block;
   width: 100%;
   right:0px; /* 창에서 오른쪽 길이 */
-  top:95%; /* 창에서 위에서 부터의 높이 */
+  top:94%; /* 창에서 위에서 부터의 높이 */
   z-index: 100;
 }
 </style>
