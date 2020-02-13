@@ -61,7 +61,6 @@
                 </v-flex>
 
                 <h5 v-if="bts == true" style="color:orange">SUBMIT 버튼이 활성화 되어있지 않다면 있는 <br> 아이디 입니다. 다른 아이디를 입력해주세요</h5>
-
               </v-layout>
             </v-container>
         </v-form>

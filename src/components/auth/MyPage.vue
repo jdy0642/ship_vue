@@ -61,7 +61,7 @@
       <span>{{state.person.point}}원</span>
       <v-dialog v-model="dialog2" persistent max-width="600px">
         <template v-slot:activator="{ on }">
-          <v-btn color="primary" dark v-on="on">결제하기</v-btn>
+          <v-btn style="margin-left:40px" color="warning" dark v-on="on"> 카카오 결제 </v-btn>
         </template>
         <v-card>
           <v-card-title>
@@ -313,7 +313,7 @@
     </div>
       <img class="futsalimg" src="https://s3.eu-north-1.amazonaws.com/norkring/_articleLandscape/iStock-1149063259.jpg?mtime=20190925151000">
   </div>
-  <div style="margin-top:40px" class="card green">
+  <div class="card green">
     <div class="additional">
       <div class="user-card">
         <div class="level center">
@@ -332,17 +332,17 @@
             <i class="fa fa-gamepad"></i>
             <div class="value">{{lp}}</div>
           </div>
-          <div>
+          <div style="margin-top:10px">
             <div class="title">승</div>
             <i class="fa fa-thumbs-up"></i>
-            <div class="value">{{win}}</div>
+            <div class="value">{{win}}승</div>
           </div>
-          <div>
+          <div style="margin-top:10px">
             <div class="title">패</div>
             <i class="fa fa-thumbs-down"></i>
-            <div class="value">{{lose}}</div>
+            <div class="value">{{lose}}패</div>
           </div>
-          <div>
+          <div style="margin-top:10px">
             <div class="title">승률</div>
             <i class="fa fa-bar-chart"></i>
             <div class="value infinity">{{winratio}}</div>
@@ -350,7 +350,7 @@
         </div>
       </div>
     </div>
-    <img class="futsalimg" src="https://www.gamingdose.com/wp-content/uploads/2019/10/Qiyana-Louis-Vuitton-768x455.jpg">
+    <img class="futsalimg" src="@/assets/mypage.jpg">
   </div>
 </div>
 </div>

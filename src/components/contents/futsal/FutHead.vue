@@ -37,7 +37,7 @@
 export default{
   props: {
 		propImg: {type: Array}
-	},
+  },
 	data(){
 		return{
     }
