@@ -264,7 +264,7 @@ export default {
     },
     payment(){
       if(store.state.person.hasOwnProperty('userid')){
-        if(store.state.person.point >= 10000 && !store.state.person.futblack){
+        if((store.state.person.point >= 10000) && (!store.state.person.futblack)){
           axios.post(`${this.context}/res/${this.$route.params.matchId}`
             ,store.state.person)
           .then(res=>{

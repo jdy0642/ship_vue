@@ -71,7 +71,8 @@ export default {
                 store.state.person = res.data.person
                 this.state.authCheck = true
                 if(parseInt(this.$moment(this.state.person.blacktime).format('x')) < parseInt(Date.now())){
-                    this.deleteBlack()}
+                  this.deleteBlack()
+                }
                 window.sessionStorage.setItem('person',JSON.stringify(store.state.person))
                 if(this.checkbox){
                   window.localStorage.setItem('person',JSON.stringify(store.state.person))
