@@ -5,11 +5,11 @@
 			<div style="margin: auto; width: 40%;" class="input-group">
 				<input v-model="stadiumName" @keyup.enter="submit" type="text" class="form-control" placeholder="Search for...">
 				<span class="input-group-btn">
-					<v-btn @click="submit" rounded>Go!</v-btn>
+					<v-btn style="margin-left:10px" @click="submit" rounded>Go!</v-btn>
 					<!-- <button @click="submit" class="btn btn-default" type="button" style="color:">Go!</button> -->
 				</span>
 				<!-- <v-btn @click="gps">현재위치</v-btn> -->
-				<v-btn @click="openMap()" rounded>현재위치</v-btn>
+				<v-btn style="margin-left:10px" @click="openMap()" rounded>현재위치</v-btn>
 			</div>
 		</div>
 	</div>
