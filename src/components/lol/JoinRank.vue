@@ -24,6 +24,7 @@
         <update-room></update-room>
         <v-btn color="red" center style="margin-left:30px" @click="deleteRoom()"> 카드 삭제</v-btn>
       </v-row>
+      
     </v-col>
 
     <v-col>
@@ -56,6 +57,9 @@
 
     <v-text-field type="text" v-model="user" style="width:300px;margin-left:10px;text-align-last:center"> </v-text-field>
             <v-btn @click="champCrawl()">유저 검색</v-btn>
+            <br>
+      <br>
+      <p> 두게더봇에게 "어떤 기능이 있니?"" 라고 물어보세요! -> </p>
     </v-col>
   <v-responsive>
     <iframe src="https://frogue.danbee.ai/?chatbot_id=3ea62809-b698-4f16-aabb-e623a9227fe0" style="margin-top:25px;margin-bottom:50px;margin-right:30px" width="450px" height="860px" frameborder="0"></iframe>
