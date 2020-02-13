@@ -69,6 +69,9 @@ export default {
             if(res.data.result === "SUCCESS"){
                 store.state.person = res.data.person
                 window.sessionStorage.setItem('person',JSON.stringify(store.state.person))
+                if(this.checkbox){
+                  window.localStorage.setItem('person',JSON.stringify(store.state.person))
+                }
                 if(this.state.person.role != 'customer'){
                     this.state.authCheck = true
 

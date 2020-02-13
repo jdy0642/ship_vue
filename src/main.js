@@ -24,7 +24,10 @@ Vue.use(map)
 
 new Vue({
   beforeCreate(){
-    if(sessionStorage.getItem('person')){
+    if(localStorage.getItem('person')){
+      this.$store.state.person = JSON.parse(window.localStorage.getItem('person'))
+      this.$store.state.authCheck = true    
+    }else if(sessionStorage.getItem('person')){
       this.$store.state.person = JSON.parse(window.sessionStorage.getItem('person'))
       this.$store.state.authCheck = true
     }

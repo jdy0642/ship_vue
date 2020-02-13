@@ -402,8 +402,13 @@ export default {
           personseq: JSON.parse(window.sessionStorage.getItem('person')).personseq}
       }).then(res =>{
         if(res.data.msg == "success"){
-          window.sessionStorage.clear()
-          window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
+          window.sessionStorage.removeItem('person')
+          window.sessionStorage.removeItem('tid')
+          if(window.localStorage.getItem('person')){
+            window.localStorage.setItem('person',JSON.stringify(res.data.person))
+          }else if(window.sessionStorage.getItem('person')){
+            window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
+          }
           store.state.person = res.data.person
           this.getLol()
           if(this.state.person.role != 'customer'){
