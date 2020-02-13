@@ -18,7 +18,7 @@ export const store = new Vuex.Store({
     selectGame:{},
     pay:'',
     futsal: {
-      currentLocation: {},
+      currentLoc: {},
       matchList:{},
       selectMatch:{},
       fnc: {

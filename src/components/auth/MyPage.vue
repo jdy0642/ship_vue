@@ -53,8 +53,8 @@
   </v-toolbar>
 </v-card>
 <v-card class="cardinfo" color="#26c6da"
-        max-width="39%"
-        max-height="18%">
+  max-width="39%"
+  max-height="18%">
   <v-card-title>
     <span class="font-weight-light">{{state.person.name}}</span>
     <v-card-text class="headline font-weight-bold">MY POINT
@@ -393,67 +393,53 @@ export default {
   },
   created(){
   if(this.$route.query.hasOwnProperty('pg_token')){
+      this.con.log('1')
       axios({
         url:`${store.state.context}/kakaopay/respones`,
         method: "POST",
-        data: {token: this.$route.query.pg_token}
+        data: {token: this.$route.query.pg_token,
+          tid: window.sessionStorage.getItem('tid'),
+          personseq: JSON.parse(window.sessionStorage.getItem('person')).personseq}
       }).then(res =>{
         if(res.data.msg == "success"){
-            store.state.person = res.data.person
-            if(this.state.person.role != 'customer'){
-                this.state.authCheck = true
-            }else{
-                this.state.authCheck = false
-            }
-        }
-        this.con.log(res)
-        this.con.log(this.state)
-      })
-    }else if(store.state.person.hasOwnProperty('personseq')){
-      axios
-      .post(`${store.state.context}/login`,
-        {userid: store.state.person.userid, passwd : store.state.person.passwd})
-        //store.state.header)
-      .then(res=>{
-        if(res.data.result == "SUCCESS"){
+          window.sessionStorage.removeItem('person')
+          window.sessionStorage.removeItem('tid')
+          if(window.localStorage.getItem('person')){
+            window.localStorage.setItem('person',JSON.stringify(res.data.person))
+          }else if(window.sessionStorage.getItem('person')){
+            window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
+          }
           store.state.person = res.data.person
+          this.getLol()
           if(this.state.person.role != 'customer'){
               this.state.authCheck = true
           }else{
               this.state.authCheck = false
           }
-        }else{
-          alert(`로그인 실패`)
-          this.$router.go({path: '/login'})
         }
-      }).catch(()=>{
-         alert('axios fail')
       })
-    }
-    axios
-    .get(`${this.context}/lol/summoner/userName=${this.state.person.summonername}`)
-    .then(res=>{
-      this.temp = res.data[0]
-      this.tier = this.temp.tier
-      this.lp = this.temp.lp
-      this.win = this.temp.win
-      this.lose = this.temp.lose
-      this.winratio = this.temp.winratio
-      /* this.crawltier = this.temp.tier
-      this.crawlrate = this.temp.rate
-      this.img = this.temp.photo */ 
-    })
-    .catch(e=>{
-      alert('axios fail'+e)
-    })
-    axios
-    .get(`${this.context}/res/mymatch/${this.state.person.personseq}`)
-    .then(res=>{
-      this.array = res.data
-    })
-    .catch(e=>{
-      alert('axios fail'+e)
-    })
+    }else if(store.state.person.hasOwnProperty('personseq')){this.getLol()}
+    //   axios
+    //   .post(`${store.state.context}/login`,
+    //     {userid: store.state.person.userid, passwd : store.state.person.passwd})
+    //     //store.state.header)
+    //   .then(res=>{
+    //     if(res.data.result == "SUCCESS"){
+    //       store.state.person = res.data.person
+    //       this.getLol()
+    //       if(this.state.person.role != 'customer'){
+    //           this.state.authCheck = true
+    //       }else{
+    //           this.state.authCheck = false
+    //       }
+    //     }else{
+    //       alert(`로그인 실패`)
+    //       this.$router.go({path: '/login'})
+    //     }
+    //   }).catch(()=>{
+    //      alert('axios fail')
+    //   })
+    // }
   },
   methods : {
   
@@ -489,14 +475,40 @@ export default {
       if(store.state.person.hasOwnProperty('personseq')){
         axios.get(`${store.state.context}/kakaopay/request/${store.state.person.personseq}/${value}`)
         .then(res=>{
-          this.state.tid = res.data.tid
+          window.sessionStorage.setItem('tid',res.data.tid)
           window.location.href = res.data.next_redirect_pc_url
         })
       }else{
         alert('로그인하세요')
       }
+    },
+    getLol(){
+      axios
+      .get(`${this.context}/lol/summoner/userName=${this.state.person.summonername}`)
+      .then(res=>{
+        this.temp = res.data[0]
+        this.tier = this.temp.tier
+        this.lp = this.temp.lp
+        this.win = this.temp.win
+        this.lose = this.temp.lose
+        this.winratio = this.temp.winratio
+        /* this.crawltier = this.temp.tier
+        this.crawlrate = this.temp.rate
+        this.img = this.temp.photo */ 
+      })
+      .catch(e=>{
+        alert('axios fail'+e)
+      })
+      axios
+      .get(`${this.context}/res/mymatch/${this.state.person.personseq}`)
+      .then(res=>{
+        this.array = res.data
+      })
+      .catch(e=>{
+        alert('axios fail'+e)
+      })
+    }
   }
-}
 }
 </script>
 <style scoped>

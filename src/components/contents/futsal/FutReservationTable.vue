@@ -7,7 +7,7 @@
 			{{key!='time' ? item : timeToDate(item)}}
 		</div>
 	</div> -->
-	<h3>{{fnc.timeToDate(propTime)}}  {{propStadium}}</h3>
+	<h3 style="color:white;">{{fnc.timeToDate(propTime)}}  {{propStadium}}</h3>
 	<v-card raised class="ma-auto">
 		<v-data-table
 		:headers="headers" :items="table"
