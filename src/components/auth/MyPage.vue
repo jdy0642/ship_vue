@@ -80,12 +80,12 @@
                 </v-col>
               </v-row>
             </v-container>
-            <small>결제는 카카오페이로 진행됩니다</small>
+            <medium>결제는 카카오페이로 진행됩니다</medium>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog2 = false">취소</v-btn>
             <v-btn color="blue darken-1" text @click="pay(value)">결제</v-btn>
+            <v-btn color="red darken-1" text @click="dialog2 = false">취소</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
