@@ -3,7 +3,7 @@
      <header id="header" >
           <slot name="header" :title="header"></slot>
      </header>
-     <section id="content" style="background-color:#303030;">
+     <section id="content" style="background-color:#303030;height:auto">
           <slot name="content" :content="content"></slot>
      </section>
      <footer id="footer">

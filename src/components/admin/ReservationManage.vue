@@ -2,7 +2,7 @@
   <div style="margin:10px;">
   <div class="text-center" >
   </div>
-   <v-card style="height:916px" >
+   <v-card>
     <v-card-title style="padding-left:250px;color:black;background-color:#B0BEC5">
       <div><h2 style="font-weight:bold;">예약 현황</h2></div>
         <v-spacer></v-spacer>
