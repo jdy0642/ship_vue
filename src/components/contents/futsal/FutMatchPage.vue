@@ -25,7 +25,7 @@
       <v-col
         v-for="n of matchRule"
         :key="n" cols="2">
-        <v-card>
+        <v-card style="height:100%">
           <v-img :src="require(`@/assets/img/matchRule/${n}.svg`)"/>
           <v-card-text class="text-center">{{msgSwitch(n)}}</v-card-text>
         </v-card>
@@ -109,7 +109,7 @@
     </ul>
   </v-card>
   <div id="floatdiv">
-    <v-btn @click="payment()" color="#cc33ff" pa-2 x-large block>신 청 하 기</v-btn>
+    <v-btn @click="payment()" style="background-color:blueviolet;" pa-2 x-large block>신 청 하 기</v-btn>
   </div>
 </div>
 </template>
@@ -210,6 +210,8 @@ export default {
         case 'shoes1' : return '풋살화 필수'
         case 'shoes0' : return '축구화 가능'
         case 'minmax' : return `${this.selectMatch.num*2 - 2} ~ ${this.selectMatch.num*2 + 4}명`
+        case 'male' : return '남성 매치'
+        case 'female' : return '여성 매치'
         default : return item
       }
     },
@@ -289,7 +291,7 @@ export default {
   display:inline-block;
   width: 100%;
   right:0px; /* 창에서 오른쪽 길이 */
-  top:95%; /* 창에서 위에서 부터의 높이 */
+  top:94%; /* 창에서 위에서 부터의 높이 */
   z-index: 100;
 }
 </style>

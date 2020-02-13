@@ -70,7 +70,8 @@ export default {
     },
     next(){
       if(this.selectIndex != 13){
-        this.tableChange(this.selectIndex <= 6 ? 1 : this.selectIndex - 5 ,this.fnc.utc(this.now) + 3600*1000*24*(this.selectIndex+1))
+        this.tableChange(this.selectIndex <= 6 ? 1 : this.selectIndex - 5 ,
+          this.fnc.utc(this.now) + 3600*1000*24*(this.selectIndex+1))
       }
     }
   }
