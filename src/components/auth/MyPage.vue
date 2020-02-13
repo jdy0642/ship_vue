@@ -393,53 +393,49 @@ export default {
   },
   created(){
   if(this.$route.query.hasOwnProperty('pg_token')){
-      this.con.log('1')
-      axios({
-        url:`${store.state.context}/kakaopay/respones`,
-        method: "POST",
-        data: {token: this.$route.query.pg_token,
-          tid: window.sessionStorage.getItem('tid'),
-          personseq: JSON.parse(window.sessionStorage.getItem('person')).personseq}
+    axios({
+      url:`${store.state.context}/kakaopay/respones`,
+      method: "POST",
+      data: {token: this.$route.query.pg_token,
+        tid: window.sessionStorage.getItem('tid'),
+        personseq: JSON.parse(window.sessionStorage.getItem('person')).personseq}
       }).then(res =>{
         if(res.data.msg == "success"){
-          window.sessionStorage.removeItem('person')
           window.sessionStorage.removeItem('tid')
+          window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
           if(window.localStorage.getItem('person')){
             window.localStorage.setItem('person',JSON.stringify(res.data.person))
-          }else if(window.sessionStorage.getItem('person')){
-            window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
           }
           store.state.person = res.data.person
           this.getLol()
-          if(this.state.person.role != 'customer'){
-              this.state.authCheck = true
-          }else{
-              this.state.authCheck = false
-          }
+          this.state.authCheck = true
         }
+      }).catch(()=>{
+         alert('결제 실패')
       })
-    }else if(store.state.person.hasOwnProperty('personseq')){this.getLol()}
-    //   axios
-    //   .post(`${store.state.context}/login`,
-    //     {userid: store.state.person.userid, passwd : store.state.person.passwd})
-    //     //store.state.header)
-    //   .then(res=>{
-    //     if(res.data.result == "SUCCESS"){
-    //       store.state.person = res.data.person
-    //       this.getLol()
-    //       if(this.state.person.role != 'customer'){
-    //           this.state.authCheck = true
-    //       }else{
-    //           this.state.authCheck = false
-    //       }
-    //     }else{
-    //       alert(`로그인 실패`)
-    //       this.$router.go({path: '/login'})
-    //     }
-    //   }).catch(()=>{
-    //      alert('axios fail')
-    //   })
-    // }
+    }else if(store.state.person.hasOwnProperty('personseq')){
+      axios
+      .post(`${store.state.context}/login`,
+        {userid: store.state.person.userid, passwd : store.state.person.passwd},
+        store.state.header)
+      .then(res=>{
+        if(res.data.result == "SUCCESS"){
+          window.sessionStorage.removeItem('tid')
+          window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
+          if(window.localStorage.getItem('person')){
+            window.localStorage.setItem('person',JSON.stringify(res.data.person))
+          }
+          store.state.person = res.data.person
+          this.getLol()
+          this.state.authCheck = true
+        }else{
+          alert(`로그인 실패`)
+          this.$router.go({path: '/login'})
+        }
+      }).catch(()=>{
+         alert('axios fail')
+      })
+    }
   },
   methods : {
   
