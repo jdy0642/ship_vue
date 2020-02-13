@@ -47,7 +47,7 @@
             <br>
             <v-card-text>소환사명: {{user}}</v-card-text>
             <v-card-text>티어 : {{temp2.tier}}</v-card-text>
-            <v-card-text>승률 : {{temp2.rate}}</v-card-text>
+            <v-card-text>전적 : {{temp2.rate}}</v-card-text>
             <v-card-text>모스트 챔피언 : {{temp2.most}}</v-card-text>
             <v-img style="width:80px;" :src="temp2.photo"/>
           </div>
@@ -128,7 +128,7 @@ export default {
         this.state.userCheck = true  
         this.temp2 = res.data[0]
         if(this.temp2==undefined){
-          alert('배치를 치지 않은 유저입니다')
+          alert('이번 시즌 랭크게임 배치를 치지 않은 유저는 검색되지 않습니다')
         }
       })
       .catch(e=>{
