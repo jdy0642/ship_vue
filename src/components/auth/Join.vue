@@ -60,10 +60,7 @@
                 ></div> -->
                 </v-flex>
 
-                <v-flex xs8 md8> 
-                  <v-checkbox v-model="checkbox" :rules="[v => !!v || '선택하셔야 가입이 진행됩니다!']"
-                            label="위의 정보를 제공하는 것에 동의하십니까?" required></v-checkbox>
-                </v-flex>
+                <h5 v-if="bts == true" style="color:orange">SUBMIT 버튼이 활성화 되어있지 않다면 있는 <br> 아이디 입니다. 다른 아이디를 입력해주세요</h5>
 
               </v-layout>
             </v-container>
@@ -74,7 +71,8 @@
           <v-spacer></v-spacer>
           <!-- <v-btn text color="success" @click="$refs.form.validate()"> validate</v-btn> -->
           <v-btn text color="warning" @click="$refs.form.reset()"> Reset</v-btn>
-          <v-btn text color="primary" @click="join();$refs.form.reset()">Submit</v-btn>
+          <v-btn text color="primary" @click="join();$refs.form.reset()" v-if="bts != true">Submit</v-btn>
+          <v-btn text color="primary" @click="join();$refs.form.reset()" v-else disabled="">Submit</v-btn>
           <v-btn text color="error" @click="dialog = false">Cancel</v-btn>
         </v-card-actions>
 
@@ -93,35 +91,14 @@ export default {
     data () {
       return {
         dialog:false,
+        bts:'',
         show1: false,
         checkbox:false,
         idRules: [
           v => !!v || '아이디를 입력해주세요',
-          /* v =>  {
-          let result = true
-          let url = `${this.context}/idcheck`
-          let data = {userid : v}
-          let headers= {
-              'authorization': 'JWT fefege..',
-              'Accept' : 'application/json',
-              'Content-Type': 'application/json'
-        } 
-        axios
-        .post(url, data, headers)
-        .then(res=>{
-            if(res.data.result === "SUCCESS"){
-              result = false
-            }
-          })
-        .catch(()=>{
-          alert('axios fail')
-        })
-         return result || '다른 아이디를 입력해 주세요'
-        }, */
           v => v.length <= 10 || '아이디는 10자를 넘을 수 없습니다',
           () => false
         ],
-
         emailRules: [
           v => !!v || '이메일을 입력해주세요',
           v => /.+@.+/.test(v) || '유효하지 않은 이메일 형태입니다',
@@ -137,7 +114,8 @@ export default {
         age:'',
         interest:'',
         context: store.state.context,
-        summonername : ''
+        summonername : '',
+        textmsg : ''
         }
       },
       watch:{
@@ -151,23 +129,18 @@ export default {
         }
       },
         userid: function(param){
-          let url = `${this.context}/idcheck`
+          let url = `${this.context}/idcheck/${param}`
           let data = {userid : param}
-          let headers= {
-              'authorization': 'JWT fefege..',
-              'Accept' : 'application/json',
-              'Content-Type': 'application/json'
-        } 
         axios
-        .post(url, data, headers)
+        .get(url, data)
         .then(res=>{
-            if(res.data.result === "SUCCESS"){
-                alert('이미 있는 아이디입니다')
+            if(res.data === "SUCCESS"){
+                this.bts = true
+            }else{
+              this.bts = false
             }
+            
       })
-      .catch(()=>{
-         alert('axios fail')
-        })
         }
       },
       methods:{
