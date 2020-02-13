@@ -401,17 +401,17 @@ export default {
         personseq: JSON.parse(window.sessionStorage.getItem('person')).personseq}
       }).then(res =>{
         if(res.data.msg == "success"){
-          window.sessionStorage.removeItem('person')
           window.sessionStorage.removeItem('tid')
+          window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
           if(window.localStorage.getItem('person')){
             window.localStorage.setItem('person',JSON.stringify(res.data.person))
-          }else if(!window.sessionStorage.getItem('person')){
-            window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
           }
           store.state.person = res.data.person
           this.getLol()
           this.state.authCheck = true
         }
+      }).catch(()=>{
+         alert('결제 실패')
       })
     }else if(store.state.person.hasOwnProperty('personseq')){
       axios
@@ -420,12 +420,10 @@ export default {
         store.state.header)
       .then(res=>{
         if(res.data.result == "SUCCESS"){
-          window.sessionStorage.removeItem('person')
           window.sessionStorage.removeItem('tid')
+          window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
           if(window.localStorage.getItem('person')){
             window.localStorage.setItem('person',JSON.stringify(res.data.person))
-          }else if(!window.sessionStorage.getItem('person')){
-            window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
           }
           store.state.person = res.data.person
           this.getLol()
