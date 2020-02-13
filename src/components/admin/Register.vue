@@ -319,7 +319,10 @@ export default {
       this.imgUrl = `http://openweathermap.org/img/wn/${this.img}@2x.png`
     },
     register(){
-      this.dialog = false
+      if(this.city == ''){
+        alert('구장을 선택해주세요')
+      }else{
+        this.dialog = false
       let url = `${this.context}/futsal/register`
       this.selectitems.push('size')
       let data =  {
@@ -351,8 +354,10 @@ export default {
         this.$router.push({path:'/futsal'})
       })
       .catch(e=>{
-         alert('register axios fail'+e)
+         alert('방 생성 실패 error code=>'+e)
       })
+      }
+      
     },
       cancel(){
          alert('취소 버튼 ')

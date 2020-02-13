@@ -38,9 +38,9 @@
       <div :color="{'on-hover':hover}" style="width:100%;height:200px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.6) 85%, transparent 190px)">
       <br />
       <h5>{{room.title}}</h5>
-      <h6>방장: {{room.rhost}}</h6>
-      <h6>티어: {{room.tier}}</h6>
-      <h6>포지션: {{room.position}}
+      <h6>소환사명 : {{room.rhost}}</h6>
+      <h6>티어 : {{room.crawltier}}</h6>
+      <h6>포지션 : {{room.position}}
         <!--  <v-img :src="positionimg()" style="width:30px;height:30px"></v-img>  -->
       </h6>
       <h6>{{btime[i]}}</h6>
@@ -59,9 +59,6 @@ import axios from 'axios'
 import {store} from '@/store'
 export default {
    computed: {},
-   mounted(){
-   
-   },
    created(){
 
       this.bringlist()
@@ -85,15 +82,15 @@ export default {
       selectposition:'',
       positionimgsrc : '',
       tiers: [{text : '티어 선택 없음', value : ''},
-      {text : '아이언', value : 'iron'},
-      {text : '브론즈', value : 'bronze'},
-      {text : '실버', value : 'silver'},
-      {text : '골드', value : 'gold'},
-      {text : '플레티넘', value : 'platinum'},
-      {text : '다이아', value : 'diamond'},
-      {text : '마스터', value : 'master'},
-      {text : '그랜드 마스터', value : 'grandemaster'},
-      {text : '챌린저', value : 'challenger'}],
+      {text : '아이언', value : 'Iron'},
+      {text : '브론즈', value : 'Bronze'},
+      {text : '실버', value : 'Silver'},
+      {text : '골드', value : 'Gold'},
+      {text : '플레티넘', value : 'Platinum'},
+      {text : '다이아', value : 'Diamond'},
+      {text : '마스터', value : 'Master'},
+      {text : '그랜드 마스터', value : 'Grandmaster'},
+      {text : '챌린저', value : 'Challenger'}],
       positions: [
       {text : '포지션 선택 없음', value : ''},
       {text : '탑', value : 'top', img : 'https://www.mobachampion.com/static/imgs/top_icon.4653e3c00f50.png'},
@@ -135,9 +132,7 @@ export default {
             }
               this.timechange()
            })
-           .catch(e=>{
-              alert('tier AXIOS FAIL'+e)
-           })
+           
       },
       filterposition(){
 
@@ -169,9 +164,7 @@ export default {
             }
               this.timechange()
            })
-           .catch(e=>{
-              alert('tier AXIOS FAIL'+e)
-           })
+           
       },
       filtersort(){
 
@@ -215,20 +208,16 @@ export default {
             if((this.list.length)%9===0){
             this.rooms = this.list
             this.scroll()
-
             }else{
                this.rooms = this.list
                window.onscroll = null
             }
               this.timechange()
            })
-           .catch(e=>{
-              alert('tier AXIOS FAIL'+e)
-           })
+           
       },
       scroll(){
          window.onscroll = () => {
-            
             let bottomOfWindow = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
             if (bottomOfWindow) {
             this.scrolledToBottom = true // replace it with your code
@@ -243,43 +232,43 @@ export default {
          this.$router.push({name : 'joinrank', params:{ game: param.cardseq}})
       },
       bringlist(){
-      
-      let url = `${this.context}/lol/listpage=${this.page}`
-      let data = {
-         page: this.page
-      }
-      let headers = {
+         let url = `${this.context}/lol/listpage=${this.page}`
+         let data = {
+            page: this.page
+         }
+         let headers = {
               'authorization': 'JWT fefege..',
                 'Accept' : 'application/json',
                 'Content-Type': 'application/json'
                 }
-      axios
+         axios
            .get(url, data, headers)
            .then(res =>{
             this.list = res.data
             if((this.list.length)%9===0){
-
-            this.rooms = this.list
-            this.scroll()
-
+               this.rooms = this.list
+               this.scroll()
             }else{
-
                this.rooms = this.list
                window.onscroll = null
-
             }
               this.rooms = res.data
               this.timechange()
            })
            .catch(e=>{
-              alert('AXIOS FAIL'+e)
+              alert('게시판 불러오는 것을 실패하였습니다. '+e)
            })
       },
       kal(){
          alert('칼바람은 준비중입니다.')
       },
       createRoom(){
-         this.$router.push({path:'/createRoom'})
+         if(this.state.person.userid != null){
+            this.$router.push({path:'/createRoom'})
+         }else{
+            alert('로그인해야 사용할 수 있는 기능입니다.')
+         }
+         
       },
       timechange(){
          this.btime = []

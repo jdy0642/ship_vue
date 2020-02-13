@@ -6,9 +6,18 @@ export default {
   data(){
     return{
     chartdata: {},
+    
     options: {
+      
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: true,
+      legend: {
+        labels: {
+            fontColor: 'black',
+            
+        },
+      },
+      
     }
   }
 },

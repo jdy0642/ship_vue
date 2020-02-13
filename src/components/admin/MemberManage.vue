@@ -1,6 +1,6 @@
 <template>
   <div style="margin:10px;">
-  <div class="text-center" style="">
+  <div class="text-center">
   </div>
    <v-card >
     <v-card-title style="padding-left:250px;color:black;background-color:#B0BEC5">
@@ -19,7 +19,7 @@
       :items="lists"
       :search="search"
       :page.sync="page"
-      :items-per-page="10"
+      :items-per-page="20"
  
       class="elevation-1"
       @page-count="pageCount = $event"

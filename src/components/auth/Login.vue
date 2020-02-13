@@ -68,15 +68,12 @@ export default {
       .then(res=>{
             if(res.data.result === "SUCCESS"){
                 store.state.person = res.data.person
+                this.state.authCheck = true
+                if(parseInt(this.$moment(this.state.person.blacktime).format('x')) < parseInt(Date.now())){
+                    this.deleteBlack()}
                 window.sessionStorage.setItem('person',JSON.stringify(store.state.person))
                 if(this.checkbox){
                   window.localStorage.setItem('person',JSON.stringify(store.state.person))
-                }
-                if(this.state.person.role != 'customer'){
-                    this.state.authCheck = true
-
-                }else{
-                    this.state.authCheck = false
                 }
                 this.dialog=false
             }else{
@@ -85,10 +82,24 @@ export default {
             }
          this.result = res.data
       })
-      .catch(()=>{
-         alert('axios fail')
+      .catch(e=>{
+         alert('로그인 실패 error code=>'+e)
         })
+      },
+      deleteBlack(){
+      let url = `${this.context}/deleteBlack/${this.userid}`
+      let data = {
+        userid : this.userid
       }
+      axios
+      .put(url,data)
+      .then(
+        alert('블랙 해제 성공')
+      )
+      .catch(e=>{
+        alert('블랙 해제 실패 error code=>'+e)
+      })
+    }
    }
 }
 </script>
