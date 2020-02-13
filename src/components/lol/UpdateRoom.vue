@@ -1,6 +1,6 @@
 <template>
 <div id="app" >
-  <v-btn color="green darken-1" dark center @click="dialog = !dialog"  style="font-size:15px" > 방 정보 수정 </v-btn>
+  <v-btn color="green darken-1" dark center @click="dialog = !dialog"  style="font-size:15px" > 카드 정보 수정 </v-btn>
     <v-dialog v-model="dialog" width="600px">
       <v-card >
         <v-card-title class="green darken-1 " font-color="white" > 방 정보 수정 </v-card-title>

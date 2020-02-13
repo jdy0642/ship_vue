@@ -9,10 +9,10 @@
         <v-text-field single-line v-model="search" append-icon="search" label="조건검색"></v-text-field>
     </v-card-title>
       <v-data-table :headers="headers" :items="lists" :search="search" :page.sync="page"
-        :items-per-page="10" 
-        @page-count="pageCount = $event" style="margin-top:60px;text-align-last:center">
-        <template v-slot:item.resdate="{item}">
-          {{fnc.timeToDate(item.resdate)}}
+        :items-per-page="15" 
+        @page-count="pageCount = $event" style="margin-top:30px;text-align-last:center">
+        <template v-slot:item.resday="{item}">
+          {{item.resday}}
         </template>
         <template v-slot:item.userid="{item}">
           <v-btn @click="openDialog(item)">{{item.userid}}</v-btn>
@@ -54,10 +54,16 @@ export default {
     axios
     .get(`${this.context}/res/2`)
     .then(res =>{
-      this.lists = res.data.sort((a,b) =>
-        a.resdate > b.resdate ? 1 : (a.resdate < b.resdate ? -1 : 0)).reverse().filter(t=>t.resdate <= this.$moment(new Date()).add(5,'d').format('x'))
-    })
-    .catch(e=>{
+      // for(let i=0; i<res.data.length;i++){
+      //   res.data[i].resday = this.fnc.timeToDate(res.data[i].resdate)
+      // }
+      // res.data = res.data.map(i=>{i.resday = this.fnc.timeToDate(i.resdate)
+      //   return i})
+      this.lists = res.data.map(i=>{i.resday = this.fnc.timeToDate(i.resdate)
+        return i}).sort((a,b) =>
+        a.resdate > b.resdate ? 1 : (a.resdate < b.resdate ? -1 : 0)).reverse()
+        .filter(t=>t.resdate <= this.$moment(new Date()).add(5,'d').format('x') && t.resdate >= new Date().getTime())
+    }).catch(e=>{
       alert('AXIOS FAIL'+e)
     })
   },
@@ -65,14 +71,14 @@ export default {
       return{
         fnc: store.state.futsal.fnc,
         page: 1,
-        pageCount: 0,
+        pageCount: 10,
         itemsPerPage: 100,
         lists: [],
         black:false,
         search: '',
         headers: [
           { text: '예약 번호', value: 'resseq'},
-          { text: '예약 일자', value: 'resdate' },
+          { text: '예약 일자', value: 'resday'},
           { text: '구장명', value: 'stadiumname'},
           { text: '유저 아이디', value: 'userid' },
         ],
