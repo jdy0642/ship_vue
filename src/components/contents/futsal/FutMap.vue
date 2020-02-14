@@ -156,7 +156,6 @@ export default {
 				// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
 				if(this.position){bounds.extend(this.position)}
 				this.mapObject.setBounds(bounds);
-				//this.mapObject.setBounds(bounds[paddingTop=50, paddingRight=400, paddingBottom=50, paddingLeft=50]);
 			}
 		},
 		displayMarker(place){
