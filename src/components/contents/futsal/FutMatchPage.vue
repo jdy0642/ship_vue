@@ -272,7 +272,7 @@ export default {
             if(res.data){
               axios.put(`${this.context}/futsal/match/${this.$route.params.matchId}`)
               .then(()=>{
-                alert('결제성공')
+                alert('결제성공 Match 1 에 예약된 것을 확인하세요')
                 store.state.person.point = store.state.person.point - 10000
                 this.$router.push({name: 'mypage'})
               }).catch(()=>alert('실패'))
