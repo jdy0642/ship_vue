@@ -11,7 +11,6 @@
         <v-card
           :elevation="hover ? 12 : 2"
           class="mx-auto"
-          
           style="float:left;backgroundColor:#F0E5E2"
         >
         <line-chart :chart-data="ager"></line-chart>
@@ -19,7 +18,6 @@
         </v-hover>
   <v-card
     class="mx-auto"
-    
     style="float:right;backgroundColor:#F0E5E2;color:black"
   >
   <br>
@@ -39,7 +37,6 @@
         <v-card
           :elevation="hover ? 12 : 2"
           class="mx-auto"
-          
           style="float:right;backgroundColor:#F0E5E2"
         >
   <pie-chart :chart-data="gender"></pie-chart>
