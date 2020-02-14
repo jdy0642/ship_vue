@@ -273,8 +273,9 @@ export default {
               axios.put(`${this.context}/futsal/match/${this.$route.params.matchId}`)
               .then(()=>{
                 alert('결제성공')
-                this.$router.push({name: 'futsalhome'})
-              })
+                store.state.person.point = store.state.person.point - 10000
+                this.$router.push({name: 'mypage'})
+              }).catch(()=>alert('실패'))
             }
           })
           .catch(()=>alert('실패'))
