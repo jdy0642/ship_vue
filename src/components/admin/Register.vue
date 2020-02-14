@@ -113,7 +113,7 @@
 </div>
 </v-card>
 <!-- -----------------------------------날짜 등록 ------------------------------------------- -->
-<div class="card-body" text-align="center" >
+<div text-align="center" style="margin:50px" >
     <h3 class="card-title" >등록 날짜 & 시간 연동</h3>
  <v-date-picker 
   margin:auto
@@ -145,7 +145,7 @@
 
    <legend></legend>
 
-  <div id="openweathermap-widget-24"></div>
+  <div>
     <v-card-text >
       <v-row align="center">
         <v-col class="display-3" cols="6">
@@ -213,7 +213,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
+</div>
 <br />
   </v-card>
 </template>

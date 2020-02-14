@@ -302,12 +302,12 @@
             <i class="fa fa-heartbeat"></i>
             <div style="margin-top:5px" class="value">{{state.person.km}}Km</div>
           </div>
-          <div>
+          <!-- <div>
             <div class="title">경기수</div>
             <i class="fa fa-futbol"></i>
               <v-icon>sports_soccer</v-icon>
             <div style="margin-top:5px" class="value infinity">10회</div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

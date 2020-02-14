@@ -174,7 +174,9 @@ export default {
       this.$router.push({path:'/admin'})
     },
     lol(){
+      
       this.$router.push({path:'/lol'})
+
     },
     futsal(){
       this.$router.push({path:'/futsal'})
