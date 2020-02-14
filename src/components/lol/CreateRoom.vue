@@ -14,9 +14,9 @@
             <v-col center sm="1" md="6">
              <v-radio-group v-model="row" row>
         <v-radio label="개인/2인랭크게임" value="rank" ></v-radio>
-        <v-radio label="칼바람(준비중 )" @click="prepare()"></v-radio>
-        <v-radio label="URF(준비중 )" @click="prepare()"></v-radio>
-        <v-radio label="롤토체스(준비중 )" @click="prepare()"></v-radio>
+        <v-radio disabled label="칼바람(준비중 )" @click="prepare()"></v-radio>
+        <v-radio disabled label="URF(준비중 )" @click="prepare()"></v-radio>
+        <v-radio disabled label="롤토체스(준비중 )" @click="prepare()"></v-radio>
         <!-- <v-radio label="칼바람나락" value="kal"></v-radio> -->
       </v-radio-group>
       <v-divider></v-divider>
@@ -67,7 +67,7 @@
                 <v-radio
                   label="그랜드 마스터"
                   color="#4DB6AC"
-                  value="Grand master"
+                  value="Grandmaster"
                 ></v-radio>
                 <v-radio
                   label="챌린져"

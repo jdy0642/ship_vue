@@ -11,17 +11,17 @@
     <v-text-field :value="stadiumName" @keyup.enter="submit"></v-text-field>
 
           <v-text-field
-            label="관리자 이름"
+            label="등록자 이름"
             outlined
             v-model="state.person.name"
           ></v-text-field>
           <v-text-field
-            label="관리자 연락처"
+            label="등록자 연락처"
             v-model="state.person.tel"
             outlined
           ></v-text-field>
           <v-text-field
-            label="관리자 이메일"
+            label="등록자 이메일"
             v-model="state.person.email"
             outlined
           ></v-text-field>
@@ -113,7 +113,7 @@
 </div>
 </v-card>
 <!-- -----------------------------------날짜 등록 ------------------------------------------- -->
-<div class="card-body" text-align="center" >
+<div text-align="center" style="margin:50px" >
     <h3 class="card-title" >등록 날짜 & 시간 연동</h3>
  <v-date-picker 
   margin:auto
@@ -145,7 +145,7 @@
 
    <legend></legend>
 
-  <div id="openweathermap-widget-24"></div>
+  <div>
     <v-card-text >
       <v-row align="center">
         <v-col class="display-3" cols="6">
@@ -189,9 +189,9 @@
       @click="timebars"
     ></v-slider>
     <v-card-subtitle>해당 시간 날씨 확인 & 선택 후 등록!</v-card-subtitle>
-    <v-dialog v-model="dialog" persistent max-width="290" >
+    <v-dialog style="margin-tp[" v-model="dialog" persistent max-width="290" >
       <template v-slot:activator="{ on }" >
-        <v-btn color="primary" style="width:150px;height:60px; float : left; margin:0 auto" dark v-on="on">등록 확인</v-btn>
+        <v-btn color="primary" style="width:150px;height:60px; float : left; margin:0 auto" dark v-on="on">구장 등록하기</v-btn>
         <v-btn class="warning" style="width:150px;height:60px; float : right; margin:0 auto" @click="cancel()">취소</v-btn>
       </template>
       <v-card color="#546E7A" >
@@ -213,7 +213,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
+</div>
 <br />
   </v-card>
 </template>
@@ -241,8 +241,8 @@ export default {
    data(){
       return{
       context: store.state.context,
-      gender : '',
-      difficulty : '',
+      gender : 'male',
+      difficulty : '1',
       selectitems : [],
       selectoptions : [],
       dialog : false,
