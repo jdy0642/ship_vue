@@ -59,7 +59,7 @@
             <v-btn @click="champCrawl()">유저 검색</v-btn>
             <br>
       <br>
-      <p> 두게더봇에게 "어떤 기능이 있니?"" 라고 물어보세요! -> </p>
+      <p> 두게더봇에게 "어떤 기능이 있니?" 라고 물어보세요! -> </p>
     </v-col>
   <v-responsive>
     <iframe src="https://frogue.danbee.ai/?chatbot_id=3ea62809-b698-4f16-aabb-e623a9227fe0" style="margin-top:25px;margin-bottom:50px;margin-right:30px" width="450px" height="860px" frameborder="0"></iframe>
@@ -139,7 +139,8 @@ export default {
       alert("친구 초대 준비중")
     },
     deleteRoom(){
-     let result = confirm("지우시겠습니까?");
+      if(this.state.selectGame.rhost==this.state.person.summonername){
+        let result = confirm("지우시겠습니까?");
       if(result){
         let url = `${this.context}/lol/delete/${this.state.selectGame.cardseq}`
            let headers = {
@@ -163,6 +164,9 @@ export default {
       }else{
         alert("방 삭제를 실패하였습니다. ");
     }
+      }else{
+        alert('자신이 만든 카드만 삭제할 수 있습니다.')
+      }
           
       },
     // submit() {

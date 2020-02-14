@@ -67,7 +67,7 @@
                 <v-radio
                   label="그랜드 마스터"
                   color="#4DB6AC"
-                  value="Grand master"
+                  value="Grandmaster"
                 ></v-radio>
                 <v-radio
                   label="챌린져"
