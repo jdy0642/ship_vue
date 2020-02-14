@@ -94,7 +94,7 @@
   </v-card-title>
 </v-card>
 <v-container class="gameinfo">
-    <v-card v-if="array">
+    <v-card v-if="array == ''">
       <v-expansion-panel-header>예약된 경기가 없습니다.</v-expansion-panel-header>
     </v-card>
     <v-expansion-panels>
