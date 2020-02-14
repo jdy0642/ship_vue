@@ -177,7 +177,6 @@ export default {
       })
       this.roadMap = roadview
       window.daum.maps.event.addListener(roadview, 'init', function() {
-        this.con.log(roadview)
         new window.daum.maps.Marker({
           position: position,
           map: roadview

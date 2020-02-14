@@ -53,9 +53,7 @@ export default {
     },
     tableChange(index,time){
       this.selectTime = time
-      this.con.log('index ='+index+'  selectIndex='+this.selectIndex)
       this.selectIndex = (this.selectIndex >= 6 ? 6 : this.selectIndex) + index
-      this.con.log('selectIndex ='+this.selectIndex)
       this.$emit("sendTime",time)
     },
     selected(time,selectTime){
