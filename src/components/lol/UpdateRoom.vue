@@ -54,7 +54,8 @@ export default {
       .put(url, data,headers)
       .then(()=>{
         alert('카드 수정 성공')
-        this.$router.push({path: '/lol'})
+        this.$router.push({path: `/joinrank/${this.$route.params.game}`})
+        window.location.reload(true)
       })
       .catch(()=>{
          alert('axios fail')
