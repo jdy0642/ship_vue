@@ -289,7 +289,6 @@ export default {
           this.state.authCheck = true
         }else{
           alert(`로그인 실패`)
-          this.$router.go({path: '/login'})
         }
       }).catch(()=>{
          alert('axios fail')

@@ -7,7 +7,6 @@
   <v-btn @click="onedaylist('t')" color="red" style="margin:5px;float:right">오늘 예약 보기</v-btn>
   <v-btn @click="weeklist()" color="orange" style="margin:5px;float:right">최근 일주일(오늘 제외) 예약 보기</v-btn>
   <v-row style="width:100%">
-          
         <v-hover v-slot:default="{ hover }">
         <v-card
           :elevation="hover ? 12 : 2"
@@ -17,7 +16,6 @@
         <line-chart :chart-data="ager"></line-chart>
         </v-card>
         </v-hover>
-
   <v-card
     class="mx-auto"
     style="float:right;backgroundColor:#F0E5E2;color:black"
