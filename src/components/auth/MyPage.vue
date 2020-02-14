@@ -16,10 +16,10 @@
           <v-container>
             <v-row>
               <v-col cols="12" sm="6" md="4">
-                <v-text-field label="아이디" v-model="userid" hint="변경불가" ></v-text-field>
+                <v-text-field disabled label="아이디" v-model="userid" hint="변경불가" ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="4">
-                <v-text-field label="이름" v-model="name" hint="변경불가" ></v-text-field>
+                <v-text-field disabled label="이름" v-model="name" hint="변경불가" ></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-text-field label="Email*" v-model="email" required></v-text-field>
@@ -29,7 +29,7 @@
                 v-model="passwd" type="password" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="소환사명*" v-model="summonername" required></v-text-field>
+                <v-text-field disabled label="소환사명*" v-model="summonername" required></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-text-field label="연락처*" v-model="tel" required></v-text-field>
@@ -80,12 +80,12 @@
                 </v-col>
               </v-row>
             </v-container>
-            <small>결제는 카카오페이로 진행됩니다</small>
+            <medium>결제는 카카오페이로 진행됩니다</medium>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog2 = false">취소</v-btn>
-            <v-btn color="blue darken-1" text @click="pay(value)">결제</v-btn>
+            <v-btn color="blue darken-1"  @click="pay(value)">결제</v-btn>
+            <v-btn color="red darken-1"  @click="dialog2 = false">취소</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -94,180 +94,39 @@
   </v-card-title>
 </v-card>
 <v-container class="gameinfo">
-    <v-expansion-panels v-for="(item,i) of 1" :key="i">
-      <v-expansion-panel>
-        <v-expansion-panel-header>Match 1</v-expansion-panel-header>
+    <v-card v-if="array">
+      <v-expansion-panel-header>예약된 경기가 없습니다.</v-expansion-panel-header>
+    </v-card>
+    <v-expansion-panels>
+      <v-expansion-panel v-for="(item,index) of array" :key="index">
+        <v-expansion-panel-header>Match {{index + 1}}</v-expansion-panel-header>
         <v-expansion-panel-content>
-    <v-row style="justify-content:center;">
+        <v-row style="justify-content:center;">
           <v-card style="margin:3%;" width="13%">
             <br>
                 <p class="text-break" style="max-width: 4rem;">
-                  {{timeToDate(array[0].resdate)}}
+                  {{timeToDate(item.resdate)}}
                 </p>
-    </v-card >
-      <v-card style="margin:3%" class="title font-weight-light" width="33%" >
-        <p></p>
-        <v-text>경기장</v-text>
-        <p></p>
-        <v-text >{{array[0].futsal.stadiumname}}</v-text>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="15%">
-        <p></p>
-        <v-text>개인득점</v-text>
-        <p></p>
-        <v-text>{{array[0].score}}득점</v-text>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="15%">
-        <p></p>
-        <v-text>뛴 거리</v-text>
-        <p></p>
-        <v-text>{{array[0].km}}KM</v-text>
-    </v-card>
-    </v-row>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-
-      <v-expansion-panel>
-        <v-expansion-panel-header>Match 2</v-expansion-panel-header>
-        <v-expansion-panel-content>
-    <v-row style="justify-content: center;">
-          <v-card style="margin:3%;" width="13%">
-            <br>
-          <p
-      class="text-break"
-      style="max-width: 4rem;"
-    >
-      {{timeToDate(array[1].resdate)}}
-    </p>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="33%">
-        <p></p>
-        <v-text>경기장</v-text>
-        <p></p>
-        <v-text>{{array[1].futsal.stadiumname}}</v-text>
-        <br>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="15%">
-        <p></p>
-        <v-text>개인득점</v-text>
-        <p></p>
-        <v-text>{{array[1].score}}점</v-text>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="15%">
-        <p></p>
-        <v-text>런닝</v-text>
-        <p></p>
-        <v-text>{{array[1].km}}KM</v-text>
-    </v-card>
-    </v-row>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-
-            <v-expansion-panel>
-        <v-expansion-panel-header>Match 3</v-expansion-panel-header>
-        <v-expansion-panel-content>
-    <v-row style="justify-content: center;">
-          <v-card style="margin:3%;" width="13%">
-            <br>
-          <p
-      class="text-break"
-      style="max-width: 4rem;"
-    >
-      {{timeToDate(array[2].resdate)}}
-    </p>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="33%">
-        <p></p>
-        <v-text>경기장</v-text>
-        <p></p>
-        <v-text>{{array[2].futsal.stadiumname}}</v-text>
-        <br>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="15%">
-        <p></p>
-        <v-text>개인득점</v-text>
-        <p></p>
-        <v-text>{{array[2].score}}점</v-text>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="15%">
-        <p></p>
-        <v-text>런닝</v-text>
-        <p></p>
-        <v-text>{{array[2].km}}KM</v-text>
-    </v-card>
-    </v-row>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-
-            <v-expansion-panel>
-        <v-expansion-panel-header>Match 4</v-expansion-panel-header>
-        <v-expansion-panel-content>
-    <v-row style="justify-content: center;">
-          <v-card style="margin:3%;" width="13%">
-            <br>
-          <p
-      class="text-break"
-      style="max-width: 4rem;"
-    >
-      {{timeToDate(array[3].resdate)}}
-    </p>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="33%">
-        <p></p>
-        <v-text>경기장</v-text>
-        <p></p>
-        <v-text>{{array[3].futsal.stadiumname}}</v-text>
-        <br>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="15%">
-        <p></p>
-        <v-text>개인득점</v-text>
-        <p></p>
-        <v-text>{{array[3].score}}점</v-text>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="15%">
-        <p></p>
-        <v-text>런닝</v-text>
-        <p></p>
-        <v-text>{{array[3].km}}KM</v-text>
-    </v-card>
-    </v-row>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-
-      <v-expansion-panel>
-        <v-expansion-panel-header>Match 5</v-expansion-panel-header>
-        <v-expansion-panel-content>
-    <v-row style="justify-content: center;">
-          <v-card style="margin:3%;" width="13%">
-            <br>
-          <p
-      class="text-break"
-      style="max-width: 4rem;"
-    >
-      {{timeToDate(array[4].resdate)}}
-    </p>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="33%">
-        <p></p>
-        <v-text>경기장</v-text>
-        <p></p>
-        <v-text>{{array[4].futsal.stadiumname}}</v-text>
-        <br>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="15%">
-        <p></p>
-        <v-text>개인득점</v-text>
-        <p></p>
-        <v-text>{{array[4].score}}점</v-text>
-    </v-card>
-      <v-card style="margin:3%" class="title font-weight-light" width="15%">
-        <p></p>
-        <v-text>런닝</v-text>
-        <p></p>
-        <v-text>{{array[4].km}}KM</v-text>
-    </v-card>
-    </v-row>
+          </v-card >
+          <v-card style="margin:3%" class="title font-weight-light" width="33%" >
+              <p></p>
+              <v-text>경기장</v-text>
+              <p></p>
+              <v-text >{{item.futsal.stadiumname}}</v-text>
+          </v-card>
+            <v-card style="margin:3%" class="title font-weight-light" width="15%">
+              <p></p>
+              <v-text>개인득점</v-text>
+              <p></p>
+              <v-text>{{item.score}}득점</v-text>
+          </v-card>
+            <v-card style="margin:3%" class="title font-weight-light" width="15%">
+              <p></p>
+              <v-text>뛴 거리</v-text>
+              <p></p>
+              <v-text>{{item.km}}KM</v-text>
+          </v-card>
+          </v-row>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>

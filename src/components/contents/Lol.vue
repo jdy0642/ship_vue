@@ -20,7 +20,7 @@
         ></v-combobox>
 
       <v-btn style="margin-top:40px;float:left;height:50px;margin-left:10px;" @click="find()" color="green">검색</v-btn>
-      <v-btn style="margin-top:40px;float:right;margin-right:40px;height:50px" @click="createRoom()" top class="float-right" color="indigo">카드생성하기</v-btn>
+      <v-btn style="margin-top:40px;float:right;margin-right:40px;height:50px" @click="createRoom()" top class="float-right" color="indigo">카드 생성하기</v-btn>
       </v-col>
     <br /><br />
 

@@ -4,7 +4,7 @@
   </div>
    <v-card >
     <v-card-title style="padding-left:250px;color:black;background-color:#B0BEC5">
-    <div><h2 style="font-weight:bold;">회원 목록 관리</h2></div>
+    <div><h2 style="font-weight:bold;">회원 목록</h2></div>
       <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -89,7 +89,6 @@ export default {
             value: 'personseq',
           },
           { text: '아이디', value: 'userid' },
-          { text: '비밀번호', value: 'passwd' },
           { text: '이름', value: 'name' },
           { text: '연락처', value: 'tel' },
           { text: '포인트', value: 'point' },
