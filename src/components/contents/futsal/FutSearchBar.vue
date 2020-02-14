@@ -52,7 +52,7 @@ export default{
 			})
 		},
 		openMap(){
-			alert('기본 신천역이고 우클릭시 현재위치가 바뀝니다.')
+			alert('기본 신촌역이고 우클릭시 현재위치가 바뀝니다.')
 			this.$emit("sendLocation", {lat:37.5605672, lng:126.94334860559148})
 			store.state.futsal.currentLoc = {lat:37.5605672, lng:126.94334860559148}
 		}

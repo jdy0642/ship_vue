@@ -24,19 +24,22 @@
 
 </template>
 <script>
-import axios from 'axios'
 import { store } from '@/store'
+import axios from "axios"
 export default {
    data(){
       return {
         dialog: false,
         title : store.state.selectGame.title,
         contents : store.state.selectGame.contents,
+        rhost: store.state.selectGame.rhost,
+        summonername: store.state.person.summonername
       }
     },
    methods:{
       update(){
-        let url = `${store.state.context}/lol/update/${store.state.selectGame.cardseq}`
+        if(this.rhost==this.summonername){
+          let url = `${store.state.context}/lol/update/${store.state.selectGame.cardseq}`
         let data =  {
         cardseq : store.state.selectGame.cardseq,
         title : this.title,
@@ -50,11 +53,19 @@ export default {
       axios
       .put(url, data,headers)
       .then(()=>{
-        this.$router.push({path: '/lol'})
+        alert('카드 수정 성공')
+        this.$router.push({path: `/joinrank/${this.$route.params.game}`})
+        window.location.reload(true)
       })
       .catch(()=>{
          alert('axios fail')
         })
+
+
+
+          }else{
+            alert('자신이 만든 카드만 수정할 수 있습니다.')
+          }
       }
    }
 }

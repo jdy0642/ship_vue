@@ -33,7 +33,7 @@
                                    <v-img src="required(@/assets/together2.png)"></v-img>
                                    <span> 서울특별시 마포구 백범로 23 구프라자 지하1층 </span> <br />
                                    <span> 주식회사 doGether | 사업자번호 650-81-00575</span> <br />
-                                   <span> 전화 02-707-1480 | contact@gmail.com</span> <br />
+                                   <span> 전화 010-6332-0641 | jdy0642@gmail.com</span> <br />
                                    <span> Copyright <strong>doGether</strong> All rights reserved. </span>
                               </v-col>
                          </v-row>

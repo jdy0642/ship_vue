@@ -7,21 +7,17 @@
   <v-btn @click="onedaylist('t')" color="red" style="margin:5px;float:right">오늘 예약 보기</v-btn>
   <v-btn @click="weeklist()" color="orange" style="margin:5px;float:right">최근 일주일(오늘 제외) 예약 보기</v-btn>
   <v-row style="width:100%">
-          
         <v-hover v-slot:default="{ hover }">
         <v-card
           :elevation="hover ? 12 : 2"
           class="mx-auto"
-          max-width="420px"
           style="float:left;backgroundColor:#F0E5E2"
         >
         <line-chart :chart-data="ager"></line-chart>
         </v-card>
         </v-hover>
-
   <v-card
     class="mx-auto"
-    width="380px"
     style="float:right;backgroundColor:#F0E5E2;color:black"
   >
   <br>
@@ -41,7 +37,6 @@
         <v-card
           :elevation="hover ? 12 : 2"
           class="mx-auto"
-          max-width="420px"
           style="float:right;backgroundColor:#F0E5E2"
         >
   <pie-chart :chart-data="gender"></pie-chart>
@@ -183,12 +178,12 @@
               {label: '강원 지역',
               backgroundColor: '#76FF03',
               data: [this.rcounting('강원'),this.rcounting('강원')-this.rgcounting('강원'),this.rgcounting('강원')]},
-              {label: '충청 지역',
+              {label: '충남 지역',
               backgroundColor: 'blue',
-              data: [this.rcounting('충청'),this.rcounting('충청')-this.rgcounting('충청'),this.rgcounting('충청')]},
-              {label: '전라 지역',
+              data: [this.rcounting('충남'),this.rcounting('충남')-this.rgcounting('충남'),this.rgcounting('충남')]},
+              {label: '광주 지역',
               backgroundColor: '#4527A0',
-              data: [this.rcounting('전라'),this.rcounting('전라')-this.rgcounting('전라'),this.rgcounting('전라')]},
+              data: [this.rcounting('광주'),this.rcounting('광주')-this.rgcounting('광주'),this.rgcounting('광주')]},
               {label: '경상 지역',
               backgroundColor: '#8E24AA',
               data: [this.rcounting('경상'),this.rcounting('경상')-this.rgcounting('경상'),this.rgcounting('경상')]},

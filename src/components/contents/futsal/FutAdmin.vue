@@ -1,6 +1,6 @@
 <template>
 <div>
-   <vue-daum-map v-show="mapStandardView"
+   <vue-daum-map
     :appKey="mapData.appKey"
     :center.sync="mapData.center"
     :level.sync="mapData.level"
@@ -8,10 +8,10 @@
     :libraries="mapData.libraries"
     @load="onLoad"
     @click="marker()"
+    @rightclick="rightClick($event)"
     style="width:100%;height:400px;">
   </vue-daum-map>
-  <div v-show="mapRoadView" id="roadview" style="width:100%;height:700px;text-align:left;"></div> <!-- 로드뷰를 표시할 div 입니다 -->
-  <input type="button" id="btnMap" @click="toggleMap()" title="지도 보기" value="지도">
+  <div id="roadview" style="width:100%;height:700px;text-align:left;"></div> <!-- 로드뷰를 표시할 div 입니다 -->
   <v-btn @click="kakao()">카카오페이</v-btn>
   <v-btn @click="test()">롤1</v-btn>
   <v-btn @click="test2()">롤2</v-btn>
@@ -121,9 +121,7 @@ export default {
       msgList: [],
       table: [],
       temp: '',
-
-      mapStandardView: true,
-      mapRoadView: false,
+      roadMap: ''
     }
   },
   computed:{
@@ -177,8 +175,8 @@ export default {
       roadviewClient.getNearestPanoId(position, 200, function(panoId) {
         roadview.setPanoId(panoId, position);
       })
+      this.roadMap = roadview
       window.daum.maps.event.addListener(roadview, 'init', function() {
-        //let rvMarker = 
         new window.daum.maps.Marker({
           position: position,
           map: roadview
@@ -326,7 +324,20 @@ export default {
       }).catch(e => {
 				alert(e)
       })
-		}
+    },
+    rightClick(b){
+				let loc = b[0].latLng
+        store.state.futsal.currentLoc = {lat: loc.Ha, lng: loc.Ga}
+        this.mapObject.setCenter(new window.daum.maps.LatLng(loc.Ha, loc.Ga))
+        this.roadViewSetCenter(new window.daum.maps.LatLng(loc.Ha, loc.Ga))
+    },
+    roadViewSetCenter(position){
+			let roadviewClient = new window.daum.maps.RoadviewClient()
+			let map = this.roadMap
+			roadviewClient.getNearestPanoId(position, 50, function(panoId) {
+				map.setPanoId(panoId, position);
+			})
+		},
   }
 }
 </script>
