@@ -1,8 +1,8 @@
 <template>
 <div>
 	<fut-head v-if="mapView" :style="`height: ${height}vh`" :propImg="stadiumImg"/>
-  <fut-map v-else :propSearchWord="`${selectMatch.stadiumname}`"
-    :propRoadView="true"
+  <fut-map v-else :propSearchWord="`${selectMatch.stadiumname} 풋살 경기장`"
+    :propRoadView="true" :propRightClick="true"
     :style="`height: ${height}vh; width:100%;`"></fut-map>
   <v-card class="card">
     <v-card-title><h1>
@@ -12,7 +12,7 @@
     <v-card-subtitle>{{selectMatch.stadiumaddr}}<br/>{{fnc.timeToDateWeek(selectMatch.time)}}</v-card-subtitle>
     <v-card>
       <v-chip outlined @click="fnc.linkCopy($route.fullPath)">주소복사하기</v-chip>
-      <v-chip outlined @click="viewTogle()" :color="mapView ? '#2222cc':'#cc8888'">지도보기</v-chip>
+      <v-chip outlined @click="viewTogle()">지도보기</v-chip>
     </v-card>
     <v-card-text outlined>{{moveResult}}</v-card-text>
     <v-card-text>{{selectMatch.stadiumname}} {{fnc.timeToDate(selectMatch.time)}} 의 경기는

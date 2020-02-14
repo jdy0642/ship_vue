@@ -1,6 +1,6 @@
 <template>
 <div>
-   <vue-daum-map v-show="mapStandardView"
+   <vue-daum-map class="d-inline-flex" id="map"
     :appKey="mapData.appKey"
     :center.sync="mapData.center"
     :level.sync="mapData.level"
@@ -8,12 +8,12 @@
     :libraries="mapData.libraries"
     @load="onLoad"
 	@rightclick="rightClick($event)"
-	:style="`height: 100%; width: 100%;`">
+	:style="`height: 100%; width: ${propRoadView ? (mapStandardView ? 70 : 40) : 100}%;`">
 	</vue-daum-map>
-	<div v-show="mapRoadView" id="roadview" style="height: 100%; width: 100%;text-align:left;"></div> <!-- 로드뷰를 표시할 div 입니다 -->
+	<div class="d-inline-flex" id="roadview" :style="`height: 100%; width: ${propRoadView ? (mapRoadView ? 60 : 30) : 0}%;text-align:left;`"></div> <!-- 로드뷰를 표시할 div 입니다 -->
 	<input v-if="propRoadView" style="position:absolute;top:5px;left:5px;padding:7px 12px;font-size:14px;
-		border: 1px solid #dbdbdb;background-color: #fff;border-radius: 2px;
-		box-shadow: 0 1px 1px rgba(0,0,0,.04);z-index:1;cursor:pointer;color:black;"
+		border: 1px solid #dbdbdb;background-color: #fff;border-radius: 2px;box-shadow: 0 1px 1px rgba(0,0,0,.04)
+		;z-index:150;cursor:pointer;color:black;"
 		type="button" id="btnMap" @click="toggleMap()" title="지도 보기" :value="mapStandardView ? '로드뷰' : '지도'">
 </div>
 </template>
@@ -36,7 +36,7 @@ export default {
 			mapObject: null, // 지도 객체. 지도가 로드되면 할당됨.
 			roadMap: '',
 			searchWord: '',
-			temp: '',
+			position: '',
 			mapStandardView: true,
 			mapRoadView: false
 		}
@@ -44,13 +44,9 @@ export default {
 	watch: {
 		propSearchWord: function(param){
 			this.searchChanged(param)
-			this.mapStandardView = true,
-			this.mapRoadView = false
 		},
 		propLocation: function(param){
 			this.locationChanged(param)
-			this.mapStandardView = true,
-			this.mapRoadView = false
 		}
 	},
 	computed: {
@@ -64,20 +60,41 @@ export default {
 			this.mapRoadView = !this.mapRoadView
 		},
 		searchChanged(param){
-			
-			//alert(`${param}변경`)
 			this.searchWord = param
 			this.markerDel()
 			this.marker()
 		},
 		locationChanged(param){
 			//alert(`현재위치로 이동 ${param.lat} ${param.lng}`)
+			let daummaps = window.daum.maps
+			let position = new daummaps.LatLng(param.lat, param.lng)
+			this.position = position
 			this.mapObject.setLevel(3);
-			this.mapObject.setCenter(new window.daum.maps.LatLng(param.lat, param.lng))
+			this.mapObject.setCenter(position)
+			this.roadViewSetCenter(position)
 			this.markerDel()
+
+			let imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
+			imageSize = new daummaps.Size(44, 49),
+			imageOption = {offset: new daummaps.Point(27, 69)}
+			
+			let infowindow = new daummaps.InfoWindow({zIndex:1});
+			let marker = new daummaps.Marker({
+				map: this.mapObject,
+				position: position,
+				image: new daummaps.MarkerImage(imageSrc, imageSize, imageOption)
+			})
+			this.markers.push(marker);
+			daummaps.event.addListener(marker, 'mouseover',() =>{
+				infowindow.setContent(`<div style="padding:5px;font-size:12px;color:black;">현재위치</div>`);
+				infowindow.open(this.mapObject, marker);
+			})
+			daummaps.event.addListener(marker, 'mouseout',() =>{
+				infowindow.close()
+			})
+
 			this.searchAddrFromCoords(param.lng,param.lat,(result,status) =>{
-				if (status === window.daum.maps.services.Status.OK) {
-					this.displayMarker({y: param.lat,x: param.lng,place_name: `현재위치 : ${result[0].address_name}`})
+				if (status === daummaps.services.Status.OK) {
 					this.searchWord = `${result[0].address_name} 풋살`
 					this.marker()
 				}
@@ -88,11 +105,18 @@ export default {
 			let daummaps = window.daum.maps
 			map.addControl(new daummaps.ZoomControl()
 				, daummaps.ControlPosition.TOPRIGHT);
-			let rvContainer = document.getElementById('roadview')
+			let position = new daummaps.LatLng(37.53762225647159, 126.9755716893961)
 			//let roadviewClient = new daummaps.RoadviewClient()
+			let rvContainer = document.getElementById('roadview')
 			let	roadview = new daummaps.Roadview(rvContainer)
 			this.roadMap = roadview
 			this.mapObject = map
+			window.daum.maps.event.addListener(roadview, 'init', function() {
+				new window.daum.maps.Marker({
+				position: position,
+				map: roadview
+				})
+			})
 			if(!this.propLocation){
 				this.searchChanged(this.propSearchWord)
 			} else{
@@ -130,8 +154,9 @@ export default {
 					bounds.extend(position);
 				}
 				// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-				this.roadViewSetCenter(position)
+				if(this.position){bounds.extend(this.position)}
 				this.mapObject.setBounds(bounds);
+				//this.mapObject.setBounds(bounds[paddingTop=50, paddingRight=400, paddingBottom=50, paddingLeft=50]);
 			}
 		},
 		displayMarker(place){
@@ -170,8 +195,6 @@ export default {
 				let loc = b[0].latLng
 				store.state.futsal.currentLoc = {lat: loc.Ha, lng: loc.Ga}
 				this.locationChanged({lat: loc.Ha, lng: loc.Ga})
-				this.mapStandardView = true,
-				this.mapRoadView = false
 			}
 		}
 	}

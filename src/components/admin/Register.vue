@@ -234,6 +234,9 @@ export default {
     searchWord(){
       return this.stadiumName
     },
+    arrNum(){
+      return ['1','2','3','4','5','6','7','8','9','a','b','c'][parseInt(Math.random()*12)]
+    }
   },
    data(){
       return{
@@ -333,7 +336,7 @@ export default {
         adminname : store.state.person.name,
         num : this.num + 4,
         shoes : 'shoes1',
-        stadiumimg : "1,2,3", // 추후 추가?
+        stadiumimg : `${this.arrNum}1,${this.arrNum}2,${this.arrNum}3`,
         remain : (this.num + 4) * 2 + 4,
         gender : this.gender,
         difficulty : this.difficulty,
