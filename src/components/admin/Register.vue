@@ -242,7 +242,7 @@ export default {
       return{
       context: store.state.context,
       gender : 'male',
-      difficulty : '',
+      difficulty : '1',
       selectitems : [],
       selectoptions : [],
       dialog : false,
