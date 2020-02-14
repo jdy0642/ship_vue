@@ -16,10 +16,10 @@
           <v-container>
             <v-row>
               <v-col cols="12" sm="6" md="4">
-                <v-text-field label="아이디" v-model="userid" hint="변경불가" ></v-text-field>
+                <v-text-field disabled label="아이디" v-model="userid" hint="변경불가" ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="4">
-                <v-text-field label="이름" v-model="name" hint="변경불가" ></v-text-field>
+                <v-text-field disabled label="이름" v-model="name" hint="변경불가" ></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-text-field label="Email*" v-model="email" required></v-text-field>
@@ -29,7 +29,7 @@
                 v-model="passwd" type="password" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="소환사명*" v-model="summonername" required></v-text-field>
+                <v-text-field disabled label="소환사명*" v-model="summonername" required></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-text-field label="연락처*" v-model="tel" required></v-text-field>
@@ -84,8 +84,8 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="pay(value)">결제</v-btn>
-            <v-btn color="red darken-1" text @click="dialog2 = false">취소</v-btn>
+            <v-btn color="blue darken-1"  @click="pay(value)">결제</v-btn>
+            <v-btn color="red darken-1"  @click="dialog2 = false">취소</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>

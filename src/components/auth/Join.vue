@@ -47,9 +47,9 @@
                     <v-text-field v-model="age" :rules="ageRules" style="margin:0px;" required label="나이"></v-text-field>
                 </v-flex>
                 <v-flex  md8 style="padding:0px;">
-                  <v-text-field v-model="summonername" style="margin:0px;" required label="롤 소환사명" 
+                  <v-text-field v-model="summonername" style="margin:0px;" required label="롤 아이디" 
                   class="purple-input" :v-validate="btsn"></v-text-field>
-                  <v-btn @click="checksname()">소환사명 유효성 체크</v-btn>
+                  <v-btn @click="checksname()">롤 아이디 유효성 검사</v-btn>
                 </v-flex>
                 <h8 style="color:yellow"><br>{{textmsg}}</h8>
                 
@@ -125,7 +125,7 @@ export default {
         interest:'',
         context: store.state.context,
         summonername : '',
-        textmsg : '소환사명 유효성 검사를 해주세요.'
+        textmsg : `롤 아이디 유효성 검사를 해주세요. 롤 아이디가 없으실 경우 예시로 "휴가롤" 을 넣어주세요`
         }
       },
       watch:{
@@ -149,15 +149,12 @@ export default {
             }else{
               this.bts = false
             }
-            
       })
         }
       },
       methods:{
       join(x){
         if(x.validate() && this.btsn){
-          alert('조인 진입')
-          alert(this.interest)
           let url = `${this.context}/join`
           let data =  {
             userid : this.userid,
@@ -181,11 +178,10 @@ export default {
         axios
         .post(url, data, headers)
         .then(res=>{
-            
               if(res.data.result === "SUCCESS"){
                   this.dialog= false
                   this.$router.push({path:'/'})
-                  
+                  alert('회원가입을 축하합니다')
               }else{
                   alert(`조인 실패`)
                   this.$router.go({path: '/login'})
@@ -196,7 +192,7 @@ export default {
         .catch(()=>{
           alert('axios fail')
           })
-        }else{alert('조건을 충족해주세요.')}
+        }else{alert('회원가입의 조건을 충족해주세요.')}
       },
       checksname(){
         if(this.summonername){
@@ -206,10 +202,10 @@ export default {
           .then(res=>{
             if(res.data == 'success'){
               this.btsn = true
-              this.textmsg = '등록가능한 소환사명 입니다.'
+              this.textmsg = '등록 가능한 소환사명입니다.'
             }else{
               this.btsn = false
-              this.textmsg = '등록 불가능한 소환사명 입니다.'
+              this.textmsg = '등록 불가능한 소환사명입니다. 랭크 배치를 완료한 아이디가 없으실 경우 예시로 "휴가롤" 을 넣어주세요'
             }
           }).catch(e=>{
             alert('check axios fail error code->'+e)

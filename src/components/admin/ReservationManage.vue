@@ -139,17 +139,16 @@ export default {
           temp.win = result.win
           temp.score = result.score
         }
-        alert(res ? '입력성공' : '입력에러')
+        alert(res ? '경기결과 입력성공' : '경기결과 입력실패')
         if(this.opend == true){
           this.setBlack(selectUserId)
         }
         this.dialog = false
-        this.blacktime = '',
+        this.blacktime = this.$moment(new Date()).add(2,'d').format('YYYY-MM-DD'),
         this.blackcount = ''
       }).catch(e=> alert('액시오스 실패'+e))
     },
     setBlack(user){
-      ///addBlack/{userid}/{blacktime}/{blackreason}
       let url=`${this.context}/addBlack/${user}/${this.blacktime}/${this.blackreason}`
       let data = {
         userid : user,
@@ -159,7 +158,9 @@ export default {
       axios
       .put(url,data)
       .then(()=>{
-       this.opend = false
+       this.opend = false,
+       this.blackreason = '',
+       this.blacktime = this.$moment(new Date()).add(2,'d').format('YYYY-MM-DD')
       }).catch(e=>{
         alert('블랙리스트 추가 실패 error code=>'+e)
       })
