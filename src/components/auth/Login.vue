@@ -94,7 +94,8 @@ export default {
       axios
       .put(url,data)
       .then(
-        alert('블랙 해제 성공')
+
+        alert('블랙리스트에서 해제되었습니다 ')
       )
       .catch(e=>{
         alert('블랙 해제 실패 error code=>'+e)

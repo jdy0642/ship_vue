@@ -223,7 +223,6 @@ export default {
             this.scrolledToBottom = true // replace it with your code
             this.page += 1
             this.filtersort()
-            
             }
          }
       },
@@ -273,7 +272,7 @@ export default {
       timechange(){
          this.btime = []
          for(let i=0;i<this.rooms.length;i++){
-            this.btime.push(this.$moment(this.rooms[i].wtime).fromNow())
+            this.btime.push(this.$moment(this.rooms[i].wtime).fromNow(true))
          }
 
          // this.btime = this.$moment(x).fromNow()

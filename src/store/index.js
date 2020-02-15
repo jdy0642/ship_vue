@@ -6,9 +6,9 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    context:'http://15.164.103.250',
+    /* context:'http://15.164.103.250', */
     //context:'http://13.124.138.54',
-    /* context:'http://localhost:8080', */
+    context:'http://localhost:8080',
     header: {
       'authorization': 'JWT fefege..',
       'Accept' : 'application/json',
