@@ -96,7 +96,6 @@ export default {
           { text: '성별', value: 'male'},
           { text: '관심사', value: 'interest' },
           { text: '이메일', value: 'email' },
-          { text: '블랙리스트 여부', value: 'futblack' },
         ],
       }
    },
