@@ -49,7 +49,7 @@
             <v-row style="margin-right:85px; margin-top:12px;" v-if="!authCheck">
             </v-row>
             <v-row v-else>
-              <v-btn text style="margin-right:3px;font-size:15px;margin-top:12px" class="white--text" @click="revenuemanage()">수익 관리</v-btn>
+              <v-btn text style="margin-right:3px;font-size:15px;margin-top:12px" class="white--text" @click="revenuemanage()">예약 분석</v-btn>
             </v-row>
 
             <v-row style="margin-right:113px; margin-top:12px;" v-if="!authCheck">

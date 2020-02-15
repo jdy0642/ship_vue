@@ -39,7 +39,7 @@
       <br />
       <h5>{{room.title}}</h5>
       <h6>소환사명 : {{room.rhost}}</h6>
-      <h6>티어 : {{room.crawltier}}</h6>
+      <h6>티어 : {{room.tier}}</h6>
       <h6>포지션 : {{room.position}}
         <!--  <v-img :src="positionimg()" style="width:30px;height:30px"></v-img>  -->
       </h6>
