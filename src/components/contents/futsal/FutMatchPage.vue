@@ -273,13 +273,35 @@ export default {
               axios.put(`${this.context}/futsal/match/${this.$route.params.matchId}`)
               .then(()=>{
                 alert('결제성공 Match 1 에 예약된 것을 확인하세요')
+                window.scrollTo(0,0)
                 store.state.person.point = store.state.person.point - 10000
                 this.$router.push({name: 'mypage'})
               }).catch(()=>alert('실패'))
             }
           })
           .catch(()=>alert('실패'))
-        }else{alert(store.state.person.futblack ? '블랙 유저입니다.'  : '캐쉬를 충전하세요.')}
+        }else if((store.state.person.point >= 10000) && store.state.person.futblack){
+         
+          let url = `${this.context}/blackcheck/${store.state.person.userid}`
+          let data = {
+            userid : store.state.person.userid
+          }
+          axios
+          .post(url,data)
+          .then(res => {
+            if(res.data.result == 'SUCCESS'){
+              alert(`블랙리스트에 등록된 유저입니다. ${this.$moment(res.data.blacktime).fromNow(true)}후에 이용가능합니다.`)
+            }else{
+              store.state.person.futblack = false
+              store.state.person.blackreason = ''
+              store.state.person.blacktime = res.data.blacktime
+              alert('블랙리스트에서 해제되셨습니다. 다시 결제를 시도해주세요')
+            }
+          })
+          /* alert(store.state.person.futblack ? `블랙리스트에 등록된 유저입니다. ${this.$moment(store.state.person.blacktime).fromNow(true)}후에 이용가능합니다.`  : '캐쉬를 충전하세요.') */
+          }else{
+            alert('캐쉬를 충전하세요')
+          }
       }else{alert('로그인 하세요.')}
     }
   }
