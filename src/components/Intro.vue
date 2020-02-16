@@ -1,30 +1,21 @@
 <template>
 <div>
-  <section id="intro" class="fx-backstretch">
-    <div class="info" style="position: relative; z-index: 0; background: none;">
-      <div class="container" style="top: 369px;">
-        <div class="row">
-          <div class="col-full"><h1>조르디 러이터</h1></div>
-        </div>
-        <div class="row"><div class="col-1-4 centered line"></div></div>
-        <div class="row">
-          <div class="col-full"><h4>소프트웨어 엔지니어</h4></div>
-        </div>
-      </div>
-    <div class="backstretch" style="left: 0px; top: 0px; overflow: hidden; margin: 0px; padding: 0px; height: 911px; width: 1178px; z-index: -999998; position: absolute;"><img src="http://www.kaiwa-projects.com/assets/img/backstretch.jpg" style="position: absolute; margin: 0px; padding: 0px; border: none; width: 1619.56px; height: 911px; max-height: none; max-width: none; z-index: -999999; left: -220.778px; top: 0px;"></div></div>
-    <div id="nav-sticky-wrapper" class="sticky-wrapper" style="height: 60px;"><nav id="nav">
-      <ul class="clearfix">
-        <li><a href="#aboutme">인사 소개</a></li>
-        <li><a href="#skills"><span>전문 </span>기술</a></li>
-        <li @click="home()"><a>포트<span>폴리오</span></a></li>
-        <li><a href="#contact">연락</a></li>
-      </ul>
-    </nav></div>
+	<section id="intro" class="fx-backstretch">
+		<div id="nav-sticky-wrapper" class="sticky-wrapper" style="height: 60px;">
+			<nav id="nav" style="z-index: 100; position: fixed; top: 0px;background-color: #0d2c5a;">
+				<ul class="clearfix">
+					<li><a href="#aboutme">인사 소개</a></li>
+					<li><a href="#skills"><span>전문 </span>기술</a></li>
+					<li @click="home()"><a>포트<span>폴리오</span></a></li>
+					<li><a href="#contact">연락</a></li>
+				</ul>
+			</nav>
+		</div>
 	</section>
   <section id="aboutme" class="section">
     <div class="container">
       <div class="row">
-        <div class="col-full">
+        <div class="col-full centered">
           <h2 class="section-title">인사 소개</h2>
           <div class="centered line"></div>
         </div>
@@ -35,20 +26,23 @@
           <img alt="접니다!" style="height: 444px;" src="http://www.kaiwa-projects.com/assets/img/photo.jpg">
         </div>
         <div class="col-1-3">
-          <h4>안녕하세요? 조르디입니다!</h4>
-
-          <p>저는 훌륭하고 멋진 소프트웨어 개발을 즐겨하는 사람입니다. 웹사이트 및 브라우저 플러그인, 기업 소프트웨어도 만들었고, 게임도 제작했습니다. 그 중  좋아했던 프로젝트 몇 개를 아래 포트폴리오로 만들었으니 <a href="#portfolio">여기를 누르시거나</a> 페이지 아래쪽에서 구경해 보세요! 도움이 필요하세요? 저하고 이야기해 보시겠어요? 소셜 미디어나 <a href="#contact">이메일</a>로 연락해 주세요.</p>
+          <h4>안녕하세요? {{user.name}}입니다!</h4>
+          <p>저는 훌륭하고 멋진 소프트웨어 개발을 즐겨하는 사람입니다. 포트폴리오도 만들었으니 <a @click="home()">여기를 누르시거나</a> 페이지 아래쪽에서 구경해 보세요! 도움이 필요하세요? 저하고 이야기해 보시겠어요? 소셜 미디어나 <a href="#contact">이메일</a>로 연락해 주세요.</p>
           <ul class="social-links clearfix">
-            <li><a href="https://www.twitter.com/Ka1wa" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="https://www.facebook.com/ka1wa" target="_blank" title="Facebook"><i class="fa fa-facebook"></i></a></li>
-            <li><a href="https://www.github.com/ka1wa" target="_blank" title="Github"><i class="fa fa-github"></i></a></li>
-            <li><a href="https://www.linkedin.com/in/kaiwa" title="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
+            <li><a href="https://www.twitter.com/" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="https://www.facebook.com/" target="_blank" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="https://www.github.com/" target="_blank" title="Github"><i class="fa fa-github"></i></a></li>
+            <li><a href="https://www.linkedin.com/" title="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
           </ul>
         </div>
         <div class="col-1-3">
           <h4>개인 관심사</h4>
           
-          <p><a href="#skills">프로그래밍</a>을 하지 않을 때는 다음과 같은 것으로 소일하며 즐거운 생활을 하고 있답니다.</p><ul><li>한국어 공부하는 것이 제일 즐거워요.</li><li>좋아하는 e스포츠 경기를 봐요.</li><li>전 세계 컨퍼런스에서 영감을 받고 있어요.</li><li>그리고, 더 많은 사람들 만나 새로운 기회를 창출하고 있어요.</li></ul>					</div>
+          <p><a href="#skills">프로그래밍</a>을 하지 않을 때는 다음과 같은 것으로 소일하며 즐거운 생활을 하고 있답니다.</p>
+			<ul>
+				<li v-for="(item,index) of user.personal" :key="index">{{item}}</li>
+			</ul>					
+		</div>
       </div>
     </div>
   </section>
@@ -62,11 +56,7 @@
       </div>
 
       <div class="row section-content">
-        <div class="skill-container">
-          <div class="col-full">
-            <div class="col-full text-center">저는 여러 분야의 프로그래밍 언어를 다루어 왔습니다. 웹으로는 PHP와 자바를 사용합니다. 높은 성과율을 필요로 하는 것은 당연히 C++를 사용하고, 시제품 및 견본을 만들거나 취미용 프로젝트를 할 때는 Python 대신 쓰기도 합니다.</div>
-          </div>
-          
+        <div class="skill-container" style="width:100%">
           <div class="col-1-5 skill">
             <h4>JavaScript</h4>
           </div>
@@ -74,13 +64,13 @@
             <h4>Node.JS</h4>
           </div>
           <div class="col-1-5 skill">
-            <h4>PHP</h4>
+            <h4>JAVA</h4>
           </div>
           <div class="col-1-5 skill">
-            <h4>Python</h4>
+            <h4>VUE.js</h4>
           </div>
           <div class="col-1-5 skill">
-            <h4>C++</h4>
+            <h4>ANSI-SQL</h4>
           </div>
         </div>
         <div class="col-full skill-container">
@@ -89,11 +79,11 @@
         <div class="col-2-3 col-wrap centered skill-container">
           <div class="col-1-2">
             <h4>프레임워크하고 엔진</h4>
-            <ul><li>Laravel</li><li>Vue.js</li><li>React</li><li>Electron</li><li>Unity Engine</li></ul>							
+            <ul><li>Spring Boot(Maven, Gradle)</li><li>Vue.js</li><li>전자정부</li><li>Spring5</li><li>Hibernate</li></ul>							
           </div>
           <div class="col-1-2">
             <h4>소프트웨어</h4>
-            <ul><li>윈도우즈와 리눅스</li><li>Git</li><li>도커 (Docker)</li><li>Kubernetes</li><li>MySQL</li></ul>						</div>
+            <ul><li>윈도우즈와 리눅스</li><li>Git</li><li>도커 (Docker)</li><li>Visual Studio Code</li><li>MySQL</li></ul>						</div>
         </div>
       </div>
     </div>
@@ -111,22 +101,7 @@
         <div class="col-2-3 col-wrap centered text-center">
           <div class="row">
             <div class="col-full" style="margin-bottom: 25px;">
-              필요한 것이 있으세요? 함께 일해보고 싶으세요? 그냥 이야기 한 번 해 보고 싶으세요?<br>다음의 양식을 작성하시거나 jordy@kaiwa-projects.com로 이메일 주세요. 곧 답장 드리겠습니다.								<input type="hidden" id="thank_you" value="연락해 주셔서 감사합니다.">
-            </div>
-          </div>
-          
-          <div id="form-contact-container">
-            <div class="col-full">
-              <input type="text" name="name" id="name" value="" placeholder="이름">
-            </div>
-            <div class="col-full">
-              <input type="text" name="email" id="email" value="" placeholder="이메일 주소">
-            </div>
-            <div class="col-full">
-              <textarea name="message" id="message" rows="4" placeholder="메시지"></textarea>
-            </div>
-            <div class="col-full">
-              <button class="button button-medium button-submit ladda-button" data-style="expand-right" id="submit-contact">전송</button>
+              필요한 것이 있으세요? 함께 일해보고 싶으세요? 그냥 이야기 한 번 해 보고 싶으세요?<br>boyseos@gmail.com로 이메일 주세요. 곧 답장 드리겠습니다.								<input type="hidden" id="thank_you" value="연락해 주셔서 감사합니다.">
             </div>
           </div>
         </div>
@@ -141,6 +116,19 @@
 import {store} from '@/store'
 export default {
   components: {
+  },
+  data(){
+	return {
+		user:{
+			name: '서정욱',
+			personal:[
+				'한국어 공부하는 것이 제일 즐거워요.',
+				'좋아하는 e스포츠 경기를 봐요.',
+				'전 세계 컨퍼런스에서 영감을 받고 있어요.',
+				'그리고, 더 많은 사람들 만나 새로운 기회를 창출하고 있어요.'
+			],
+		}
+	}
   },
   methods:{
     home(){
@@ -631,4 +619,146 @@ input.error, textarea.error {
 	.section-content { margin-top: 45px; }
 	#nav ul li { padding: 0 5px; }
 }
+
+/******
+QBKL Grid
+-------------------------------------------
+For IE8, use in conjunction with Respond.js
+https://github.com/scottjehl/Respond
+
+Note: Respond.js only understands min-width / max-width media queries
+******/
+
+/* 1. Grid elements */
+
+.container {
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0;
+	max-width: 1200px;
+}
+
+.container:before,
+.container:after {
+	content: " ";
+	display: table;
+}
+
+.container:after {
+	clear: both;
+}
+
+.column,
+.col-full,
+.col-1-2,
+.col-1-3,
+.col-2-3,
+.col-1-4,
+.col-3-4,
+.col-1-5,
+.col-2-5,
+.col-3-5,
+.col-1-6 {
+	float: left;
+	padding: 15px;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.col-full { width: 100%; }
+.col-1-2 { width: 50%; }
+.col-1-3 {width: 33.33333333333333%;}
+.col-2-3 { width: 66.66666666666666%; }
+.col-1-4 { width: 25%; }
+.col-3-4 { width: 75%; }
+.col-1-5 { width: 20%; }
+.col-2-5 { width: 40%; }
+.col-3-5 { width: 60%; }
+.col-1-6 { width: 16.666666666666664%; }
+
+
+.row { width: 100%; }
+.row,
+.col-wrap {
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0!important;
+}
+
+.row:before,
+.row:after,
+.col-wrap:before,
+.col-wrap:after {
+	content: " ";
+	display: table;
+}
+
+.row:after,
+.col-wrap:after {
+	clear: both;
+}
+
+/* 2. Media queries */
+@media screen and (max-width: 1024px) {
+	.container { max-width: 960px; }
+	.column,
+	.col-full,
+	.col-1-2,
+	.col-1-3,
+	.col-2-3,
+	.col-1-4,
+	.col-3-4,
+	.col-1-5,
+	.col-2-5,
+	.col-3-5,
+	.col-1-6 { padding: 15px; }
+}
+
+@media screen and (max-width: 800px) {
+	.container { max-width: 780px; }
+	.column,
+	.col-full,
+	.col-1-2,
+	.col-1-3,
+	.col-2-3,
+	.col-1-4,
+	.col-3-4,
+	.col-1-5,
+	.col-2-5,
+	.col-3-5,
+	.col-1-6 { padding: 10px; }
+}
+
+@media screen and (max-width: 768px) {
+	.container { max-width: 750px; }
+}
+
+@media screen and (max-width: 640px) {
+	.container { max-width: 100%; }
+	.column,
+	.col-full,
+	.col-1-2,
+	.col-1-3,
+	.col-2-3,
+	.col-1-4,
+	.col-3-4,
+	.col-1-5,
+	.col-2-5,
+	.col-3-5,
+	.col-1-6 { float: none; width: 100%; }
+}
+
+@media screen and (max-device-width: 540px) {
+	/* Break-point if needed */
+}
+
+@media screen and (max-width: 320px) {
+	/* Break-point if needed */
+}
+
+summary {
+    display: block;
+}
+
 </style>

@@ -260,6 +260,7 @@ export default {
         personseq: JSON.parse(window.sessionStorage.getItem('person')).personseq}
       }).then(res =>{
         if(res.data.msg == "success"){
+          this.$router.push('mypage')
           window.sessionStorage.removeItem('tid')
           window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
           if(window.localStorage.getItem('person')){
