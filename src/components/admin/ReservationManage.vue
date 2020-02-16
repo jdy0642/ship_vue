@@ -56,7 +56,7 @@ export default {
  
   created(){
     axios
-    .get(`${this.context}/res/2`)
+    .get(`${this.context}/res/1`)
     .then(res =>{
       // for(let i=0; i<res.data.length;i++){
       //   res.data[i].resday = this.fnc.timeToDate(res.data[i].resdate)
@@ -72,7 +72,7 @@ export default {
   },
     data(){
       return{
-        numRules: [v => /[0-9]/.test(v) || '숫자를 입력해주세요.'],
+        numRules: [v => /[0-9]{1,8}/.test(v) || '숫자를 입력해주세요.'],
         fnc: store.state.futsal.fnc,
         page: 1,
         pageCount: 10,
@@ -142,37 +142,38 @@ export default {
       this.opend = false
     },
     setMatchResult(selectUserId){
-      
-      axios.put(`${this.context}/res/${this.matchResult.resseq}`,this.matchResult)
-      .then(res=>{
-        if(res){
-          let result = this.matchResult
-          let temp = this.lists[result.index]
-          temp.km = result.km
-          temp.win = result.win
-          temp.score = result.score
-          store.state.person.km = result.km
-          store.state.person.win = result.win
-          store.state.person.score = result.score
+      if(this.numRules[0](this.matchResult.score)==true && this.numRules[0](this.matchResult.km)==true){
+        axios.put(`${this.context}/res/${this.matchResult.resseq}`,this.matchResult)
+        .then(res=>{
+          if(res){
+            let result = this.matchResult
+            let temp = this.lists[result.index]
+            temp.km = result.km
+            temp.win = result.win
+            temp.score = result.score
+            store.state.person.km = result.km
+            store.state.person.win = result.win
+            store.state.person.score = result.score
 
-        }
-        alert(res ? '경기결과 입력성공' : '경기결과 입력실패')
-        if(this.opend == true){
-          if(this.blackreason==''){
-            alert('블랙 사유를 입력해주세요')
-          }else{
-            this.setBlack(selectUserId)
           }
-        }
-        
-        this.dialog = false
+          alert(res ? '경기결과 입력성공' : '경기결과 입력실패')
+          if(this.opend == true){
+            if(this.blackreason==''){
+              alert('블랙 사유를 입력해주세요')
+            }else{
+              this.setBlack(selectUserId)
+            }
+          }
+          
+          this.dialog = false
 
-        window.sessionStorage.removeItem('person')
-        window.sessionStorage.setItem('person',JSON.stringify(store.state.person))
-        if(window.localStorage.getItem('person')){
-          window.localStorage.setItem('person',JSON.stringify(store.state.person))
+          window.sessionStorage.removeItem('person')
+          window.sessionStorage.setItem('person',JSON.stringify(store.state.person))
+          if(window.localStorage.getItem('person')){
+            window.localStorage.setItem('person',JSON.stringify(store.state.person))
+        }
+        }).catch(e=> alert('액시오스 실패'+e))
       }
-      }).catch(e=> alert('액시오스 실패'+e))
     },
     setBlack(user){
       let url=`${this.context}/addBlack/${user}/${this.blacktime}/${this.blackreason}`
