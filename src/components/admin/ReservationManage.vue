@@ -38,7 +38,7 @@
         </div>
         <v-btn v-if="this.opend == true" @click="closed()">블랙 추가 안함</v-btn>
         <div v-if="opend == true">
-        <v-textarea v-model="blackreason" label="블랙 추가 사유"></v-textarea>
+        <v-textarea v-model="blackreason" label="블랙 추가 사유" placeholder="내용을 입력하지 않으시면 블랙리스트에 추가되지 않습니다."></v-textarea>
         </div>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -123,6 +123,7 @@ export default {
         
         this.opend = false
         }
+        this.blackreason = this.tempb.blackreason
        this.blackcount = this.$moment(this.tempb.blacktime).fromNow(true)
       })
       .catch(e=>{
@@ -154,25 +155,23 @@ export default {
             store.state.person.km = result.km
             store.state.person.win = result.win
             store.state.person.score = result.score
-
-          }
-          alert(res ? '경기결과 입력성공' : '경기결과 입력실패')
-          if(this.opend == true){
-            if(this.blackreason==''){
-              alert('블랙 사유를 입력해주세요')
-            }else{
-              this.setBlack(selectUserId)
-            }
-          }
-          
-          this.dialog = false
-
-          window.sessionStorage.removeItem('person')
-          window.sessionStorage.setItem('person',JSON.stringify(store.state.person))
-          if(window.localStorage.getItem('person')){
-            window.localStorage.setItem('person',JSON.stringify(store.state.person))
         }
-        }).catch(e=> alert('액시오스 실패'+e))
+        alert(res ? '경기결과 입력성공' : '경기결과 입력실패')
+        if(this.opend == true){
+          if(this.blackreason==''){
+            this.opend = false
+            
+          }else{
+            this.setBlack(selectUserId)
+            alert('블랙리스트 등록 성공')
+            
+          }
+        }
+        this.dialog = false
+        window.sessionStorage.removeItem('person')
+        window.sessionStorage.setItem('person',JSON.stringify(store.state.person))
+        if(window.localStorage.getItem('person')){
+          window.localStorage.setItem('person',JSON.stringify(store.state.person))
       }
     },
     setBlack(user){
@@ -185,11 +184,13 @@ export default {
       axios
       .put(url,data)
       .then(()=>{
-      this.blackreason==''
+      
        this.opend = false,
        this.blacktime = this.$moment(new Date()).add(3,'m').format('YYYY-MM-DD hh:mm:ss')
+        store.state.person.futblack = true
         store.state.person.blackreason = this.blackreason
         store.state.person.blacktime = this.blacktime
+        this.blackreason=''
       }).catch(e=>{
         alert('블랙리스트 추가 실패 error code=>'+e)
       })

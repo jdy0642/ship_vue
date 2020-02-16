@@ -290,7 +290,7 @@ export default {
           .post(url,data)
           .then(res => {
             if(res.data.result == 'SUCCESS'){
-              alert(`블랙리스트에 등록된 유저입니다. ${this.$moment(res.data.blacktime).fromNow(true)}후에 이용가능합니다.`)
+              alert(`블랙리스트에 등록된 유저입니다.\n블랙 사유 = ${res.data.blackreason} \n${this.$moment(res.data.blacktime).fromNow(true)} 후에 이용가능합니다.`)
             }else{
               store.state.person.futblack = false
               store.state.person.blackreason = ''
@@ -299,8 +299,9 @@ export default {
             }
           })
           /* alert(store.state.person.futblack ? `블랙리스트에 등록된 유저입니다. ${this.$moment(store.state.person.blacktime).fromNow(true)}후에 이용가능합니다.`  : '캐쉬를 충전하세요.') */
-          }else{
-            alert('캐쉬를 충전하세요')
+          }else if(store.state.person.point < 10000){
+            alert('마이페이지에서 캐쉬를 충전하세요')
+            this.$router.push({path:'/mypage'})
           }
       }else{alert('로그인 하세요.')}
     }
