@@ -72,7 +72,7 @@ export default {
   },
     data(){
       return{
-        numRules: [v => /[0-9]{1,8}/.test(v) || '숫자를 입력해주세요.'],
+        numRules: [v => /^[0-9]{1,8}$/.test(v) || '숫자를 입력해주세요.'],
         fnc: store.state.futsal.fnc,
         page: 1,
         pageCount: 10,
