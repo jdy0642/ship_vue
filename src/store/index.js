@@ -18,6 +18,7 @@ export const store = new Vuex.Store({
     },
     selectGame:{},
     pay:'',
+    mainView: 'Intro',
     futsal: {
       currentLoc: {},
       matchList:{},

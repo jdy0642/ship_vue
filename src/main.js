@@ -24,6 +24,9 @@ Vue.use(map)
 
 new Vue({
   beforeCreate(){
+    if(this.$route.path != '/'){
+      this.$store.state.mainView = 'Home'
+    }
     if(localStorage.getItem('person')){
       this.$store.state.person = JSON.parse(window.localStorage.getItem('person'))
       this.$store.state.authCheck = true    
