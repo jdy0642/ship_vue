@@ -155,23 +155,25 @@ export default {
             store.state.person.km = result.km
             store.state.person.win = result.win
             store.state.person.score = result.score
-        }
-        alert(res ? '경기결과 입력성공' : '경기결과 입력실패')
-        if(this.opend == true){
-          if(this.blackreason==''){
-            this.opend = false
-            
-          }else{
-            this.setBlack(selectUserId)
-            alert('블랙리스트 등록 성공')
-            
           }
-        }
-        this.dialog = false
-        window.sessionStorage.removeItem('person')
-        window.sessionStorage.setItem('person',JSON.stringify(store.state.person))
-        if(window.localStorage.getItem('person')){
-          window.localStorage.setItem('person',JSON.stringify(store.state.person))
+          alert(res ? '경기결과 입력성공' : '경기결과 입력실패')
+          if(this.opend == true){
+            if(this.blackreason==''){
+              this.opend = false
+              
+            }else{
+              this.setBlack(selectUserId)
+              alert('블랙리스트 등록 성공')
+              
+            }
+          }
+          this.dialog = false
+          window.sessionStorage.removeItem('person')
+          window.sessionStorage.setItem('person',JSON.stringify(store.state.person))
+          if(window.localStorage.getItem('person')){
+            window.localStorage.setItem('person',JSON.stringify(store.state.person))
+          }
+        })
       }
     },
     setBlack(user){
@@ -195,7 +197,8 @@ export default {
         alert('블랙리스트 추가 실패 error code=>'+e)
       })
     }
-   }
   }
+}
 </script>
-<style scoped></style>
+<style scoped>
+</style>
