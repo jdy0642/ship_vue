@@ -14,7 +14,7 @@
       <v-chip outlined @click="fnc.linkCopy($route.fullPath)">주소복사하기</v-chip>
       <v-chip outlined @click="viewTogle()">지도보기</v-chip>
     </v-card>
-    <v-card-text outlined>{{moveResult}}</v-card-text>
+    <v-card-text outlined><h5>{{moveResult}}</h5></v-card-text>
     <v-card-text>{{selectMatch.stadiumname}} {{fnc.timeToDate(selectMatch.time)}} 의 경기는
         <code>{{success}}%</code> 확률로 정상 진행되고 있습니다.
     </v-card-text>
@@ -27,7 +27,7 @@
         v-for="n of matchRule"
         :key="n" cols="2">
         <v-card style="height:100%">
-          <v-img :src="require(`@/assets/img/matchRule/${n}.svg`)"/>
+          <v-img :src="require(`@/assets/img/matchRule/${n+([2,3].includes(n) ? '.png' : '.svg')}`)"/>
           <v-card-text class="text-center">{{msgSwitch(n)}}</v-card-text>
         </v-card>
       </v-col>

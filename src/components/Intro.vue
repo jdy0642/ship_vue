@@ -23,17 +23,11 @@
 
       <div class="row section-content">
         <div class="col-1-3" style="text-align: center;">
-          <img alt="접니다!" style="height: 444px;" src="http://www.kaiwa-projects.com/assets/img/photo.jpg">
+          <img alt="접니다!" style="height: 300px;" src="https://shpteamdb7.s3.ap-northeast-2.amazonaws.com/me.jpg">
         </div>
         <div class="col-1-3">
           <h4>안녕하세요? {{user.name}}입니다!</h4>
-          <p>저는 훌륭하고 멋진 소프트웨어 개발을 즐겨하는 사람입니다. 포트폴리오도 만들었으니 <a @click="home()">여기를 누르시거나</a> 페이지 아래쪽에서 구경해 보세요! 도움이 필요하세요? 저하고 이야기해 보시겠어요? 소셜 미디어나 <a href="#contact">이메일</a>로 연락해 주세요.</p>
-          <ul class="social-links clearfix">
-            <li><a href="https://www.twitter.com/" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="https://www.facebook.com/" target="_blank" title="Facebook"><i class="fa fa-facebook"></i></a></li>
-            <li><a href="https://www.github.com/" target="_blank" title="Github"><i class="fa fa-github"></i></a></li>
-            <li><a href="https://www.linkedin.com/" title="LinkedIn"><i class="fa fa-linkedin"></i></a></li>
-          </ul>
+          <p>저는 훌륭하고 멋진 소프트웨어 개발을 즐겨하는 사람입니다. 포트폴리오도 만들었으니 <a @click="home()">여기를 누르시거나</a> 페이지 아래쪽에서 구경해 보세요! 도움이 필요하세요? 저하고 이야기해 보시겠어요? <a href="#contact">이메일</a>로 연락해 주세요.</p>
         </div>
         <div class="col-1-3">
           <h4>개인 관심사</h4>
@@ -121,10 +115,9 @@ export default {
 		user:{
 			name: '서정욱',
 			personal:[
-				'한국어 공부하는 것이 제일 즐거워요.',
-				'좋아하는 e스포츠 경기를 봐요.',
-				'전 세계 컨퍼런스에서 영감을 받고 있어요.',
-				'그리고, 더 많은 사람들 만나 새로운 기회를 창출하고 있어요.'
+				'유투브 래춘씨생존기를 줄겨봅니다.',
+				'요즘하는게임은 위쳐3예요',
+				'Go랭을 강의를 볼 생각입니다.',
 			],
 		}
 	}
