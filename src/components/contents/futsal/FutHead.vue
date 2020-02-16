@@ -26,7 +26,7 @@
 </div> -->
   <v-carousel cycle interval="2000">
     <v-carousel-item
-      v-for="(item, i) of propImg" :key="i" :src="item" @click="msg(item)">
+      v-for="(item, i) of propImg" :key="i" :src="item">
       <!-- <v-row class="fill-height" align="center" justify="center">
         <div class="display-3">Slide {{ i + 1 }}</div>
       </v-row> -->
