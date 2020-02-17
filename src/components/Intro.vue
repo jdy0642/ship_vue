@@ -6,8 +6,8 @@
 				<ul class="clearfix">
 					<li><a href="#aboutme">인사 소개</a></li>
 					<li><a href="#skills"><span>전문 </span>기술</a></li>
-					<li @click="home()"><a>포트<span>폴리오</span></a></li>
-					<li><a href="#contact">연락</a></li>
+					<li @click="home()"><a><span>프로젝트</span></a></li>
+					<li><a href="#contact">연락처</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -23,20 +23,26 @@
 
       <div class="row section-content">
         <div class="col-1-3" style="text-align: center;">
-          <img alt="접니다!" style="height: 300px;" src="https://shpteamdb7.s3.ap-northeast-2.amazonaws.com/me.jpg">
+          <img alt="접니다!" style="height: 300px;" src="@/assets/이력서 사진1.jpg">
         </div>
-        <div class="col-1-3">
-          <h4>안녕하세요? {{user.name}}입니다!</h4>
-          <p>저는 훌륭하고 멋진 소프트웨어 개발을 즐겨하는 사람입니다. 포트폴리오도 만들었으니 <a @click="home()">여기를 누르시거나</a> 페이지 아래쪽에서 구경해 보세요! 도움이 필요하세요? 저하고 이야기해 보시겠어요? <a href="#contact">이메일</a>로 연락해 주세요.</p>
+        <div class="col-1-2">
+        <h3>안녕하세요? {{user.name}}입니다!</h3>
+		<br>
+        <p>저는 멋진 소프트웨어 개발, 새로운 도전을 즐겨하는 사람입니다.</p> 
+		<p> 프로젝트도 만들었으니 <a @click="home()">여기</a>를 눌러서 구경해 보세요! </p> 
+		<p>저하고 이야기해 보시겠어요? <a href="#contact">이메일</a>로 연락해 주세요. </p>
+		<p>프로젝트 백엔드<a href="https://github.com/jdy0642/ship_project2">  Github </a></p>
+		<p>프로젝트 프론트엔드 <a href="https://github.com/jdy0642/ship_vue"> Github</a></p>
+		<p> <a href="https://docs.google.com/presentation/d/1v26_mdhaUtWJ2PJAmU3WysMw5ueJgvmY/edit#slide=id.p1"> 포트폴리오</a></p>
         </div>
-        <div class="col-1-3">
+        <!-- <div class="col-1-3">
           <h4>개인 관심사</h4>
           
           <p><a href="#skills">프로그래밍</a>을 하지 않을 때는 다음과 같은 것으로 소일하며 즐거운 생활을 하고 있답니다.</p>
 			<ul>
 				<li v-for="(item,index) of user.personal" :key="index">{{item}}</li>
 			</ul>					
-		</div>
+		</div> -->
       </div>
     </div>
   </section>
@@ -51,34 +57,63 @@
 
       <div class="row section-content">
         <div class="skill-container" style="width:100%">
-          <div class="col-1-5 skill">
-            <h4>JavaScript</h4>
+          <div class="col-1-6 skill">
+            <h4>Java Script</h4>
           </div>
-          <div class="col-1-5 skill">
+          <div class="col-1-6 skill">
             <h4>Node.JS</h4>
           </div>
-          <div class="col-1-5 skill">
-            <h4>JAVA</h4>
-          </div>
-          <div class="col-1-5 skill">
+          <div class="col-1-6 skill">
             <h4>VUE.js</h4>
           </div>
-          <div class="col-1-5 skill">
+          <div class="col-1-6 skill">
+            <h4>JAVA 8</h4>
+          </div>
+          <div class="col-1-6 skill">
+            <h4>SPRING-BOOT</h4>
+          </div>
+		<div class="col-1-6 skill">
             <h4>ANSI-SQL</h4>
           </div>
         </div>
-        <div class="col-full skill-container">
-          <h3>자주 사용하는 소프트웨어</h3>
+		<br>
+        <div style="margin-top:30px" class="col-full skill-container">
+          <h3>사용 가능한 기술</h3>
+		<div class="centered line"></div>
+		<br>
+		<br>
         </div>
-        <div class="col-2-3 col-wrap centered skill-container">
-          <div class="col-1-2">
-            <h4>프레임워크하고 엔진</h4>
-            <ul><li>Spring Boot(Maven, Gradle)</li><li>Vue.js</li><li>전자정부</li><li>Spring5</li><li>Hibernate</li></ul>							
-          </div>
-          <div class="col-1-2">
-            <h4>소프트웨어</h4>
-            <ul><li>윈도우즈와 리눅스</li><li>Git</li><li>도커 (Docker)</li><li>Visual Studio Code</li><li>MySQL</li></ul>						</div>
-        </div>
+		<v-row style="justify-content:center">
+		<div>
+			<h3>BACKEND</h3>
+			<br><ul><li>Spring Boot(Maven, Gradle)</li>
+			<br><li>Spring5</li>
+			<br><li>전자정부</li>
+			<br><li>Hibernate</li>
+			<br><li>JPA</li>
+			
+			<br></ul>							
+		</div>
+        <div style="margin-left:180px">
+			<h3>FRONTEND</h3>
+			<ul>
+			<br><li>Vue.js</li>
+			<br><li>Node.js</li>
+			<br><li>JavaScript</li>
+			<br><li>ES6</li>
+			</ul>						
+		</div>
+		<div style="margin-left:200px">
+			<h3>ETC</h3>
+			<br><ul>
+			<li>Windows</li>
+			<br><li>Linux</li>
+			<br><li>Git</li>
+			<br><li>MySQL</li>
+			<br><li>MariaDB</li>
+			</ul>						
+		</div>
+		</v-row>
       </div>
     </div>
   </section>
@@ -86,7 +121,7 @@
     <div class="container">
       <div class="row">
         <div class="col-full">
-          <h2 class="section-title">연락 주세요</h2>
+          <h2 class="section-title">연락처</h2>
           <div class="centered line"></div>
         </div>
       </div>
@@ -95,7 +130,7 @@
         <div class="col-2-3 col-wrap centered text-center">
           <div class="row">
             <div class="col-full" style="margin-bottom: 25px;">
-              필요한 것이 있으세요? 함께 일해보고 싶으세요? 그냥 이야기 한 번 해 보고 싶으세요?<br>boyseos@gmail.com로 이메일 주세요. 곧 답장 드리겠습니다.								<input type="hidden" id="thank_you" value="연락해 주셔서 감사합니다.">
+            함께 일해보고 싶으세요? 그냥 이야기 한 번 해 보고 싶으세요?<br><br>010 - 6332 - 0641 혹은 jdy0642@gmail.com로 연락 주세요. <br><br>곧 답장 드리겠습니다.								<input type="hidden" id="thank_you" value="연락해 주셔서 감사합니다.">
             </div>
           </div>
         </div>
