@@ -6,8 +6,9 @@
 				<ul class="clearfix">
 					<li><a href="#aboutme">인사 소개</a></li>
 					<li><a href="#skills"><span>전문 </span>기술</a></li>
-					<li @click="home()"><a>포트<span>폴리오</span></a></li>
-					<li><a href="#contact">연락</a></li>
+					<li @click="home()"><a>프로<span>젝트</span></a></li>
+					<li><a href="https://docs.google.com/presentation/d/1o5tHUwNwtWDlnr3Zt-xLRiScTJ71kZAEodrei25sxRo/edit">PPT</a></li>
+					<li><a href="#contact">연락처</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -23,10 +24,10 @@
 
       <div class="row section-content">
         <div class="col-1-3" style="text-align: center;">
-          <img alt="접니다!" style="height: 300px;" src="https://shpteamdb7.s3.ap-northeast-2.amazonaws.com/me.jpg">
+          <img alt="접니다!" style="height: 400px;" src="@/assets/hsc.jpg">
         </div>
         <div class="col-1-3">
-          <h4>안녕하세요? {{user.name}}입니다!</h4>
+          <p>안녕하세요? 홍성철입니다!</p>
           <p>저는 훌륭하고 멋진 소프트웨어 개발을 즐겨하는 사람입니다. 포트폴리오도 만들었으니 <a @click="home()">여기를 누르시거나</a> 페이지 아래쪽에서 구경해 보세요! 도움이 필요하세요? 저하고 이야기해 보시겠어요? <a href="#contact">이메일</a>로 연락해 주세요.</p>
         </div>
         <div class="col-1-3">
@@ -44,7 +45,7 @@
     <div class="container">
       <div class="row">
         <div class="col-full">
-          <h2 class="section-title">전문 기술</h2>
+          <h2 class="section-title">SKILL</h2>
           <div class="centered line"></div>
         </div>
       </div>
@@ -52,33 +53,40 @@
       <div class="row section-content">
         <div class="skill-container" style="width:100%">
           <div class="col-1-5 skill">
-            <h4>JavaScript</h4>
+            <h4>JAVA8</h4>
           </div>
           <div class="col-1-5 skill">
-            <h4>Node.JS</h4>
+            <h4>JAVASCRIPT</h4>
           </div>
           <div class="col-1-5 skill">
-            <h4>JAVA</h4>
+            <h4>HTML5</h4>
           </div>
           <div class="col-1-5 skill">
-            <h4>VUE.js</h4>
+            <h4>MariaDB</h4>
           </div>
           <div class="col-1-5 skill">
             <h4>ANSI-SQL</h4>
           </div>
         </div>
         <div class="col-full skill-container">
-          <h3>자주 사용하는 소프트웨어</h3>
+          <h3>USAGE</h3>
         </div>
         <div class="col-2-3 col-wrap centered skill-container">
-          <div class="col-1-2">
-            <h4>프레임워크하고 엔진</h4>
-            <ul><li>Spring Boot(Maven, Gradle)</li><li>Vue.js</li><li>전자정부</li><li>Spring5</li><li>Hibernate</li></ul>							
+          <div class="col-1-3">
+            <h4>프레임워크</h4>
+            <ul><li>SPRING4/5</li><li>전자정부</li><li>Vue</li><li>JQuery</li><li>MyBatis</li><li>Hibernate</li></ul>							
           </div>
-          <div class="col-1-2">
+          <div class="col-1-3">
             <h4>소프트웨어</h4>
-            <ul><li>윈도우즈와 리눅스</li><li>Git</li><li>도커 (Docker)</li><li>Visual Studio Code</li><li>MySQL</li></ul>						</div>
+			<ul><li>Window</li><li>Git</li><li>Git Desktop</li><li>STS3</li><li>STS4</li><li>Visual Studio Code</li></ul>		
+			</div>
+			<div class="col-1-3">
+            <h4>데이터 베이스</h4>
+			<ul><li>Oracle</li><li>MySQL</li><li>MariaDB</li></ul>			
+			</div>
+			
         </div>
+		
       </div>
     </div>
   </section>
@@ -95,7 +103,10 @@
         <div class="col-2-3 col-wrap centered text-center">
           <div class="row">
             <div class="col-full" style="margin-bottom: 25px;">
-              필요한 것이 있으세요? 함께 일해보고 싶으세요? 그냥 이야기 한 번 해 보고 싶으세요?<br>boyseos@gmail.com로 이메일 주세요. 곧 답장 드리겠습니다.								<input type="hidden" id="thank_you" value="연락해 주셔서 감사합니다.">
+				홍성철 <br><br>
+				<a href="https://github.com/hongsc1991">Git address</a><br>
+			Phone Number : 010-6202-4102 <br>
+              Email :  hongsc1991@naver.com
             </div>
           </div>
         </div>
@@ -112,8 +123,6 @@ export default {
   },
   data(){
 	return {
-		user:{
-			name: '주동엽',
 			personal:[
 				'유투브 래춘씨생존기를 줄겨봅니다.',
 				'요즘하는게임은 위쳐3예요',
