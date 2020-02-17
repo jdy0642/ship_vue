@@ -124,8 +124,6 @@
 <script>
 import {store} from '@/store'
 export default {
-  components: {
-  },
   data(){
 	return {
 			personal:[
@@ -134,15 +132,13 @@ export default {
 				'Go랭을 강의를 볼 생각입니다.',
 			],
 		}
-	}
-  },
+	},  
   methods:{
     home(){
       store.state.mainView = 'Home'
-    },
+    }
   }
-
-};
+}
 </script>
 
 <style scoped>
