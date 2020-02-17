@@ -7,8 +7,6 @@
         <v-img style="width:300px;height:600px" :src="require(`@/assets/img/lol/${state.selectGame.imgurl}.jpg`)">
           <div style="width:300px;height:600px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, transparent 160px)">
           <br />
-            <!-- <v-img style="width:80px;" :src="state.selectGame.img" alt="" /> -->
-            <!-- <v-img style="width:90px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img> -->
             <v-icon >mdi-crown</v-icon>
             <v-card-text> 소환사명: {{state.selectGame.rhost}}</v-card-text>
             <v-card-text>티어 : {{state.selectGame.tier}}</v-card-text>
@@ -24,26 +22,20 @@
         <update-room></update-room>
         <v-btn color="red" center style="margin-left:30px" @click="deleteRoom()"> 카드 삭제</v-btn>
       </v-row>
-      
     </v-col>
-
     <v-col>
-
       <v-responsive style="width:380px;margin-left:10px;margin-top:35px;height:600px" v-if="!userCheck">
         <v-card color="grey darken-2" style="color:white;margin-right:5px;margin-top:5px;width:320px;height:650px">
           <v-btn fab dark color="indigo" style="margin-top:250px" @click="invite()">
             <v-icon dark>mdi-plus</v-icon>
           </v-btn>
         </v-card>
-      </v-responsive>
-      
+      </v-responsive>  
       <v-responsive style="width:300px;margin-left:40px;margin-top:30px;height:650px" v-else>
       <v-card class="mx-auto" style="margin-top:10px;height:700px"> 
         <v-img style="width:300px;height:600px" :src="require(`@/assets/img/lol/${state.selectGame.imgurl}.jpg`)">
           <div style="width:300px;height:600px;background-image:linear-gradient(to top, rgba(0, 0, 0, 0.7) 100%, transparent 160px)">
           <br />
-            
-            <!-- <v-img style="width:90px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img> -->
             <br>
             <v-card-text>소환사명: {{user}}</v-card-text>
             <v-card-text>티어 : {{temp2.tier}}</v-card-text>
@@ -54,7 +46,6 @@
         </v-img>
       </v-card>
     </v-responsive>
-
     <v-text-field type="text" v-model="user" style="width:300px;margin-left:10px;text-align-last:center"> </v-text-field>
             <v-btn @click="champCrawl()">유저 검색</v-btn>
             <br>
@@ -64,32 +55,8 @@
   <v-responsive>
     <iframe src="https://frogue.danbee.ai/?chatbot_id=3ea62809-b698-4f16-aabb-e623a9227fe0" style="margin-top:25px;margin-bottom:50px;margin-right:30px" width="450px" height="860px" frameborder="0"></iframe>
   </v-responsive>
-    
-        <!-- <v-flex style="margin-right:5px; margin-top:5px">
-          <v-card color="grey lighten-3">
-            <v-toolbar dark color="primary darken-1">
-              <v-toolbar-title center>채팅</v-toolbar-title>
-            </v-toolbar>
-            <v-card-text>
-        <v-list ref="chat" id="logs">
-          <template v-for="(item, index) of logs">
-            <v-subheader v-if="item" :key="index">{{ item }}</v-subheader>
-          </template>
-        </v-list>
-            </v-card-text>
-            <v-card-actions>
-              <v-form @submit.prevent="submit">
-              <v-text-field  xs12 v-model="msg" label="Message" single-line solo-inverted class="d-flex"></v-text-field>
-              <v-btn x-large class="float-right" fab dark small color="primary" type="submit">
-                <v-icon small dark>send</v-icon>
-              </v-btn>
-                </v-form>
-            </v-card-actions>
-          </v-card>
-        </v-flex> -->
   </v-row>
 </div>
-
 </template>
 <script>
 import axios from "axios"
@@ -155,7 +122,6 @@ export default {
            .delete(url, data, headers)
            .then(res =>{
               this.result = res.data
-              // alert('방생성 완료!')
               this.$router.push({path:`/lol`})
            })
            .catch(e=>{
@@ -169,10 +135,6 @@ export default {
       }
           
       },
-    // submit() {
-    //   this.logs.push(this.msg);
-    //   this.msg = "";
-    // },
     lol(){
       this.$router.push({path:'/lol'})
     }
@@ -181,13 +143,6 @@ export default {
     userCheck(){
       return store.state.userCheck}
   }
-  // watch: {
-  //   logs() {
-  //     setTimeout(() => {
-  //       this.$refs.chat.$el.scrollTop = this.$refs.chat.$el.scrollHeight;
-  //     }, 0);
-  //   }
-  // }
 }
 </script>
 <style scoped>

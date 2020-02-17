@@ -17,7 +17,6 @@
         <v-radio disabled label="칼바람(준비중 )" @click="prepare()"></v-radio>
         <v-radio disabled label="URF(준비중 )" @click="prepare()"></v-radio>
         <v-radio disabled label="롤토체스(준비중 )" @click="prepare()"></v-radio>
-        <!-- <v-radio label="칼바람나락" value="kal"></v-radio> -->
       </v-radio-group>
       <v-divider></v-divider>
       <v-radio-group v-model="position" row>
@@ -73,24 +72,11 @@
                   label="챌린져"
                   color="#AFB42B"
                   value="Challenger"
-                ></v-radio>
-                
-              </v-radio-group>
-              
+                ></v-radio>    
+              </v-radio-group>       
             </v-col>
         </v-container>
       </v-card-text>
-      <!-- <textarea v-model="contents" outlined="outlined" placeholder="컨텐츠 내용 입력" background-color="grey lighten-2" id="comment" name="a1670651c2" cols="130" rows="6" maxlength="65525" aria-required="true" required="required"></textarea> -->
-      <!-- <v-textarea
-      background-color="grey lighten-2"
-      filled
-      placeholder="내용을 입력해주세요"
-      color="black"
-      outlined
-      auto-grow
-      row-height="30"
-      style="width:800px;height:400px;color:black"
-    ></v-textarea> -->
     <v-textarea
           v-model="contents"
           outlined
@@ -155,7 +141,6 @@ export default{
       this.createroom()
     })
       }
-
     },
     createroom(){
       if(this.title == "" || this.tier == "" || this.contents == "" || this.position == ""){
@@ -183,13 +168,9 @@ export default{
            .post(url, data, headers)
            .then(res =>{
               this.result = res.data
-
               this.$router.push({path:`/lol`})
            })
-          
-      }
-      
-           
+      }   
     }
   }
 }

@@ -36,9 +36,6 @@ export default {
       const blockSize = this.blockSize
       const selectIndex = this.selectIndex
       const now = this.now
-      // 화살표없는 페이지네이션 방식
-      //const start = (selectIndex > 14-blockSize ? 14-blockSize :
-      //  (selectIndex==0 ? selectIndex : selectIndex - 1))
       const start = selectIndex >= 14-blockSize ? 14-blockSize : selectIndex
        return Array.from({length : blockSize},
       (_,k) => ((start == 0 && k == 0) ? now : this.fnc.utc(now) + (start+k)*24*1000*3600))
@@ -74,31 +71,7 @@ export default {
 }
 </script>
 <style scoped>
-/* 부트스트랩
-  .vspButton {
-  max-width: 100px;
-  min-width: 80px;
-  height: 50px;
-  padding: 2px 7px;
-  font-size: 12px;
-  display: inline-block;
-  margin-bottom: 0;
-  font-weight: 400;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-image: none;
-  border: 1px solid;
-  border-radius: 4px;
-  background-color: transparent;
-}*/
+
 .selected{
   background-color: #31b0d5;
 }

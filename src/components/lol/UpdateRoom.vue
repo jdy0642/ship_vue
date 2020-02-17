@@ -21,7 +21,6 @@
     </v-card>
   </v-dialog>
 </div>
-
 </template>
 <script>
 import { store } from '@/store'
@@ -60,9 +59,6 @@ export default {
       .catch(()=>{
          alert('axios fail')
         })
-
-
-
           }else{
             alert('자신이 만든 카드만 수정할 수 있습니다.')
           }

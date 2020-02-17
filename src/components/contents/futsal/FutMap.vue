@@ -10,7 +10,7 @@
 	@rightclick="rightClick($event)"
 	:style="`height: 100%; width: ${propRoadView ? (mapStandardView ? 70 : 40) : 100}%;`">
 	</vue-daum-map>
-	<div class="d-inline-flex" id="roadview" :style="`height: 100%; width: ${propRoadView ? (mapRoadView ? 60 : 30) : 0}%;text-align:left;`"></div> <!-- 로드뷰를 표시할 div 입니다 -->
+	<div class="d-inline-flex" id="roadview" :style="`height: 100%; width: ${propRoadView ? (mapRoadView ? 60 : 30) : 0}%;text-align:left;`"></div>
 	<input v-if="propRoadView" style="position:absolute;top:5px;left:5px;padding:7px 12px;font-size:14px;
 		border: 1px solid #dbdbdb;background-color: #fff;border-radius: 2px;box-shadow: 0 1px 1px rgba(0,0,0,.04)
 		;z-index:150;cursor:pointer;color:black;"
@@ -26,14 +26,14 @@ export default {
 	data(){
 		return {
 			mapData:{
-				appKey: '789b2dc91d9235fae744572478c25f39', // 테스트용 appkey
+				appKey: '789b2dc91d9235fae744572478c25f39',
 				center: {lat:37.5605672, lng:126.94334860559148},
-				level: 3, // 지도의 레벨(확대, 축소 정도),
-				mapTypeId: VueDaumMap.MapTypeId.NORMAL, // 맵 타입
-				libraries: ['services', 'clusterer', 'drawing'], // 추가로 불러올 라이브러리
+				level: 3,
+				mapTypeId: VueDaumMap.MapTypeId.NORMAL, 
+				libraries: ['services', 'clusterer', 'drawing'], 
 			},
 			markers: [],
-			mapObject: null, // 지도 객체. 지도가 로드되면 할당됨.
+			mapObject: null,
 			roadMap: '',
 			searchWord: '',
 			position: '',
@@ -65,7 +65,6 @@ export default {
 			this.marker()
 		},
 		locationChanged(param){
-			//alert(`현재위치로 이동 ${param.lat} ${param.lng}`)
 			let daummaps = window.daum.maps
 			let position = new daummaps.LatLng(param.lat, param.lng)
 			this.position = position
@@ -73,11 +72,9 @@ export default {
 			this.mapObject.setCenter(position)
 			this.roadViewSetCenter(position)
 			this.markerDel()
-
 			let imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
 			imageSize = new daummaps.Size(44, 49),
 			imageOption = {offset: new daummaps.Point(27, 69)}
-			
 			let infowindow = new daummaps.InfoWindow({zIndex:1});
 			let marker = new daummaps.Marker({
 				map: this.mapObject,
@@ -92,7 +89,6 @@ export default {
 			daummaps.event.addListener(marker, 'mouseout',() =>{
 				infowindow.close()
 			})
-
 			this.searchAddrFromCoords(param.lng,param.lat,(result,status) =>{
 				if (status === daummaps.services.Status.OK) {
 					this.searchWord = `${result[0].address_name} 풋살`
@@ -100,13 +96,11 @@ export default {
 				}
 			})
 		},
-    // 지도가 로드 완료되면 load 이벤트 발생
 		onLoad(map) {
 			let daummaps = window.daum.maps
 			map.addControl(new daummaps.ZoomControl()
 				, daummaps.ControlPosition.TOPRIGHT);
 			let position = new daummaps.LatLng(37.53762225647159, 126.9755716893961)
-			//let roadviewClient = new daummaps.RoadviewClient()
 			let rvContainer = document.getElementById('roadview')
 			let	roadview = new daummaps.Roadview(rvContainer)
 			this.roadMap = roadview
@@ -122,8 +116,6 @@ export default {
 			} else{
 				this.locationChanged(this.propLocation)
 			}
-			/* alert(`검색어:${this.propSearchWord} 현재위치:${this.propLocation.lat},${this.propLocation.lng}`) */
-
 		},
 		marker(){
 			let daummaps = window.daum.maps
@@ -140,7 +132,6 @@ export default {
 		},
 		searchAddrFromCoords(lng, lat, callback) {
 			let geocoder = new window.daum.maps.services.Geocoder()
-    // 좌표로 행정동 주소 정보를 요청합니다
 			geocoder.coord2RegionCode(lng, lat, callback)
 		},
 		placesSearchCB(data, status){
@@ -153,7 +144,6 @@ export default {
 					position = new daummaps.LatLng(data[i].y, data[i].x)
 					bounds.extend(position);
 				}
-				// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
 				if(this.position){bounds.extend(this.position)}
 				this.mapObject.setBounds(bounds);
 			}

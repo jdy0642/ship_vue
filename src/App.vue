@@ -3,7 +3,6 @@
   <component :is="$store.state.mainView"></component>
 </div>
 </template>
-
 <script>
 import Home from '@/components/Home.vue'
 import Intro from '@/components/Intro.vue'
