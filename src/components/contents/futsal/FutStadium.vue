@@ -31,8 +31,6 @@ export default{
 			.map(i => require(`@/assets/img/stadium/${i}.jpg`))
 		}
 	},
-	methods: {
-	}
 }
 </script>
 <style scoped>

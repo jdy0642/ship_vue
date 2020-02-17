@@ -11,12 +11,9 @@
               <v-text-field prepend-icon="lock" label="PASSWORD" type="password" v-model="passwd"></v-text-field>
               <v-checkbox v-model="checkbox" label="로그인 유지">
               </v-checkbox>
-              
-            </v-flex>
-            
+            </v-flex> 
           </v-layout>
         </v-container>
-
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn text color="primary" @click="login()">LOGIN</v-btn>
@@ -93,7 +90,6 @@ export default {
       }
       axios
       .put(url,data)
-
     }
    }
 }

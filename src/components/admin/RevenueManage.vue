@@ -53,10 +53,6 @@
         <bar-chart :chart-data="barlist"></bar-chart>
         </v-card>
       </v-hover>
-     
-        
-
-    
 </div>
 </template>
 
@@ -87,12 +83,7 @@
         gender:null,
         ager:null,
         barlist:null
-/*         days: ['월요일', '화요일','수요일','목요일', '금요일', '토요일', '일요일'], */
-/*         legion:['서울','인천','경기','세종','강원','충청','전라', '경상','대전','대구', '부산', '광주','울산' ] */
       }
-    },
-    computed: {
-      
     },
     methods: {
       weeklist(){
@@ -116,18 +107,14 @@
       },
       gcounting(){
         return this.today.filter(t => (t.personseq.male == false)).length
-        /* return alert(this.today.filter(t => (t.personseq.male) === true)) */
       },
       acounting(a){
-        /* alert(this.today.filter(t => (String(t.personseq.age).substr(0,1) == a)).length) */
         return this.today.filter(t => (String(t.personseq.age).substr(0,1) == a)).length
       },
       wgcounting(a){
-        /* alert(this.today.filter(t => (String(t.personseq.age).substr(0,1) == a)).length) */
         return this.today.filter(t => (String(t.personseq.age).substr(0,1) == a && t.personseq.male == false)).length
       },
       mgcounting(a){
-        /* alert(this.today.filter(t => (String(t.personseq.age).substr(0,1) == a)).length) */
         return this.today.filter(t => (String(t.personseq.age).substr(0,1) == a && t.personseq.male == true)).length
       },
       onedaylist(t){
@@ -137,7 +124,6 @@
         }else{
           this.day = this.current
         }
-        /* /onedaylist/region={region}/day={day} */
         let url = `${store.state.context}/res/onedaylist/${this.day}`
         let data = {
           day : this.day
@@ -160,7 +146,6 @@
       fillData () {
         this.barlist = {
           labels: ['전체 예약 현황','남성 예약 현황','여성 예약 현황'],
-          
           fontColor : 'white',
           datasets: [
             {label: '서울 지역',

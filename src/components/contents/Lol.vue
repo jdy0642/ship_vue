@@ -8,9 +8,6 @@
          v-model="selecttier"
          style="margin-top:40px;float:left;width:200px;margin-left:40px;"
         ></v-combobox>
-         <!-- :click="filtersort()" -->
-      <!-- <v-btn style="margin-top:40px;float:left;height:50px" @click="sorttier()" color="lime">티어</v-btn> -->
-
       <v-combobox
           :items="positions"
           solo
@@ -18,12 +15,10 @@
          v-model="selectposition"
          style="margin-top:40px;float:left;width:200px;margin-left:10px;"
         ></v-combobox>
-
       <v-btn style="margin-top:40px;float:left;height:50px;margin-left:10px;" @click="find()" color="green">검색</v-btn>
       <v-btn style="margin-top:40px;float:right;margin-right:40px;height:50px" @click="createRoom()" top class="float-right" color="indigo">카드 생성하기</v-btn>
       </v-col>
     <br /><br />
-
     <div style="padding:50px;margin-top:30px">
    <v-row>
       <v-hover v-slot:default="{ hover }" v-for="(room, i) of rooms" :key="room.cardseq">
@@ -41,7 +36,6 @@
       <h6>소환사명 : {{room.rhost}}</h6>
       <h6>티어 : {{room.tier}}</h6>
       <h6>포지션 : {{room.position}}
-        <!--  <v-img :src="positionimg()" style="width:30px;height:30px"></v-img>  -->
       </h6>
       <h6>{{btime[i]}}</h6>
       </div>
@@ -51,7 +45,6 @@
       </v-row>
       </div>
        <a color="primary" href="javascript:scroll(0,0)">처음으로 돌아가기 </a>
-      <!-- <v-btn  @click="back">처음으로 돌아가기</v-btn> -->
 </div>
 </template>
 <script>
@@ -60,10 +53,7 @@ import {store} from '@/store'
 export default {
    computed: {},
    created(){
-
       this.bringlist()
-      // this.$moment.locale('ko')
-      
    },
    data(){
       return{
@@ -131,13 +121,10 @@ export default {
                window.onscroll = null
             }
               this.timechange()
-           })
-           
+           })   
       },
       filterposition(){
-
       this.list = []
-
       let url = `${this.context}/lol/filterpositionlist/position=${this.selectposition.value}/page=${this.page}`
       let data = {
          page : this.page,
@@ -155,19 +142,15 @@ export default {
             this.list = res.data
             if((this.list.length)%9===0){
             this.rooms = this.list
-            
             this.scroll()
-
             }else{
                this.rooms = this.list
                window.onscroll = null
             }
               this.timechange()
            })
-           
       },
       filtersort(){
-
          if((this.selecttier == null || this.selecttier === '' || this.selecttier.value === '') &&
           (this.selectposition == null || this.selectposition === '' || this.selectposition.value === '') 
           ){
@@ -182,13 +165,9 @@ export default {
           (this.selectposition != null || this.selectposition !== '' || this.selectposition.value !== '')){
             this.filtertierposition()
          }
-      
-
       },
       filtertierposition(){
-
       this.list = []
-
       let url = `${this.context}/lol/filtertplist/tier=${this.selecttier.value}/position=${this.selectposition.value}/page=${this.page}`
       let data = {
          page : this.page,
@@ -213,8 +192,7 @@ export default {
                window.onscroll = null
             }
               this.timechange()
-           })
-           
+           }) 
       },
       scroll(){
          window.onscroll = () => {
@@ -267,15 +245,12 @@ export default {
          }else{
             alert('로그인해야 사용할 수 있는 기능입니다.')
          }
-         
       },
       timechange(){
          this.btime = []
          for(let i=0;i<this.rooms.length;i++){
             this.btime.push(this.$moment(this.rooms[i].wtime).fromNow())
          }
-
-         // this.btime = this.$moment(x).fromNow()
       }
    }
 }
@@ -286,10 +261,8 @@ export default {
   margin-top:10px;
   color: #ffff66;
 }
-
 .v-card:not(.on-hover) {
   opacity: 0.7;
   color:white;
  }
-
 </style>

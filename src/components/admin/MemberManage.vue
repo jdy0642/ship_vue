@@ -20,7 +20,6 @@
       :search="search"
       :page.sync="page"
       :items-per-page="20"
- 
       class="elevation-1"
       @page-count="pageCount = $event"
     >

@@ -53,16 +53,10 @@
 import axios from 'axios'
 import { store } from '@/store'
 export default {
- 
   created(){
     axios
     .get(`${this.context}/res/1`)
     .then(res =>{
-      // for(let i=0; i<res.data.length;i++){
-      //   res.data[i].resday = this.fnc.timeToDate(res.data[i].resdate)
-      // }
-      // res.data = res.data.map(i=>{i.resday = this.fnc.timeToDate(i.resdate)
-      //   return i})
       this.lists = res.data.map(i=>{i.resday = this.fnc.timeToDate(i.resdate)
         return i}).sort((a,b) =>
         a.resseq > b.resseq ? 1 : (a.resseq < b.resseq ? -1 : 0)).reverse()
@@ -186,7 +180,6 @@ export default {
       axios
       .put(url,data)
       .then(()=>{
-      
        this.opend = false,
        this.blacktime = this.$moment(new Date()).add(3,'m').format('YYYY-MM-DD hh:mm:ss')
         store.state.person.futblack = true

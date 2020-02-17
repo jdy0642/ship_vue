@@ -10,12 +10,6 @@ import VueMonentJS from 'vue-momentjs'
 import moment from 'moment'
 import "moment/locale/ko.js"
 import map from 'vue-daum-map'
-
-// import VueSocketIOExt from 'vue-socket.io-extended';
-// import io from 'socket.io-client';
-// const socket = io('http://localhost:3000');
-// Vue.use(VueSocketIOExt, socket);
-
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 Vue.use(VSwitch)

@@ -11,7 +11,6 @@
       <br>
       <h6 v-if="city==''" style="color:orange">아래 필드에 지역을 검색 후 위의 지도에서 해당 구장을 선택해주세요!</h6>
     <v-text-field :value="stadiumName" @keyup.enter="submit"></v-text-field>
-
           <v-text-field
             label="등록자 이름"
             outlined
@@ -114,7 +113,7 @@
         ></v-textarea>
 </div>
 </v-card>
-<!-- -----------------------------------날짜 등록 ------------------------------------------- -->
+
 <div text-align="center" style="margin:50px" >
     <h3 class="card-title" >등록 날짜 & 시간 연동</h3>
  <v-date-picker 
@@ -130,14 +129,11 @@
   <v-btn text outlined color="primary" @click="changedate()" bold>---------해당 날짜 날씨 연동---------</v-btn>
   </v-date-picker>
   <template>
-
-<!-- -----------------------------------날씨------------------------------------------- -->
 <v-card
     width="300"
    left
    style="margin-top:20px;"
   color="#303030"
-
   >
     <v-list-item two-line>
       <v-list-item-content>
@@ -145,9 +141,7 @@
         <v-list-item-subtitle >5 day / 3 hour forecast!</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
-
    <legend></legend>
-
   <div >
     <v-card-text >
       <v-row align="center">
@@ -182,7 +176,7 @@
       src="@/assets/thermometer.png"
       ></v-img><v-list-item-title>최고온도: {{Math.ceil(maxtemp-273.15)}}&deg;c / 최저온도: {{Math.ceil(mintemp-273.15)}}&deg;c</v-list-item-title>
     </v-list-item>
-    
+
     <v-slider
       v-model="time"
       :max="leng"
@@ -285,7 +279,6 @@ export default {
       fnc: store.state.futsal.fnc,
       }
     },
-// -----------------------------------메소드-------------------------------------------
    methods:{
     bringWeather(){
       let url = `http://api.openweathermap.org/data/2.5/forecast?lat=${this.searchResult.y}&lon=${this.searchResult.x}&APPID=cd9a51369c3fc19f9fb85b2f2508b5d5`

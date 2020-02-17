@@ -138,7 +138,6 @@
         <div class="level center">
           FutSal
         </div>
-        <!-- 이미지 -->
         <img width="70%" height="35%" src="http://mblogthumb4.phinf.naver.net/MjAxODA0MTdfMjYx/MDAxNTIzOTIzOTU2MTE0.tKtnqOKqJas0q4h-RdyVZOQA0CfIisbvIdazrbBPB4kg.bO4IRWlDtIiZthVG0NmuyjK2TjkBAKprDUALHuZKv0Mg.PNG.gaogirl/%EC%B6%95%EA%B5%AC%EA%B3%B5.png?type=w800"
         style="margin-top: 60%;">
       </div>
@@ -161,12 +160,6 @@
             <i class="fa fa-heartbeat"></i>
             <div style="margin-top:5px" class="value">{{state.person.km}}Km</div>
           </div>
-          <!-- <div>
-            <div class="title">경기수</div>
-            <i class="fa fa-futbol"></i>
-              <v-icon>sports_soccer</v-icon>
-            <div style="margin-top:5px" class="value infinity">10회</div>
-          </div> -->
         </div>
       </div>
     </div>
@@ -347,9 +340,6 @@ export default {
         this.win = this.temp.win
         this.lose = this.temp.lose
         this.winratio = this.temp.winratio
-        /* this.crawltier = this.temp.tier
-        this.crawlrate = this.temp.rate
-        this.img = this.temp.photo */ 
       })
       .catch(e=>{
         alert('axios fail'+e)
