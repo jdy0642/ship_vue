@@ -8,6 +8,8 @@
       :propSearchWord="`${searchWord} 풋살 경기장`"
       @sendStadiumName="setStadium"
       mandatory></fut-map>
+      <br>
+      <h6 style="color:orange">아래 필드에 지역을 검색 후 위의 지도에서 해당 구장을 선택해주세요!</h6>
     <v-text-field :value="stadiumName" @keyup.enter="submit"></v-text-field>
 
           <v-text-field
@@ -135,6 +137,7 @@
    left
    style="margin-top:20px;"
   color="#303030"
+
   >
     <v-list-item two-line>
       <v-list-item-content>
@@ -145,7 +148,7 @@
 
    <legend></legend>
 
-  <div>
+  <div >
     <v-card-text >
       <v-row align="center">
         <v-col class="display-3" cols="6">
@@ -216,6 +219,7 @@
 </div>
 <br />
   </v-card>
+
 </template>
 
 </div>

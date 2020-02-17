@@ -9,7 +9,7 @@
             <v-flex xs8  >
               <v-text-field center prepend-icon="people" v-model="userid" label="ID" required></v-text-field>
               <v-text-field prepend-icon="lock" label="PASSWORD" type="password" v-model="passwd"></v-text-field>
-              <v-checkbox v-model="checkbox" label="로그인 유지" >
+              <v-checkbox v-model="checkbox" label="로그인 유지">
               </v-checkbox>
               
             </v-flex>
@@ -93,12 +93,7 @@ export default {
       }
       axios
       .put(url,data)
-      .then(
-        alert('블랙 해제 성공')
-      )
-      .catch(e=>{
-        alert('블랙 해제 실패 error code=>'+e)
-      })
+
     }
    }
 }

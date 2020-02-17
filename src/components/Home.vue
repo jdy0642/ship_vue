@@ -49,7 +49,7 @@
             <v-row style="margin-right:85px; margin-top:12px;" v-if="!authCheck">
             </v-row>
             <v-row v-else>
-              <v-btn text style="margin-right:3px;font-size:15px;margin-top:12px" class="white--text" @click="revenuemanage()">수익 관리</v-btn>
+              <v-btn text style="margin-right:3px;font-size:15px;margin-top:12px" class="white--text" @click="revenuemanage()">예약 분석</v-btn>
             </v-row>
 
             <v-row style="margin-right:113px; margin-top:12px;" v-if="!authCheck">
@@ -67,6 +67,9 @@
             </v-row>
 
             <!-- <v-overflow-btn :items="contents" label="CONTENTS" class="white--text"></v-overflow-btn> -->
+            <v-row>
+              <v-btn style="margin-top:12px;font-size:15px;margin-right:5px" color="blue darken-2" @click="$store.state.mainView = 'Intro'">개발자소개</v-btn>
+            </v-row>
 
             <div class="text-center">
               <v-menu offset-y>
