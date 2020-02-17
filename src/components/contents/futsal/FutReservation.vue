@@ -6,9 +6,7 @@
     :color="selected(time,selectTime)" @click="tableChange(index,time)">
     {{timeToDateAndWeek(time)}}
   </v-btn>
-  <v-btn style="margin-top:7px" @click="next()"><v-icon>keyboard_arrow_right</v-icon></v-btn>
-    <!-- 부트스트랩
-    <button @click="tableChange(index,time)" :class="selected(time,selectTime)">{{timeToDateAndWeek(time)}}</button> -->    
+  <v-btn style="margin-top:7px" @click="next()"><v-icon>keyboard_arrow_right</v-icon></v-btn>  
 </v-card>  
 </template>
 <script>
@@ -38,6 +36,7 @@ export default {
       const blockSize = this.blockSize
       const selectIndex = this.selectIndex
       const now = this.now
+      // 화살표없는 페이지네이션 방식
       //const start = (selectIndex > 14-blockSize ? 14-blockSize :
       //  (selectIndex==0 ? selectIndex : selectIndex - 1))
       const start = selectIndex >= 14-blockSize ? 14-blockSize : selectIndex
@@ -57,7 +56,6 @@ export default {
       this.$emit("sendTime",time)
     },
     selected(time,selectTime){
-      // 부트스트랩  return "vspButton " + (time == selectTime ? "selected" : "") bootstrap
       return (time == selectTime ? "#319bde" : "#a5cae8")
     },
     prev(){

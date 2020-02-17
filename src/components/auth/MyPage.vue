@@ -105,7 +105,7 @@
           <v-card style="margin:3%;" width="13%">
             <br>
                 <p class="text-break" style="max-width: 4rem;">
-                  {{timeToDate(item.resdate)}}
+                  {{timeToDate(item.futsal.time)}}
                 </p>
           </v-card >
           <v-card style="margin:3%" class="title font-weight-light" width="33%" >
@@ -260,6 +260,7 @@ export default {
         personseq: JSON.parse(window.sessionStorage.getItem('person')).personseq}
       }).then(res =>{
         if(res.data.msg == "success"){
+          this.$router.push('mypage')
           window.sessionStorage.removeItem('tid')
           window.sessionStorage.setItem('person',JSON.stringify(res.data.person))
           if(window.localStorage.getItem('person')){

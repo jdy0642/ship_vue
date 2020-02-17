@@ -1,6 +1,6 @@
 <template>
 <div>
-  <component :is="view" @send="dd"></component>
+  <component :is="$store.state.mainView"></component>
 </div>
 </template>
 
@@ -11,19 +11,13 @@ export default {
   components: {
     Home,Intro
   },
-
   data(){
     return {
-      view: 'Intro'
     }
   },
   methods:{
-    dd(){
-      this.view = 'Home'
-    }
   }
 }
 </script>
 <style scoped>
-
 </style>

@@ -32,7 +32,7 @@
                               <v-col>
                                    <span> 서울특별시 마포구 백범로 23 구프라자 지하1층 </span> <br />
                                    <span> 주식회사 doGether | 사업자번호 650-81-00575</span> <br />
-                                   <span> 전화 010-6202-4102 | hongsc1991@naver.com</span> <br />
+                                   <span> 전화 010-8499-2070 | boyseos@naver.com</span> <br />
                                    <span> Copyright <strong>doGether</strong> All rights reserved. </span>
                               </v-col>
                          </v-row>
