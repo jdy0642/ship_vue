@@ -9,7 +9,7 @@
       @sendStadiumName="setStadium"
       mandatory></fut-map>
       <br>
-      <h6 style="color:orange">아래 필드에 지역을 검색 후 위의 지도에서 해당 구장을 선택해주세요!</h6>
+      <h6 v-if="city==''" style="color:orange">아래 필드에 지역을 검색 후 위의 지도에서 해당 구장을 선택해주세요!</h6>
     <v-text-field :value="stadiumName" @keyup.enter="submit"></v-text-field>
 
           <v-text-field
