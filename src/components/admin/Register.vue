@@ -8,8 +8,9 @@
       :propSearchWord="`${searchWord} 풋살 경기장`"
       @sendStadiumName="setStadium"
       mandatory></fut-map>
+      <br>
+      <h6 v-if="city==''" style="color:orange">아래 필드에 지역을 검색 후 위의 지도에서 해당 구장을 선택해주세요!</h6>
     <v-text-field :value="stadiumName" @keyup.enter="submit"></v-text-field>
-
           <v-text-field
             label="등록자 이름"
             outlined
@@ -80,10 +81,10 @@
 <label class="col-md-3 col-form-label" for="disabled-input">경기 예약  비용</label>
 <v-radio-group v-model="price" row :mandatory="true">
       <v-radio label="10000원" value="10000원"></v-radio>
-      <v-radio label="12000원" ></v-radio>
-      <v-radio label="15000원" ></v-radio>
-      <v-radio label="18000원" ></v-radio>
-      <v-radio label="20000원" ></v-radio>
+      <v-radio label="15000원" disabled></v-radio>
+      <v-radio label="20000원" disabled></v-radio>
+      <v-radio label="25000원" disabled></v-radio>
+      <v-radio label="30000원" disabled></v-radio>
     </v-radio-group>
 </v-card>
 </template>
@@ -112,7 +113,7 @@
         ></v-textarea>
 </div>
 </v-card>
-<!-- -----------------------------------날짜 등록 ------------------------------------------- -->
+
 <div text-align="center" style="margin:50px" >
     <h3 class="card-title" >등록 날짜 & 시간 연동</h3>
  <v-date-picker 
@@ -128,8 +129,6 @@
   <v-btn text outlined color="primary" @click="changedate()" bold>---------해당 날짜 날씨 연동---------</v-btn>
   </v-date-picker>
   <template>
-
-<!-- -----------------------------------날씨------------------------------------------- -->
 <v-card
     width="300"
    left
@@ -142,10 +141,8 @@
         <v-list-item-subtitle >5 day / 3 hour forecast!</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
-
    <legend></legend>
-
-  <div>
+  <div >
     <v-card-text >
       <v-row align="center">
         <v-col class="display-3" cols="6">
@@ -179,7 +176,7 @@
       src="@/assets/thermometer.png"
       ></v-img><v-list-item-title>최고온도: {{Math.ceil(maxtemp-273.15)}}&deg;c / 최저온도: {{Math.ceil(mintemp-273.15)}}&deg;c</v-list-item-title>
     </v-list-item>
-    
+
     <v-slider
       v-model="time"
       :max="leng"
@@ -216,6 +213,7 @@
 </div>
 <br />
   </v-card>
+
 </template>
 
 </div>
@@ -276,12 +274,11 @@ export default {
         '6 vs 6',
       ],
       leng:'',
-      price:'',
+      price:'10000원',
       remain:'',
       fnc: store.state.futsal.fnc,
       }
     },
-// -----------------------------------메소드-------------------------------------------
    methods:{
     bringWeather(){
       let url = `http://api.openweathermap.org/data/2.5/forecast?lat=${this.searchResult.y}&lon=${this.searchResult.x}&APPID=cd9a51369c3fc19f9fb85b2f2508b5d5`

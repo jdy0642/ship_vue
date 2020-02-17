@@ -1,12 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import axios from 'vuex'
-
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    context:'http://15.164.103.250',
+    context:'http://localhost:8080',
     //context:'http://13.124.138.54',
     /* context:'http://localhost:8080', */
     header: {
@@ -18,6 +16,7 @@ export const store = new Vuex.Store({
     },
     selectGame:{},
     pay:'',
+    mainView: 'Intro',
     futsal: {
       currentLoc: {},
       matchList:{},

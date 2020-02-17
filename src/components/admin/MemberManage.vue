@@ -20,7 +20,6 @@
       :search="search"
       :page.sync="page"
       :items-per-page="20"
- 
       class="elevation-1"
       @page-count="pageCount = $event"
     >
@@ -94,7 +93,6 @@ export default {
           { text: '포인트', value: 'point' },
           { text: '나이', value: 'age' },
           { text: '성별', value: 'male'},
-          { text: '관심사', value: 'interest' },
           { text: '이메일', value: 'email' },
         ],
       }

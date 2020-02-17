@@ -27,14 +27,18 @@
     <v-dialog v-model="dialog" width="400px">
       <v-card class="pa-4" >
         <v-card-title class="blue darken-2" style="font-color:white" >{{`${selectUser} 고객 경기정보`}}</v-card-title>
-        <v-text-field v-model="matchResult.score" label="넣은 골수" required/>
-        <v-text-field v-model="matchResult.km" label="달린 거리 (km)" required/>
+        <v-text-field v-model="matchResult.score" :rules="numRules" label="넣은 골수" required/>
+        <v-text-field v-model="matchResult.km" :rules="numRules" label="달린 거리 (km)" required/>
         <v-select v-model="matchResult.win" :items="['win', 'lose']" label="승 / 패" required/>
-        <v-btn color="red" v-if="this.temp.result == 'FAIL'" @click.prevent="addblack()">풋살 블랙리스트 추가</v-btn>
-       
-        <h6 v-else>블랙 해제까지 남은 시간: {{blackcount}}</h6>
+        <v-btn color="red" v-if="this.tempb.result == 'FAIL'" @click.prevent="addblack()">풋살 블랙리스트 추가</v-btn>
+        
+        <div v-else>
+        <h6 >블랙 해제까지 남은 시간: {{blackcount}}</h6>
+        <v-textarea v-model="blackreason" label="블랙 추가 사유" disabled=""></v-textarea>
+        </div>
+        <v-btn v-if="this.opend == true" @click="closed()">블랙 추가 안함</v-btn>
         <div v-if="opend == true">
-        <v-textarea v-model="blackreason" label="블랙 추가 사유"></v-textarea>
+        <v-textarea v-model="blackreason" label="블랙 추가 사유" placeholder="내용을 입력하지 않으시면 블랙리스트에 추가되지 않습니다."></v-textarea>
         </div>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -49,26 +53,20 @@
 import axios from 'axios'
 import { store } from '@/store'
 export default {
- 
   created(){
     axios
-    .get(`${this.context}/res/2`)
+    .get(`${this.context}/res/1`)
     .then(res =>{
-      // for(let i=0; i<res.data.length;i++){
-      //   res.data[i].resday = this.fnc.timeToDate(res.data[i].resdate)
-      // }
-      // res.data = res.data.map(i=>{i.resday = this.fnc.timeToDate(i.resdate)
-      //   return i})
       this.lists = res.data.map(i=>{i.resday = this.fnc.timeToDate(i.resdate)
         return i}).sort((a,b) =>
-        a.resdate > b.resdate ? 1 : (a.resdate < b.resdate ? -1 : 0)).reverse()
-        .filter(t=>t.resdate <= this.$moment(new Date()).add(5,'d').format('x') && t.resdate >= new Date().getTime())
+        a.resseq > b.resseq ? 1 : (a.resseq < b.resseq ? -1 : 0)).reverse()
     }).catch(e=>{
       alert('AXIOS FAIL'+e)
     })
   },
     data(){
       return{
+        numRules: [v => /^[0-9]{1,8}$/.test(v) || '숫자를 입력해주세요.'],
         fnc: store.state.futsal.fnc,
         page: 1,
         pageCount: 10,
@@ -88,13 +86,17 @@ export default {
         selectUserId : '',
         context: store.state.context,
         matchResult: {},
-        blacktime : this.$moment(new Date()).add(2,'d').format('YYYY-MM-DD'),
+        blacktime : this.$moment(new Date()).add(3,'m').format('YYYY-MM-DD HH:mm:ss'),
         blackreason:'',
         temp: 'fail',
+        tempb: {},
         blackcount:''
       }
     },
    methods:{
+    closed(){
+       this.opend = false
+     },
     addblack(){
       this.opend = true
     },
@@ -109,16 +111,21 @@ export default {
       axios
       .post(url,data)
       .then(res =>{
-        this.temp = res.data
-        /* this.blackcount = this.$moment(this.$moment(this.temp.blacktime).valueOf() - new Date().getTime()).format('YYYY-MM-DD HH:MM:SS') */
-        this.blackcount = this.$moment(this.temp.blacktime).fromNow(true)
+        this.tempb = res.data
+       
+        if(this.tempb.blackcount != null){
+        
         this.opend = false
+        }
+        this.blackreason = this.tempb.blackreason
+       this.blackcount = this.$moment(this.tempb.blacktime).fromNow(true)
       })
       .catch(e=>{
         alert('블랙 체크 실패 error code=>'+e)
       })
     },
     openDialog(item){
+      this.blacktime = this.$moment(new Date()).add(3,'m').format('YYYY-MM-DD HH:mm:ss')
       this.checkblack(item.userid)
       let index = this.lists.indexOf(item)
       this.matchResult = item.km ?
@@ -130,23 +137,38 @@ export default {
       this.opend = false
     },
     setMatchResult(selectUserId){
-      axios.put(`${this.context}/res/${this.matchResult.resseq}`,this.matchResult)
-      .then(res=>{
-        if(res){
-          let result = this.matchResult
-          let temp = this.lists[result.index]
-          temp.km = result.km
-          temp.win = result.win
-          temp.score = result.score
-        }
-        alert(res ? '경기결과 입력성공' : '경기결과 입력실패')
-        if(this.opend == true){
-          this.setBlack(selectUserId)
-        }
-        this.dialog = false
-        this.blacktime = this.$moment(new Date()).add(2,'d').format('YYYY-MM-DD'),
-        this.blackcount = ''
-      }).catch(e=> alert('액시오스 실패'+e))
+      if(this.numRules[0](this.matchResult.score)==true && this.numRules[0](this.matchResult.km)==true){
+        axios.put(`${this.context}/res/${this.matchResult.resseq}`,this.matchResult)
+        .then(res=>{
+          if(res){
+            let result = this.matchResult
+            let temp = this.lists[result.index]
+            temp.km = result.km
+            temp.win = result.win
+            temp.score = result.score
+            store.state.person.km = result.km
+            store.state.person.win = result.win
+            store.state.person.score = result.score
+          }
+          alert(res ? '경기결과 입력성공' : '경기결과 입력실패')
+          if(this.opend == true){
+            if(this.blackreason==''){
+              this.opend = false
+              
+            }else{
+              this.setBlack(selectUserId)
+              alert('블랙리스트 등록 성공')
+              
+            }
+          }
+          this.dialog = false
+          window.sessionStorage.removeItem('person')
+          window.sessionStorage.setItem('person',JSON.stringify(store.state.person))
+          if(window.localStorage.getItem('person')){
+            window.localStorage.setItem('person',JSON.stringify(store.state.person))
+          }
+        })
+      }
     },
     setBlack(user){
       let url=`${this.context}/addBlack/${user}/${this.blacktime}/${this.blackreason}`
@@ -159,13 +181,17 @@ export default {
       .put(url,data)
       .then(()=>{
        this.opend = false,
-       this.blackreason = '',
-       this.blacktime = this.$moment(new Date()).add(2,'d').format('YYYY-MM-DD')
+       this.blacktime = this.$moment(new Date()).add(3,'m').format('YYYY-MM-DD hh:mm:ss')
+        store.state.person.futblack = true
+        store.state.person.blackreason = this.blackreason
+        store.state.person.blacktime = this.blacktime
+        this.blackreason=''
       }).catch(e=>{
         alert('블랙리스트 추가 실패 error code=>'+e)
       })
     }
-   }
   }
+}
 </script>
-<style scoped></style>
+<style scoped>
+</style>

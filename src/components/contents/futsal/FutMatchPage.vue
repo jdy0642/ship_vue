@@ -14,7 +14,7 @@
       <v-chip outlined @click="fnc.linkCopy($route.fullPath)">주소복사하기</v-chip>
       <v-chip outlined @click="viewTogle()">지도보기</v-chip>
     </v-card>
-    <v-card-text outlined>{{moveResult}}</v-card-text>
+    <v-card-text outlined><h5>{{moveResult}}</h5></v-card-text>
     <v-card-text>{{selectMatch.stadiumname}} {{fnc.timeToDate(selectMatch.time)}} 의 경기는
         <code>{{success}}%</code> 확률로 정상 진행되고 있습니다.
     </v-card-text>
@@ -27,7 +27,7 @@
         v-for="n of matchRule"
         :key="n" cols="2">
         <v-card style="height:100%">
-          <v-img :src="require(`@/assets/img/matchRule/${n}.svg`)"/>
+          <v-img :src="require(`@/assets/img/matchRule/${n+([2,3].includes(n) ? '.png' : '.svg')}`)"/>
           <v-card-text class="text-center">{{msgSwitch(n)}}</v-card-text>
         </v-card>
       </v-col>
@@ -221,7 +221,7 @@ export default {
     },
     addressSearch(search,callBack){
       let goalLocation = {lng: 126.975598, lat:37.554034}
-      axios({url: 'http://dapi.kakao.com/v2/local/search/keyword.json',//'http://dapi.kakao.com/v2/local/search/address.json',
+      axios({url: 'http://dapi.kakao.com/v2/local/search/keyword.json',
         headers:{
           Authorization: 'KakaoAK 28d9076d78b899a3f85bb1c12320b0c3'
         },
@@ -244,7 +244,6 @@ export default {
     },
     navigation(){
       this.addressSearch(this.selectMatch.stadiumname,(goalLocation)=>{
-        //this.currentLocation((location)=>{
           axios.get(`http://api2.sktelecom.com/tmap/routes`,{
             params: {
               format: 'json',
@@ -260,7 +259,6 @@ export default {
           }).then(res=>{
             this.moveInfo = res.data.features[0]
           }).catch(e=>alert(`액시오스 실패 ${e}`))
-        //})
       })
     },
     payment(){
@@ -273,13 +271,35 @@ export default {
               axios.put(`${this.context}/futsal/match/${this.$route.params.matchId}`)
               .then(()=>{
                 alert('결제성공 Match 1 에 예약된 것을 확인하세요')
+                window.scrollTo(0,0)
                 store.state.person.point = store.state.person.point - 10000
                 this.$router.push({name: 'mypage'})
               }).catch(()=>alert('실패'))
             }
           })
           .catch(()=>alert('실패'))
-        }else{alert(store.state.person.futblack ? '블랙 유저입니다.'  : '캐쉬를 충전하세요.')}
+        }else if((store.state.person.point >= 10000) && store.state.person.futblack){
+         
+          let url = `${this.context}/blackcheck/${store.state.person.userid}`
+          let data = {
+            userid : store.state.person.userid
+          }
+          axios
+          .post(url,data)
+          .then(res => {
+            if(res.data.result == 'SUCCESS'){
+              alert(`블랙리스트에 등록된 유저입니다.\n블랙 사유 = ${res.data.blackreason} \n${this.$moment(res.data.blacktime).fromNow(true)} 후에 이용가능합니다.`)
+            }else{
+              store.state.person.futblack = false
+              store.state.person.blackreason = ''
+              store.state.person.blacktime = res.data.blacktime
+              alert('블랙리스트에서 해제되셨습니다. 다시 결제를 시도해주세요')
+            }
+          })
+          }else if(store.state.person.point < 10000){
+            alert('마이페이지에서 캐쉬를 충전하세요')
+            this.$router.push({path:'/mypage'})
+          }
       }else{alert('로그인 하세요.')}
     }
   }
@@ -295,8 +315,8 @@ export default {
   position:fixed;
   display:inline-block;
   width: 100%;
-  right:0px; /* 창에서 오른쪽 길이 */
-  top:94%; /* 창에서 위에서 부터의 높이 */
+  right:0px;
+  top:94%;
   z-index: 100;
 }
 </style>

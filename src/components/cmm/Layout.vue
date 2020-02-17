@@ -18,7 +18,7 @@
                     <v-card-text class=" white--text py-2" >
                          <v-row no-gutters> 
                               <v-col>
-                              <v-icon size="30px"> mdi-soccer</v-icon>
+                              <v-icon size="30px"> mdi-home</v-icon>
                                    <span style="color:white"> 서비스 지역 </span> <br />
                                         <a >서울</a> <a style="margin-left:20px">경기</a><br />
                                         <a>인천</a> <a style="margin-left:20px">대전</a><br />
@@ -30,10 +30,9 @@
                          </v-btn>
 
                               <v-col>
-                                   <v-img src="required(@/assets/together2.png)"></v-img>
                                    <span> 서울특별시 마포구 백범로 23 구프라자 지하1층 </span> <br />
                                    <span> 주식회사 doGether | 사업자번호 650-81-00575</span> <br />
-                                   <span> 전화 010-6332-0641 | jdy0642@gmail.com</span> <br />
+                                   <span> 전화 010-8499-2070 | boyseos@naver.com</span> <br />
                                    <span> Copyright <strong>doGether</strong> All rights reserved. </span>
                               </v-col>
                          </v-row>
