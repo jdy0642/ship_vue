@@ -11,7 +11,7 @@
             <!-- <v-img style="width:90px;" src="https://www.mobachampion.com/static/imgs/mid_icon.59083eeab24c.png"></v-img> -->
             <v-icon >mdi-crown</v-icon>
             <v-card-text> 소환사명: {{state.selectGame.rhost}}</v-card-text>
-            <v-card-text>티어 : {{state.selectGame.crawltier}}</v-card-text>
+            <v-card-text>티어 : {{state.selectGame.tier}}</v-card-text>
                 <v-card-text>승률 : {{state.selectGame.crawlrate}}</v-card-text>
                 <v-card-text>카드 번호: {{state.selectGame.cardseq}}</v-card-text>
                 <v-card-text>카드 제목: {{state.selectGame.title}}</v-card-text>
