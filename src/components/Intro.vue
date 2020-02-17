@@ -123,8 +123,6 @@ export default {
   },
   data(){
 	return {
-		user:{
-
 			personal:[
 				'유투브 래춘씨생존기를 줄겨봅니다.',
 				'요즘하는게임은 위쳐3예요',

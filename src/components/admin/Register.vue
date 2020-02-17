@@ -81,10 +81,10 @@
 <label class="col-md-3 col-form-label" for="disabled-input">경기 예약  비용</label>
 <v-radio-group v-model="price" row :mandatory="true">
       <v-radio label="10000원" value="10000원"></v-radio>
-      <v-radio label="12000원" ></v-radio>
-      <v-radio label="15000원" ></v-radio>
-      <v-radio label="18000원" ></v-radio>
-      <v-radio label="20000원" ></v-radio>
+      <v-radio label="15000원" disabled></v-radio>
+      <v-radio label="20000원" disabled></v-radio>
+      <v-radio label="25000원" disabled></v-radio>
+      <v-radio label="30000원" disabled></v-radio>
     </v-radio-group>
 </v-card>
 </template>
@@ -274,7 +274,7 @@ export default {
         '6 vs 6',
       ],
       leng:'',
-      price:'',
+      price:'10000원',
       remain:'',
       fnc: store.state.futsal.fnc,
       }
