@@ -1,24 +1,27 @@
-# vue
+# 소셜 풋살·게임 구장 예약 서비스 Front-End
 
-## Project setup
-```
-npm install
-```
+기술 SPEC
+- Java, JPA, Spring Boot
+- Vue.js
+- MySQL
+- AWS EC2, S3, RDS
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+기능 소개
 
-### Compiles and minifies for production
-```
-npm run build
-```
+1. 공통 기능
+- 회원가입
+- 로그인
+- 비매너 유저 정지
+- 탈퇴
 
-### Lints and fixes files
-```
-npm run lint
-```
+2. 풋살
+- 매치 개설
+- 매치 참여
+- 카카오페이 결제
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
+3. 개임 (롤)
+- 매치 개설
+- 매치 참여
+- 전적 검색 사이트에서 유저 전적 조회
+- 전적 검색 사이트에서 데이터 크롤링, AI 챗봇 (대세 캐릭터 추천, 캐릭터 간 상성 정보 제공)
